@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	
+	<title>Nkitten's space</title>
+	
+	<link rel="stylesheet" type="text/css" href="includes/nkittennet.css"/>
+	<style>
+		div {
+			margin-block: 1em;
+			font-size: 1.6rem;
+		}
+		
+		a[href*="youtube.com"]::before,
+		a[href*="bsky.app"]::before,
+		a[href*="twitch.tv"]::before {
+			--size: 1em;
+			
+			content: "";
+			background-image: url("includes/socialmedia/youtube.png");
+			background-size: var(--size);
+			background-repeat: no-repeat;
+			
+			display: inline-block;
+			height: var(--size);
+			width: var(--size);
+			margin-right: 4px;
+			vertical-align: text-bottom;
+		}
+		a[href*="bsky.app"]::before {
+			background-image: url("includes/socialmedia/bluesky.svg");
+		}
+		a[href*="twitch.tv"]::before {
+			background-image: url("includes/socialmedia/twitch.png");
+		}
+	</style>
+</head>
+<body>
+	<!-- <div>
+		<a href="splatoon">Splatoon</a>
+	</div> -->
+	<!-- <div>
+		<a href="bingo">Super Mario Sunshine Bingo</a>
+	</div> -->
+	<div>
+		<a href="https://bsky.app/profile/nkittenreal.bsky.social">Bluesky</a><br>
+		<a href="https://youtube.com/c/nkitten/">YouTube</a><br>
+		<a href="https://twitch.tv/nkitten">Twitch</a>
+	</div>
+</body>
+</html>

@@ -1,0 +1,135 @@
+:root {
+	--page-max-width: 1236px;
+	--page-bg: #555;
+	--fc-primary: #fff;
+	--fc-inverted: #000;
+
+	font-size: 0.88em;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	
+	font-family: Arial, Helvetica, sans-serif;
+	color: var(--fc-primary);
+	background-color: var(--page-bg);
+}
+
+a {
+	color: var(--fc-primary);
+}
+
+/* ----- Header ----- */
+
+#headerContainer {
+	background-color: #262626;
+	padding: 0;
+	width: 100%;
+	height: 40px;
+	overflow: hidden;
+}
+
+#headerContent {
+	width: var(--page-max-width);
+	height: 40px;
+	overflow: hidden;
+	margin-inline: auto;
+	padding: 0;
+}
+
+ul#menu {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+}
+
+ul#menu a {
+	display: block;
+	margin: 0;
+	padding: 7px 15px 5px;
+	min-width: 80px;
+	height: 28px;
+	
+	text-align: center;
+	text-decoration: none;
+	font-size:1.5rem;
+	
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+ul#menu a.currentpage {
+	background-color: #2F3642;
+}
+
+ul#menu a:hover {
+	background-color: #3B4963;
+}
+
+ul#menu a[data-menu-item="isaac"] {
+	background-image: url('isaac.png');
+	min-width: 40px;
+}
+
+ul#menu a[data-menu-item="splatoon"] {
+	background-image: url('splatoon1.png');
+	min-width: 40px;
+}
+ul#menu a[data-menu-item="splatoon"].alt {
+	background-image: url('splatoon2.png');
+}
+
+/* -- Sub menu -- */
+
+#submenuContainer {
+	background: #333;
+}
+
+#submenu {
+	display: flex;
+	justify-content: center;
+	width: var(--page-max-width);
+	margin-inline: auto;
+	padding: 0;
+}
+
+.subbutton {
+	margin: 0;
+	padding: 7px 15px 5px;
+	min-width: 80px;
+	height: 28px;
+
+	text-align: center;
+	text-decoration: none;
+	font-size:1.5em;
+	color: var(--fc-primary);
+	
+	cursor: pointer;
+}
+
+.subbutton.active {
+	background-color: #38404F;
+}
+
+.subbutton:hover {
+	background-color: #455675;
+}
+
+.subcontent:not(.active) {
+	display: none;
+}
+
+/* ----- Page Content ----- */
+
+#pageContainer {
+	width: var(--page-max-width);
+	margin-inline: auto;
+	padding: 5px;
+}
+
+.big {
+	font-size: 1.9rem;
+	font-weight: bold;
+}
