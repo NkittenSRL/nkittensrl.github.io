@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Splatoon Randomizer Changelog - Nkitten's space</title>
+<link rel="stylesheet" type="text/css" href="../../../includes/nkittennet.css"/>
+<style>
+#changelog {
+	background-color: #333;
+	padding: 7px 5px 5px 10px;
+	margin-bottom: 10px;
+	
+	min-height: 135px;
+	box-sizing: border-box;
+}
+
+.date {
+	font-size: 1.6em;
+	font-weight: bold;
+}
+.version {
+	font-weight: bold;
+}
+
+ul {
+	margin: 0 0 3px;
+}
+
+.strike {
+	text-decoration: line-through;
+}
+
+.hidden {
+	display: none;
+}
+</style>
+</head>
+<body>
+	<div id="pageContainer">
+		<div id="changelog">
+			<!--<span class="date">dd/mm/yyyy</span><span class="version"> - v1.x.x</span>
+			<ul>
+				<li></li>
+				<li class="hidden"></li>
+			</ul>-->
+			<span class="date">31/05/2024</span><span class="version"> - v2.0</span>
+			<ul>
+				<li>Updated the Splatoon 3 randomizer code to no longer use jQuery (no new features, hopefully no new bugs either)</li>
+			</ul>
+			<span class="date">03/10/2022</span><span class="version"> - v1.4</span>
+			<ul>
+				<li>Made an <a href="../../../splatoon3/random/">updated version of randomizer</a> with the Splatoon 3 weapons and maps</li>
+			</ul>
+			<span class="date">31/07/2019</span><span class="version"> - v1.3</span>
+			<ul>
+				<li>Added all the Shifty Stations to the Splatoon 2 randomizer</li>
+			</ul>
+			<span class="date">11/09/2017</span><span class="version"> - v1.2</span>
+			<ul>
+				<li>Made an <a href="../../../splatoon2/random/">updated version of randomizer</a> with the Splatoon 2 weapons and maps</li>
+				<li>Added a link at the top of the randomizer for each game to the one for the other game</li>
+			</ul>
+			<span class="date">29/09/2016</span><span class="version"> - v1.1.2</span>
+			<ul>
+				<li>Added "Scoped" and "Unscoped" links above the weapon list</li>
+				<ul>
+					<li>Scoped link checks Splatterscopes + Scoped E-liters and unchecks Splat Chargers + Regular E-liters</li>
+					<li>Unscoped link does the opposite</li>
+					<li>Bamboozlers and Squiffers aren't affected by either</li>
+				</ul>
+				<li class="hidden">Added a checkbox that tries to evenly distribute weapons across teams based on range</li>
+			</ul>
+			<span class="date">27/07/2016</span><span class="version"> - v1.1.1</span>
+			<ul>
+				<li>Changed default chance for free picks from 1% to 0% (disabled by default now)</li>
+				<li class="hidden">Secretly added a secret option to output randomizer results as images and upload them to imgur.. in secret! :o</li>
+			</ul>
+			<span class="date">29/02/2016</span><span class="version"> - v1.1</span>
+			<ul>
+				<li>Fixed: when loading saved settings, it would select all ranked stage/mode combinations that came after the last selected combo in the table</li>
+				<li>Added: a warning when you haven't selected enough stages/weapons</li>
+				<ul>
+					<li>(this used to silently fail - nothing would happen and it was confusing.. now it will tell you what's wrong)</li>
+				</ul>
+				<li>Added: option to (de)select ALL stages at once</li>
+				<li>Added: it now shows you how many unique stages, unique modes and total combinations you have selected</li>
+				<li>Added: option to rotate stages and/or modes wherever possible</li>
+				<ul>
+					<li>It'll try not to repeat stages until all stages have been selected (same for modes)</li>
+					<li>If it runs into a situation where that's not possible, it'll try to ignore these options until it's possible again</li>
+				</ul>
+				<li>Added: <a href="https://i.imgur.com/fs2aWeq.png">clicking</a> a randomized stage/mode combo will uncheck it in the stage table (saves you some time not having to scroll up)</li>
+				<li>Added: option to create a shareable code to send to others that they can then use to load your selected stages</li>
+				<li>Added: option to give both teams the same weapons</li>
+				<li>Added: free picks</li>
+				<ul>
+					<li>Can set the chance that someone gets to choose their weapon instead of being assigned one (set the percentage to 0 to disable)</li>
+					<li>Includes the option to give both teams an equal amount of free picks</li>
+				</ul>
+				<li>Added: ability to select exactly what weapons the randomizer is allowed to pick</li>
+				<ul>
+					<li>Doesn't include certain weapons (octoshot/octo valley/amiibo challenge) if the corresponding checkboxes aren't checked</li>
+					<li>(Will select all weapons by default so nothing should change for you if you don't want to use this feature)</li>
+				</ul>
+			</ul>
+			<span class="date">23/12/2015</span><span class="version"> - v1.0.1</span>
+			<ul>
+				<li>Added: options to randomize team members</li>
+				<ul>
+					<li>Can keep the same randomized teams for all sets or randomize the teams for every set.</li>
+					<li>If you enter more player names than the amount of players you're randomizing weapons for, it'll pick random players.</li>
+				</ul>
+			</ul>
+			<span class="date">19/12/2015</span><span class="version"> - v1.0</span>
+			<ul>
+				<li>Initial release</li>
+			</ul>
+		</div>
+	</div>
+</body>
+</html>

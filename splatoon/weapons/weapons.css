@@ -1,0 +1,223 @@
+:root {
+    --page-max-width: 700px;
+    --page-bg: #555;
+    --border-clr: #ccc;
+    
+    font-size: 0.88em;
+}
+body {
+    margin: 0;
+    padding: 0;
+
+    background-color: var(--page-bg);
+    color: #fff;
+    font-family: Helvetica, Arial, sans-serif;
+}
+a {
+    color: #fff;
+}
+
+.hidden {
+    display: none;
+}
+
+@media all and (min-width: 1000px) {
+    #pageContainer {
+        display: flex;
+        flex-direction: row-reverse;
+    }
+    #settings {
+        --settings-border: 3px solid var(--border-clr);
+        
+        align-self: flex-start;
+        
+        border-bottom: var(--settings-border);
+        border-left: var(--settings-border);
+        border-bottom-left-radius: 10px;
+    }
+}
+
+#settings {
+    padding: 10px;
+    text-align: center;
+}
+
+#splatoonhublink {
+    display: block;
+    margin-bottom: 10px;
+
+    font-size: 1.8em;
+    font-weight: bold;
+}
+
+
+#weapons-column {
+    flex-grow: 1;
+}
+#filters {
+    width: var(--page-max-width);
+    margin: 0 auto 20px;
+
+    display: grid;
+    grid-template-columns: repeat(4, max-content);
+    justify-content: space-between;
+    justify-items: center;
+    align-items: center;
+    row-gap: 5px;
+}
+
+.multiselectdiv {
+    text-align: center;
+}
+
+.clearselection {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+#resetall {
+    text-align: center;
+}
+
+#ms-types,
+#ms-subs {
+    min-width: 153px;
+}
+
+#ms-specials {
+    min-width: 177px;
+}
+
+#costlevelsettings {
+    text-align: right;
+	align-self: end;
+}
+
+#nr-mincost,
+#nr-maxcost,
+#nr-minlevel,
+#nr-maxlevel {
+    text-align: right;
+    width: 74px;
+}
+
+#txt-name {
+    grid-column: 1 / -1;
+
+    box-sizing: border-box;
+    width: 100%;
+    height: 46px;
+
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+}
+
+
+
+#weapons {
+    width: var(--page-max-width);
+    margin-inline: auto;
+
+    display: flex;
+    flex-direction: column;
+    row-gap: 2px;
+
+    background-color: var(--border-clr);
+}
+
+#weapons.noweapons {
+    background-color: transparent;
+}
+
+#weapons.noweapons::before {
+    content: "No such weapons exist.";
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.weapon:not(.hidden) {
+    --weaponname-width: 320px;
+    --pic-bg: #aaa;
+
+    padding: 10px 0;
+    height: 64px;
+
+    background-color: var(--page-bg);
+
+    display: grid;
+    grid-template-areas:
+        "wpn_pic wpn_name sub_pic sub_name level depletion"
+        "wpn_pic wpn_name spc_pic spc_name cost depletion";
+    grid-template-columns: max-content var(--weaponname-width) max-content 95px 105px 70px;
+    justify-content: center;
+    align-items: center;
+}
+.weaponpic {
+    grid-area: wpn_pic;
+
+    margin-right: 5px;
+    border-radius: 10px;
+    background-color: var(--pic-bg);
+}
+.weaponname {
+    grid-area: wpn_name;
+
+    font-size: 1.8em;
+    text-align: center;
+}
+.subpic {
+    grid-area: sub_pic;
+
+    margin: 0 5px;
+    border-radius: 5px;
+    background-color: var(--pic-bg);
+}
+.weaponsub {
+    grid-area: sub_name;
+}
+.specialpic {
+    grid-area: spc_pic;
+    background-color: var(--pic-bg);
+    border-radius: 5px;
+    margin: 0 5px;
+}
+.weaponspecial {
+    grid-area: spc_name;
+}
+.level {
+    grid-area: level;
+
+    margin-left: 15px;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+.levelcolor {
+    color: #BAE301;
+}
+.cost {
+    grid-area: cost;
+
+    background: url('../res/img/coin.png') no-repeat;
+    background-size: 22px;
+    margin-left: 15px;
+    padding-top: 2px;
+    text-indent: 28px;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+.DepletionContainer {
+    grid-area: depletion;
+
+    text-align: center;
+    font-weight: bold;
+}
+.depletionTxt {
+    display: inline-block;
+    margin-bottom: 3px;
+    color: #C582E0;
+}
+.depletion {
+    font-size: 1.2em;
+}

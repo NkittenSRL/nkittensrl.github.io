@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Splatoon tools - Nkitten's space</title>
+
+<link rel="stylesheet" type="text/css" href="../includes/nkittennet.css"/>
+<style>
+.big {
+	font-size: 1.6em;
+	font-weight: bold;
+}
+.med {
+	font-size: 1.3em;
+	font-weight: bold;
+}
+.nowrap {
+	white-space: nowrap;
+}
+
+#gamelist {
+	display: grid;
+	
+	max-width: 1236px;
+	margin: 0 auto;
+	padding-bottom: 15px;
+	background: #333;
+}
+#gamelist > div {
+	text-align: center;
+	padding-block: 10px;
+}
+.gamelogo img {
+	max-width: 300px;
+}
+
+@media screen and (min-width: 800px) {
+	#gamelist {
+		grid-template-columns: repeat(3, minmax(250px, 400px));
+		column-gap: 10px;
+		justify-content: space-evenly;
+		align-items: center;
+	}
+	#gamelist > div {
+		padding-block: 15px;
+	}
+
+	.splatoon1 {
+		grid-column: 1;
+	}
+	.splatoon2 {
+		grid-column: 2;
+	}
+	.splatoon3 {
+		grid-column: 3;
+	}
+	
+	.gamelogo {
+		grid-row: 1;
+		padding: 25px 0;
+	}
+	.gamelogo img {
+		max-width: 100%;
+	}
+	.tool_randomizer {
+		grid-row: 2;
+	}
+	.tool_weaponlist {
+		grid-row: 3;
+	}
+	.tool_elimmode {
+		grid-row: 4;
+	}
+	.tool_freshness {
+		grid-row: 5;
+	}
+}
+</style>
+</head>
+<body>
+	<div id="gamelist">
+		<div class="splatoon3 gamelogo">
+			<img src="../splatoon/splatoon3logo.png" alt="Splatoon 3 Logo" />
+		</div>
+		
+		<div class="splatoon3 tool_randomizer">
+			<span class="big"><a href="../splatoon3/random">Splatoon 3 randomizer</a></span><br />
+			<span class="med">(<a href="../splatoon/random/changelog">changelog</a>)</span><br />
+			Randomize stages and weapons for all players.
+		</div>
+		
+		<div class="splatoon3 tool_weaponlist">
+			<span class="big"><a href="../splatoon3/weapons">Splatoon 3 <span class="nowrap">weapon list</span></a></span><br />
+			List of all weapons; filterable by name,<br />sub weapon, special weapon and more!
+		</div>
+		
+		<div class="splatoon3 tool_elimmode">
+			<span class="big"><a href="../splatoon3/elimination">Splatoon 3 <span class="nowrap">elimination mode</span></a></span><br />
+			Any weapon that gets used is banned for the rest of the set.
+		</div>
+		
+		<div class="splatoon3 tool_freshness">
+			<span class="big"><a href="../splatoon3/freshness">Splatoon 3 <span class="nowrap">freshness tracker</span></a></span><br />
+			Track and filter by weapon freshness.
+		</div>
+		
+		
+		
+		<div class="splatoon2 gamelogo">
+			<img src="../splatoon/splatoon2logo.png" alt="Splatoon 2 Logo" />
+		</div>
+		
+		<div class="splatoon2 tool_randomizer">
+			<span class="big"><a href="../splatoon2/random">Splatoon 2 randomizer</a></span><br />
+			<span class="med">(<a href="../splatoon/random/changelog">changelog</a>)</span><br />
+			Randomize stages and weapons for all players.
+		</div>
+		
+		<div class="splatoon2 tool_weaponlist">
+			<span class="big"><a href="../splatoon2/weapons">Splatoon 2 <span class="nowrap">weapon list</span></a></span><br />
+			List of all weapons; filterable by name,<br />sub weapon, special weapon and more!
+		</div>
+		
+		<div class="splatoon2 tool_elimmode">
+			<span class="big"><a href="../splatoon2/elimination">Splatoon 2 <span class="nowrap">elimination mode</span></a></span><br />
+			Any weapon that gets used is banned for the rest of the set.
+		</div>
+		
+		
+		
+		<div class="splatoon1 gamelogo">
+			<img src="../splatoon/splatoon1logo.png" alt="Splatoon Logo" />
+		</div>
+		
+		<div class="splatoon1 tool_randomizer">
+			<span class="big"><a href="../splatoon/random">Splatoon 1 randomizer</a></span><br />
+			<span class="med">(<a href="../splatoon/random/changelog">changelog</a>)</span><br />
+			Randomize stages and weapons for all players.
+		</div>
+		
+		<div class="splatoon1 tool_weaponlist">
+			<span class="big"><a href="../splatoon/weapons">Splatoon 1 <span class="nowrap">weapon list</span></a></span><br />
+			List of all weapons; filterable by name,<br />sub weapon, special weapon and more!
+		</div>
+		
+		<div class="splatoon1 tool_elimmode">
+			<span class="big"><a href="../splatoon/elimination">Splatoon 1 <span class="nowrap">elimination mode</span></a></span><br />
+			Any weapon that gets used is banned for the rest of the set.
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,8 @@
+@font-face {
+    font-family: 'splatoon';
+    src: url('project_paintball_beta_3_by_japanyoshi-d93slk4-webfont.woff2') format('woff2'),
+         url('project_paintball_beta_3_by_japanyoshi-d93slk4-webfont.woff') format('woff'),
+         url('project_paintball_beta_3_by_japanyoshi-d93slk4-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}

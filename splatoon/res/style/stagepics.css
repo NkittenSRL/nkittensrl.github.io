@@ -1,0 +1,24 @@
+.stagepic {
+	display: inline-block;
+	background: url('../img/stages113x64.png') no-repeat;
+	overflow: hidden;
+	width: 113px;
+	height: 64px;
+}
+
+.anchovgames { background-position: -113px -0px; }
+.arowanamall { background-position: -226px -0px; }
+.blackbellyskatepark { background-position: -339px -0px; }
+.bluefindepot { background-position: -0px -64px; }
+.camptriggerfish { background-position: -113px -64px; }
+.flounderheights { background-position: -226px -64px; }
+.hammerheadbridge { background-position: -339px -64px; }
+.kelpdome { background-position: -0px -128px; }
+.mahimahiresort { background-position: -113px -128px; }
+.moraytowers { background-position: -226px -128px; }
+.museumdalfonsino { background-position: -339px -128px; }
+.piranhapit { background-position: -0px -192px; }
+.portmackerel { background-position: -113px -192px; }
+.saltsprayrig { background-position: -226px -192px; }
+.urchinunderpass { background-position: -339px -192px; }
+.walleyewarehouse { background-position: -0px -256px; }

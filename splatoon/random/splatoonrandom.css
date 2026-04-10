@@ -1,0 +1,481 @@
+.lefty {
+	float: left;
+}
+.clear {
+	clear: both;
+}
+
+.strike {
+	text-decoration: line-through;
+}
+
+.hidden {
+	display: none;
+}
+
+.clickable {
+	cursor: pointer;
+}
+
+.showhidesettings {
+	padding-bottom: 3px;
+	background-color: #777;
+	cursor: pointer;
+}
+.showhideweapons {
+	cursor: pointer;
+}
+.showhideweaponsBottom {
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+.settingsplusminus {
+	font-weight: bold;
+}
+
+.inner {
+	padding: 3px;
+}
+
+#about, #combinedSettings, #stageSettings, #weaponSettings {
+	display: inline-block;
+	border: 3px solid #777;
+	margin-bottom: 3px;
+	width: 676px;
+}
+
+#txt-stagesets, #txt-weaponsets {
+	width: 40px;
+	padding-left: 3px;
+}
+
+#stageweaponsets {
+	display: inline-block;
+	text-align: right;
+}
+
+#btn-randomize {
+	margin-top: 3px;
+}
+
+#pageContainer {
+	text-align: center;
+}
+
+#result {
+	text-align: center;
+}
+
+.warning {
+	font-size: 2em;
+	font-weight: bold;
+	color: #F44;
+}
+
+#stageTable {
+	margin: 0 auto;
+	border-collapse: collapse;
+}
+
+#stageTable td, #stageTable th {
+	min-width: 75px;
+	padding: 0 9px;
+}
+
+#stageTable tbody tr:nth-child(odd) {
+	background-color: #5f5f5f;
+}
+
+#stageTable th.big {
+	font-size: 1.4em
+}
+
+#stageTable .allnone {
+	font-size: 0.8em;
+}
+
+#stageTable .stageselectall, #stageTable .stageselectnone, #stageTable .rowselectall, #stageTable .rowselectnone, #stageTable .colselectall, #stageTable .colselectnone {
+	color: #fff;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+#stageTable th.modecell {
+	padding-bottom: 4px;
+}
+
+#stageTable td.stagecell {
+	text-align: right;
+	padding: 2px 5px 2px;
+}
+#stageTable td.stagecell span.stagecellname {
+	font-size: 1.3em;
+	font-weight: bold;
+	float: right;
+}
+
+#stageTable td.stagecell span.allnone {
+	display: block;
+	margin: 5px 0 0 5px;
+	float: right;
+}
+
+#stageTable td.stageselect {
+	text-align: center;
+	cursor: pointer;
+}
+
+#stageTable td.stageselect .checkcross {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	border-radius: 20px;
+	background-color: #F22;
+}
+
+#stageTable td.stageselect.selected .checkcross {
+	background-color: #00A000;
+}
+
+#stageTable .rowhover, #stageTable .colhover {
+	background-color: #2D6C70;
+}
+
+#stageTable .rowhover.colhover {
+	background-color: #345E61;
+}
+
+#stagecounts {
+	display: inline-block;
+	padding: 4px 20px 2px;
+	border-bottom: 3px solid #777;
+}
+
+#txt-stagestring {
+	width: 319px;
+}
+
+#txt-freepick {
+	width: 50px;
+	text-align: right;
+}
+
+#weaponselectlinksMain {
+	display: inline-block;
+	text-align: left;
+}
+#weaponselectlinksMain div:nth-child(2) {
+	margin-left: 50px;
+	text-align: right;
+}
+#weaponselectlinksTop, #weaponselectlinksBottom {
+	clear: both;
+	padding: 10px 0;
+	text-align: center;	
+}
+.weaponcounts {
+	font-size: 1.5em;
+	font-weight: bold;
+}
+.weaponbig {
+	font-size: 1.6em;
+	font-weight: bold;
+}
+.weaponmed {
+	font-size: 1.2em;
+	font-weight: bold;
+}
+
+.weaponselect {
+	color: #fff;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+#weaponSettingsTable {
+	clear: both;
+}
+
+#weaponTable, #weaponTable td, #weaponTable th {
+	margin: 0 auto;
+	text-align: left;
+	border: 3px solid #777;
+	border-collapse: collapse;
+}
+
+#weaponTable tbody tr {
+	background-color: #F22;
+	cursor: pointer;
+}
+#weaponTable tbody tr.selected {
+	background-color: #008000;
+}
+#weaponTable tbody tr.selected.locked {
+	background-color: #FF9822;
+}
+#weaponTable tbody tr:hover {
+	background-color: #F44;
+}
+#weaponTable tbody tr.selected:hover {
+	background-color: #00A000;
+}
+#weaponTable tbody tr.selected.locked:hover {
+	background-color: #FFA742;
+}
+#weaponTable td.checkcross {
+	width: 19px;
+	height: 19px;
+	background: url("../res/img/checkcross.png") no-repeat;
+}
+#weaponTable tr.selected td.checkcross {
+	background-position: -21px 0px;
+}
+#weaponTable tr.locked td.checkcross {
+	background-position: -42px 0px;
+}
+
+.playername {
+	font-weight: bold;
+}
+
+div.textonly {
+	display: inline-block;
+	margin-top: 6px;
+	text-align: left;
+}
+
+.stage.text {
+	font-size: 1.5em;
+	font-weight: bold;
+}
+
+.stage.text.clickable:hover:after {
+	content: " (click to uncheck)";
+	position: absolute;
+	margin: 4px;
+	font-size: 0.7em;
+	color: #F44;
+}
+
+.teamname {
+	font-size: 1.3em;
+	font-weight: bold;
+}
+
+/*~~~~~~~~~~~~~~~~~~~~*/
+/*~~~Fancy Stagebox~~~*/
+/*~~~~~~~~~~~~~~~~~~~~*/
+
+.stage.fancy {
+	width: 400px;
+	border-radius: 10px;
+	margin: 6px auto 0;
+	background-color: #888;
+	overflow: hidden;
+}
+
+.stage.fancy .modename {
+	font-size: 2em;
+	font-weight: bold;
+}
+.stage.fancy .stagename {
+	font-size: 1.8em;
+}
+
+.stagepic {
+	float: left;
+}
+
+.stage.fancy.clickable:hover .uncheckstage {
+	display: inline-block;
+}
+
+.uncheckstage {
+	display: none;
+	margin: 32px 0 0;
+	width: 100%;
+	background:rgba(0,0,0,0.65);
+}
+
+/*~~~~~~~~~~~~~~~~~~~~~*/
+/*~~~Fancy Weaponbox~~~*/
+/*~~~~~~~~~~~~~~~~~~~~~*/
+
+.weaponscontainer {
+	display: inline-block;
+	margin-top: 6px;
+	text-align: left;
+}
+
+.team {
+	width: 525px;
+	float: left;
+}
+
+.team.small {
+	width: 390px;
+}
+
+.team:nth-child(2) {
+	margin-left: 50px;
+}
+
+.team .teamname {
+	font-size: 2em;
+	font-weight: bold;
+	text-align: center;
+	font-family: splatoon;
+}
+
+.team .teamname, .weapon.fancy .playername, .weapon.fancy .weaponname {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.weapon.fancy {
+	width: 515px;
+	height: 64px;
+	margin: 4px 0;
+	background-color: #888;
+	padding: 4px;
+	border-radius: 10px;
+}
+
+.small .weapon.fancy {
+	width: 380px;
+}
+
+.weapon.fancy .PlrWpnContainer {
+	float:left;
+	text-align: center;
+	width: 300px;
+	height: 64px;
+}
+
+.weapon.fancy .playername {
+	font-size: 2em;
+}
+
+.weapon.fancy .weaponname {
+	font-size: 1.8em;
+}
+
+.weapon.fancy .weaponname.mid {
+	display: inline-block;
+	margin-top: 18px;
+}
+
+.weapon.fancy .SubSpcPicContainer {
+	float:left;
+	/*min-width: 300px;*/
+	height: 64px;
+}
+
+.weapon.fancy .SubSpcContainer {
+	float:left;
+	width: 95px;
+	height: 64px;
+}
+
+
+.weapon.fancy .weaponsub {
+	display: inline-block;
+	margin: 7px 0;
+}
+.weapon.fancy .weaponspecial {
+	display: inline-block;
+	margin: 10px 0 0;
+}
+
+.subpic {
+	background-color: #ccc;
+	border-radius: 5px;
+	margin: 0 5px;
+}
+
+.specialpic {
+	background-color: #ccc;
+	border-radius: 5px;
+	margin: 0 5px;
+}
+
+.weaponpic {
+	float: left;
+	background-color: #ccc;
+	border-radius: 10px;
+	margin-right: 5px;
+}
+
+/*~~~~~~~~~~~~~~~~~*/
+/*~~~Imgur stuff~~~*/
+/*~~~~~~~~~~~~~~~~~*/
+.imgur {
+	position: absolute;
+	margin: 12px 0 0 -16px;
+	display: inline-block;
+	background: url('../res/img/imgur.png') no-repeat;
+	background-size: 30px 30px;
+	overflow: hidden;
+	width: 30px;
+	height: 30px;
+	cursor: pointer;
+}
+
+@keyframes bgfadeGrey {
+	0% { background-color: #fff; }
+	100% { background-color: #888; }
+}
+#imgurresults {
+	position: fixed;
+	
+	border: 3px solid #666;
+	padding: 5px;
+	width: 250px;
+	
+	background-color: #888;
+}
+#imgurresults.animated {
+	animation-name: bgfadeGrey;
+	animation-duration: 1000ms;
+	animation-iteration-count: 1;
+	transition-timing-function: cubic-bezier(0.200, 0.000, 0.800, 1.000);
+}
+#txt-imgur {
+	width: 200px;
+}
+
+@keyframes bgfadeRed {
+	0% { background-color: #fff; }
+	100% { background-color: #f33; }
+}
+#imgurerror {
+	position: fixed;
+	
+	border: 3px solid #666;
+	padding: 5px;
+	width: 400px;
+	
+	background-color: #f33;
+}
+#imgurerror.animated {
+	animation-name: bgfadeRed;
+	animation-duration: 1000ms;
+	animation-iteration-count: 1;
+	transition-timing-function: cubic-bezier(0.200, 0.000, 0.800, 1.000);
+}
+
+.hideimgurresults {
+	float: right;
+	margin: -4px 1px 0 0;
+	font-size: 2em;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.otherversionlink {
+	font-size: 1.3em;
+	font-weight: bold;
+	margin-bottom: 5px;
+}
