@@ -1,0 +1,400 @@
+:root {
+	--page-max-width: 1280px;
+	--detailedweaponbox-min-width: 360px;
+	
+	/* when changing these colors, check if text is readable wherever you use these as backgrounds */
+	--alphateam-bg-light: hsl(346, 100%, 75%);
+	--alphateam-bg: hsl(346, 100%, 68%);
+	--alphateam-bg-dark: hsl(346, 100%, 55%);
+	
+	--bravoteam-bg-light: hsl(146, 100%, 70%);
+	--bravoteam-bg: hsl(146, 100%, 45%);
+	--bravoteam-bg-dark: hsl(146, 100%, 30%);
+	
+	font-size: 0.88em;
+}
+body {
+	margin: 0;
+	padding: 5px;
+	
+	background-color: #555;
+	color: #fff;
+	font-family: Helvetica, Arial, sans-serif;
+}
+a {
+	color: #fff;
+}
+kbd {
+	background-color: #eee;
+	border-radius: 3px;
+	border: 1px solid #b4b4b4;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, .2), 0 2px 0 0 rgba(255, 255, 255, .7) inset;
+	color: #333;
+	display: inline-block;
+	font-weight: 700;
+	line-height: 1;
+	padding: 2px 4px;
+	white-space: nowrap;
+}
+
+.teambox, .weaponpic, .explain {
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+.nowrap {
+    white-space: nowrap;
+}
+.hidden {
+	display: none;
+}
+.hidestory .story {
+	display: none;
+}
+.detailed.hidestory .weapon.story { /* so [.detailed .weapon] below doesn't overwrite it with display: inline-grid */
+	display: none;
+}
+.hidedraft .draftcomponent {
+	display: none;
+}
+
+
+
+#modal-newweapons {
+	text-align: center;
+	color: #fff;
+	background-color: #555;
+}
+#modal-newweapons::backdrop {
+	background-color: rgb(0 0 0 / 0.7);
+}
+#modal-newweapons table {
+	margin: 10px auto;
+}
+#modal-newweapons :where(table, th, td) {
+	text-align: left;
+	border: 3px solid #777;
+	border-collapse: collapse;
+}
+#modal-newweapons :where(th, td) {
+	padding-inline: 5px;
+}
+.setallnew-wrapper {
+	font-size: 1.8em;
+	font-weight: bold;
+}
+.setallnew {
+	text-decoration: underline;
+	cursor: pointer;
+}
+.newweapon-row { 
+	background-color: #008000;
+	cursor: pointer;
+}
+.newweapon-row:hover { background-color: #00A000; }
+.newweapon-row td.includewpn::before { content: "Available"; }
+.newweapon-row.banned { background-color: #F22; }
+.newweapon-row.banned:hover { background-color: #F44; }
+.newweapon-row.banned td.includewpn::before { content: "Banned"; }
+
+
+
+#weapons-wrapper {
+	margin-bottom: 10px;
+	margin-inline: auto;
+	max-width: var(--page-max-width);
+	min-height: 153px;
+	
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+#noweapons {
+	text-align: center;
+}
+#noweapons strong {
+	font-weight: bold;
+	font-size: 2em;
+}
+
+#weapons {
+	width: 100%;
+	display: grid;
+	justify-content: center;
+	grid-template-columns: repeat(auto-fit, minmax(64px, max-content));
+	row-gap: 3px;
+}
+
+.detailed #weapons {
+	grid-template-columns: repeat(auto-fit, minmax(var(--detailedweaponbox-min-width), max-content));
+	gap: 5px;
+}
+
+.weapon {
+	cursor: pointer;
+	border-radius: 10px;
+}
+
+.weapon .weaponpic {
+	grid-area: pic;
+	
+	display: grid;
+	place-items: center;
+	border-radius: 10px;
+}
+.compact .weapon .weaponpic {
+	background-color: #999;
+}
+.compact :where(.weaponname, .weaponsubspecial) {
+	display: none;
+}
+
+.detailed .weapon {
+	display: inline-grid;
+	
+	padding: 0 5px 0 0;
+	background-color: #888;
+    
+	column-gap: 5px;
+	align-items: center;
+	grid-template-areas:
+		"pic name"
+		"pic subspecial";
+	grid-template-columns: 64px 1fr;
+	grid-template-rows: repeat(2, 1fr);
+}
+.detailed .weapon .weaponpic {
+	background-color: #bbb;
+	border-radius: 10px 0 0 10px;
+}
+.weapon .weaponname {
+	grid-area: name;
+	font-size: 1.5em;
+	font-weight: bold;
+}
+.weapon .weaponsubspecial {
+	grid-area: subspecial;
+}
+
+.detailed .weapon.banned {
+	display: none;
+}
+.compact .weapon.banned .weaponpic {
+	background-color: unset;
+}
+
+.weapon.banned .weaponpic {
+	background-image: url('../res/img/weapons64x64bw.png');
+}
+.weapon.banned .weaponpic::after {
+	content: "X";
+	font-size: 4em;
+	color: red;
+}
+
+.detailed .weapon.alpha,
+.compact .weapon.alpha .weaponpic {
+	background-color: var(--alphateam-bg);
+	color: black;
+}
+.detailed .weapon.bravo,
+.compact .weapon.bravo .weaponpic {
+	background-color: var(--bravoteam-bg);
+	color: black;
+}
+
+.compact .weapon:where(.alpha, .bravo) .weaponpic {
+	border-radius: 24px;
+}
+.detailed .weapon:where(:hover, .hover),
+.compact .weapon:where(:hover, .hover) .weaponpic {
+	background-color: #856262;
+}
+.detailed .weapon.banned:where(:hover, .hover),
+.compact .weapon.banned:where(:hover, .hover) .weaponpic {
+	background-color: #648562;
+}
+.detailed .weapon.alpha:where(:hover, .hover),
+.compact .weapon.alpha:where(:hover, .hover) .weaponpic {
+	background-color: var(--alphateam-bg-light);
+	color: black;
+}
+.detailed .weapon.bravo:where(:hover, .hover),
+.compact .weapon.bravo:where(:hover, .hover) .weaponpic {
+	background-color: var(--bravoteam-bg-light);
+	color: black;
+}
+
+
+
+#teams-and-counts {
+	max-width: var(--page-max-width);
+	margin-inline: auto;
+	display: grid;
+	grid-template-areas:
+		"alpha"
+		"bravo"
+		"counts";
+	row-gap: 5px;
+	justify-content: center;
+	justify-items: center;
+	align-items: start;
+}
+.hidedraft #teams-and-counts { /* always center when hiding draft team boxes, even at larger screen sizes */
+	justify-content: center;
+}
+#alphateam {
+	grid-area: alpha;
+}
+#bravoteam {
+	grid-area: bravo;
+}
+#weaponcounts {
+	grid-area: counts;
+	align-self: center;
+	text-align: center;
+}
+@media all and (min-width: 720px) {
+	#teams-and-counts {
+		grid-template-areas:
+			"alpha bravo"
+			"counts counts";
+		justify-content: space-around;
+	}
+}
+@media all and (min-width: 900px) {
+	#teams-and-counts {
+		grid-template-areas: "alpha counts bravo";
+		justify-content: space-between;
+	}
+}
+
+.teambox {
+	width: 296px;
+	border: 3px solid #ccc;
+	border-radius: 10px;
+	
+	text-align: center;
+	cursor: pointer;
+}
+.teamname {
+	font-size: 2em;
+	font-weight: bold;
+	font-family: splatoon, Helvetica, Arial, sans-serif;
+}
+.teamweapons  {
+	display: flex;
+	justify-content: space-around;
+}
+.teamweapons .weaponpic {
+	position: relative;
+	border-radius: 10px;
+}
+.teamweapons .weaponpic:not(.any-weapon):hover {
+	cursor: pointer;
+}
+.teamweapons .weaponpic:not(.any-weapon):hover::after {
+	content: "click to remove";
+	background: rgba(130,0,0,0.45);
+	font-size: 0.85em;
+	color: white;
+	
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+#alphateam.active {
+	border-color: var(--alphateam-bg-dark);
+	color: black;
+	background-color: var(--alphateam-bg);
+}
+#bravoteam.active {
+	border-color: var(--bravoteam-bg-dark);
+	color: black;
+	background-color: var(--bravoteam-bg);
+}
+#alphateam:hover {
+	color: black;
+	background-color: var(--alphateam-bg-light);
+}
+#bravoteam:hover {
+	color: black;
+	background-color: var(--bravoteam-bg-light);
+}
+
+#weaponcounts {
+	font-size: 1.5em;
+	font-weight: bold;
+}
+
+
+
+#settings {
+	margin-top: 10px;
+	margin-inline: auto;
+	max-width: var(--page-max-width);
+	text-align: center;
+}
+#nr-banrandom, #nr-displaymodethreshold {
+	width: 40px;
+}
+
+#banhistory {
+	margin: 10px auto;
+	border: 1px solid #999;
+	max-width: 500px;
+	height: 168px;
+	text-align: center;
+	overflow-y: scroll;
+}
+#banhistory .weaponban {
+	display: inline-block;
+	width: 450px;
+	padding: 2px 0;
+	border-top: 1px solid #999;
+}
+#banhistory .weaponban:first-child {
+	border: 0px;
+	margin-top: 1px;
+}
+#banhistory .weaponban.ban {
+	color: #FF8888;
+}
+#banhistory .weaponban.unban {
+	color: #88FF88;
+}
+
+.explain {
+	display: inline-block;
+	width: 16px;
+	border-radius: 100%;
+	
+	color: black;
+	background-color: #fff567;
+	font-weight: bold;
+	cursor: help;
+}
+
+#weaponInfo {
+	position: absolute;
+	z-index: 1000;
+	white-space: nowrap;
+	background: black;
+	opacity: 90%;
+	border-radius: 10px;
+	padding: 5px 10px;
+	text-align: center;
+}
+.weaponInfo_name {
+	font-weight: bold;
+	color: gold;
+}
+
+#splatoonhublink {
+	font-size: 1.5em;
+	font-weight: bold;
+}

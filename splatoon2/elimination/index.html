@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Splatoon 2 Elimination Mode - Nkitten's space</title>
+
+<meta charset="UTF-8">
+<meta name="description" content="Ban weapons, play a weapon from the remaining weapon pool, then ban it next round!">
+
+<script type="text/javascript" src="../res/script/weaponlist.js"></script>
+<script type="text/javascript" src="splatoonelimination.js"></script>
+
+<link rel="stylesheet" type="text/css" href="../../splatoon/res/style/font/splatoonfont.css"/>
+<link rel="stylesheet" type="text/css" href="../res/style/weaponpics.css"/>
+<link rel="stylesheet" type="text/css" href="splatoonelimination.css"/>
+</head>
+<body>
+	<dialog id="modal-newweapons">
+		New weapons were added since you last used this page!<br />
+		Click on a row to toggle whether that weapon should be available.<br /><br />
+		
+		If any reskins or scoped variants are in this list,<br />things might behave incorrectly if their status doesn't match that of the original weapon.<br /><br />
+		
+		<span class="setallnew-wrapper"><span class="setallnew" data-state="unban">All available</span> / <span class="setallnew" data-state="ban">All banned</span></span>
+		<br />
+		<table id="table-newweapons">
+			<thead>
+				<tr><th>Weapon</th><th>Sub</th><th>Special</th><th>Status</th></tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+		<button id="btn-newweaponsmodal">Done!</button>
+	</dialog>
+	
+	
+	
+	<div id="weapons-wrapper">
+		<div id="weapons"></div>
+		<div id="noweapons" class="hidden"><strong>No weapons available!</strong><br />Use the buttons below to unban some.<br />(or change weapon display mode to "<b>compact</b>" to see all weapons)</div>
+	</div>
+	
+	
+	
+	<div id="teams-and-counts">
+		<div id="alphateam" class="teambox draftcomponent" data-team="alpha">
+			<span class="teamname">Alpha Team</span><br />
+			<span class="teamweapons"></span>
+		</div>
+		<div id="bravoteam" class="teambox draftcomponent" data-team="bravo">
+			<span class="teamname">Bravo Team</span><br />
+			<span class="teamweapons"></span>
+		</div>
+		<div id="weaponcounts"></div>
+	</div>
+	
+	
+	
+	<div id="settings">
+		<div id="banhistory"></div>
+		<button id='btn-banall'>Ban all!</button> <button id='btn-unbanall'>Unban all!</button><br />
+		<span class="draftcomponent"><button id='btn-bandrafted'>Ban drafted weapons</button> <button id='btn-unbandrafted'>Clear drafted weapons</button><br /></span>
+		<br />
+		<label for="nr-banrandom">Choose </label><input type="number" id="nr-banrandom" value="8" min="0" max="999" /><label for="nr-banrandom"> random weapons</label><br />
+		<button id='btn-banrandom'>Ban them!</button> <button id='btn-unbanrandom'>Unban them!</button><br /><br />
+		
+		<input type="checkbox" id="chk-savesettings" checked /><label for="chk-savesettings">Save settings</label> <span class="explain" data-explain="savesettings">?</span><br />
+		<input type="checkbox" id="chk-saveweapons" checked /><label for="chk-saveweapons">Save weapon states</label> <span class="explain" data-explain="saveweapons">?</span><br /><br />
+		
+		<input type="checkbox" id="chk-enabledraft" checked /><label for="chk-enabledraft">Enable team weapon drafting</label> <span class="explain" data-explain="enabledraft">?</span><br />
+		<div id="draftsettings" class="draftcomponent">
+			<br /><label for="dd-draftpattern">Automatic draft pattern</label> <span class="explain" data-explain="draftpattern">?</span> <select id="dd-draftpattern">
+				<option value="none">None</option>
+				<option value="snake" selected>Snake</option>
+				<option value="alternate">Alternate</option>
+				<option value="fill">Fill Team</option>
+			</select><br />
+			<input type="checkbox" id="chk-draftpattern_swapwhenbothfull" checked /><label for="chk-draftpattern_swapwhenbothfull">[Snake/Fill] Always switch teams when both teams are full</label><br /><br />
+			
+			Keyboard shortcuts: <span class="nowrap"><kbd>A</kbd> - Alpha team</span>, <span class="nowrap"><kbd>B</kbd> - Bravo team</span><br />
+			<input type="checkbox" id="chk-draft_onkeydraftweapon" /><label for="chk-draft_onkeydraftweapon">When hovering over an available weapon, draft it to team on key press</label><br />
+			<input type="checkbox" id="chk-draft_onkeyselectteam" checked /><label for="chk-draft_onkeyselectteam">Change currently selected team on key press (above option has priority)</label><br />
+		</div><br />
+		
+		<input type="checkbox" id="chk-showbanhistory" checked /><label for="chk-showbanhistory">Show weapon ban history</label><br /><br />
+		
+		<input type="checkbox" id="chk-showstoryreskins" /><label for="chk-showstoryreskins">Include weapons unlocked in Story Mode</label><br />
+		<span class="story"><input type="checkbox" id="chk-mirrorbanreskin" checked /><label for="chk-mirrorbanreskin">When banning a weapon with a reskin (unlocked in Story Mode), ban both the original and reskin</label><br /></span>
+		<input type="checkbox" id="chk-mirrorbanscope" checked /><label for="chk-mirrorbanscope">When banning a charger, ban both the scoped and unscoped version</label><br /><br />
+		
+		<input type="checkbox" id="chk-displaymode_keyboardshortcuts" checked /><label for="chk-displaymode_keyboardshortcuts">Keyboard shortcuts for display mode</label><br />
+		<span class="nowrap"><kbd>C</kbd> - <b>C</b>ompact</span>, <kbd>D</kbd> - <b>D</b>etailed</span>, <span class="nowrap"><kbd>T</kbd> - Change on <b>T</b>hreshold</span><br />
+		<label for="dd-displaymode">Weapon display mode</label> <select id="dd-displaymode">
+			<option value="compact">Compact</option>
+			<option value="threshold" selected>Change on threshold</option>
+			<option value="detailed">Detailed</option>
+		</select>
+		<span id="displaymodethreshold-wrapper"><br /><label for="nr-displaymodethreshold">Change to detailed mode when </label><input type="number" id="nr-displaymodethreshold" value="30" min="0" max="999" /><label for="nr-displaymodethreshold"> or fewer weapons remain</label></span><br /><br />
+		
+		<a href="../../splatoon/" id="splatoonhublink">Splatoon Tools Hub</a>
+	</div>
+	
+	
+	
+	<!-- putting this last should make it appear above any other elements, even without giving it a z-index (but gave it a high z-index anyway) -->
+	<div id="weaponInfo" class="hidden">(weapon info)</div>
+</body>
+</html>

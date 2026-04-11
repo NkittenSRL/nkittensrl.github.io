@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Splatoon 2 Weapons List - Nkitten's space</title>
+
+	<meta charset="UTF-8">
+	<meta name="description" content="Filterable list of all the weapons in Splatoon 2.">
+
+	<script type="text/javascript" src="../res/script/weaponlist.js"></script>
+	<script type="text/javascript" src="weapons.js"></script>
+
+	<link rel="stylesheet" href="../res/style/weaponpics.css">
+	<link rel="stylesheet" href="weapons.css">
+</head>
+
+<body>
+	<div id="pageContainer">
+		<div id="settings">
+			<a href="../../splatoon/" id="splatoonhublink">Splatoon Tools Hub</a>
+			<input type="checkbox" id="chk-customscroll" checked /><label for="chk-customscroll">Custom scroll for select boxes</label><br />
+		</div>
+		<div id="weapons-column">
+			<div id="filters">
+				<div class="multiselectdiv">
+					Weapon Types:<br />
+					<select id='ms-types' size='5' multiple="multiple"></select><br />
+					<span class="clearselection" data-clear="types">clear selection</span>
+				</div>
+				<div class="multiselectdiv">
+					Sub Weapon:<br />
+					<select id='ms-subs' size='5' multiple="multiple"></select><br />
+					<span class="clearselection" data-clear="subs">clear selection</span>
+				</div>
+				<div class="multiselectdiv">
+					Special Weapon:<br />
+					<select id='ms-specials' size='5' multiple="multiple"></select><br />
+					<span class="clearselection" data-clear="specials">clear selection</span>
+				</div>
+				<div id="costlevelsettings">
+					<!-- <input type="checkbox" id="chk-sheldon" /><label for="chk-sheldon">Sheldon's Picks 2 Only</label><br /> -->
+					<label for="nr-mincost">Min Price:</label> <input type="number" id="nr-mincost" value="0" min="0"
+						max="9999999" /><br />
+					<label for="nr-maxcost">Max Price:</label> <input type="number" id="nr-maxcost" value="9999999"
+						min="0" max="9999999" /><br />
+					<label for="nr-minlevel">Min Level:</label> <input type="number" id="nr-minlevel" value="1" min="1"
+						max="99" /><br />
+					<label for="nr-maxlevel">Max Level:</label> <input type="number" id="nr-maxlevel" value="99" min="1"
+						max="99" /><br />
+					<div id="resetall"><span class="clearselection" data-clear="all">reset all</span></div>
+				</div>
+				<input type="text" id="txt-name" value="" placeholder="Weapon Name" />
+			</div>
+			<div id="weapons">
+
+			</div>
+		</div>
+	</div>
+</body>
+</html>

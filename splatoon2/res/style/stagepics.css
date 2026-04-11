@@ -1,0 +1,56 @@
+.stagepic {
+	display: inline-block;
+	background: url('../img/stages113x64.png') no-repeat;
+	overflow: hidden;
+	width: 113px;
+	height: 64px;
+}
+
+.inkblotartacademy { background-position: -113px -0px; }
+.kelpdome { background-position: -226px -0px; }
+.mantamaria { background-position: -0px -64px; }
+.moraytowers { background-position: -113px -64px; }
+.musselforgefitness { background-position: -226px -64px; }
+.portmackerel { background-position: -0px -128px; }
+.humpbackpumptrack { background-position: -113px -128px; }
+.snappercanal { background-position: -226px -128px; }
+.starfishmainstage { background-position: -0px -192px; }
+.sturgeonshipyard { background-position: -113px -192px; }
+.thereef { background-position: -226px -192px; }
+.skipperpavilion { background-position: -0px -256px; }
+.blackbellyskatepark { background-position: -113px -256px; }
+.makomart { background-position: -226px -256px; }
+.walleyewarehouse { background-position: -0px -320px; }
+.shellendorfinstitute { background-position: -113px -320px; }
+.arowanamall { background-position: -226px -320px; }
+.gobyarena { background-position: -0px -384px; }
+.piranhapit { background-position: -113px -384px; }
+.camptriggerfish { background-position: -226px -384px; }
+.wahooworld { background-position: -0px -448px; }
+.newalbacorehotel { background-position: -113px -448px; }
+.anchovgames { background-position: -226px -448px; }
+
+.wayslidecool { background-position: -339px -0px; }
+.thesecretofsplat { background-position: -452px -0px; }
+.goosponge { background-position: -565px -0px; }
+.windmillhouseonthepearlie { background-position: -339px -64px; }
+.fancyspew { background-position: -452px -64px; }
+.zoneofglass { background-position: -565px -64px; }
+.cannonfirepearl { background-position: -339px -128px; }
+.thebunkergames { background-position: -452px -128px; }
+.grapplinkgirl { background-position: -565px -128px; }
+.zappylongshocking { background-position: -339px -192px; }
+.aswiftlytiltingbalance { background-position: -452px -192px; }
+.sweetvalleytentacles { background-position: -565px -192px; }
+.theswitches { background-position: -339px -256px; }
+.thebounceytwins { background-position: -452px -256px; }
+.railwaychillin { background-position: -565px -256px; }
+.gushertowns { background-position: -339px -320px; }
+.themazedasher { background-position: -452px -320px; }
+.floodersintheattic { background-position: -565px -320px; }
+.thesplatinourzones { background-position: -339px -384px; }
+.theinkisspreading { background-position: -452px -384px; }
+.bridgetotentaswitchia { background-position: -565px -384px; }
+.thechroniclesofrolonium { background-position: -339px -448px; }
+.furlerintheashes { background-position: -452px -448px; }
+.mcprincessdiaries { background-position: -565px -448px; }

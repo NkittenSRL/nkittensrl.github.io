@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Splatoon 2 Randomizer - Nkitten's space</title>
+
+<meta charset="UTF-8">
+<meta name="description" content="Splatoon 2 stage and weapon randomizer.">
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script type="text/javascript" src="../res/script/stagesmodes.js"></script>
+<script type="text/javascript" src="../res/script/weaponlist.js"></script>
+<script type="text/javascript" src="splatoonrandom.js"></script>
+
+<link rel="stylesheet" type="text/css" href="../../includes/nkittennet.css"/>
+<link rel="stylesheet" type="text/css" href="../../splatoon/res/style/font/splatoonfont.css"/>
+<link rel="stylesheet" type="text/css" href="../res/style/stagepics.css"/>
+<link rel="stylesheet" type="text/css" href="../res/style/weaponpics.css"/>
+<link rel="stylesheet" type="text/css" href="splatoonrandom.css"/>
+</head>
+<body>
+	<div id="pageContainer">
+		<div id="imgurresults" class="hidden">
+			<span class="hideimgurresults">X</span>
+			<input type="text" id="txt-imgur" value="" /><br />
+			<button id='btn-imgur'>Copy url</button>
+		</div>
+		<div id="imgurerror" class="hidden">
+			<span class="hideimgurresults">X</span>
+			<span id="imgurerrormessage"></span>
+		</div>
+		<div class="otherversionlink">
+			<a href="../../splatoon/">Splatoon Tools Hub</a>
+		</div>
+		<div id="about">
+			<div class="showhidesettings"><span class="settingsplusminus">+</span> About</div>
+			<div class="inner hidden">
+			<div id="version"></div>
+			<br />
+			Splatoon stage and weapon randomizer by <a href="https://bsky.app/profile/nkittenreal.bsky.social">Nkitten</a>.<br />
+			Weapon information and images taken from Lean's <a href="https://leanny.github.io/splat2new/database.html">Splatoon 2 Data page</a>.<br />
+			Stage images also provided by Lean.<br />
+			The font for the team names is called "Project Paintball".<br /><br />
+			
+			<div id="updated"></div><br />
+			
+			If your browser is loading an old version, force reload (ctrl+F5) for the newest version.
+			</div>
+		</div>
+		
+		<br />
+		
+		<div id="combinedSettings">
+			<div class="showhidesettings"><span class="settingsplusminus">+</span> General settings</div>
+			<div class="inner hidden">
+				<span id="stageweaponsets"><label for="txt-stagesets">Stages: </label><input type="number" id="txt-stagesets" value="5" min="0" max="99" /><br />
+				<label for="txt-weaponsets">Weapon sets: </label><input type="number" id="txt-weaponsets" value="5" min="0" max="99" /></span><br />
+				<input type="checkbox" id="chk-combinesets" checked /><label for="chk-combinesets">Combine stages with weapon sets</label><br />
+				<input type="checkbox" id="chk-textonly" /><label for="chk-textonly">Text only</label><br /><br />
+				
+				<input type="checkbox" id="chk-otherversionlink" checked /><label for="chk-otherversionlink">Show link to randomizer for other splatoon versions</label><br /><br />
+				
+				<input type="checkbox" id="chk-savesettings" /><label for="chk-savesettings">Save Settings</label><br />
+				(uncheck to delete saved data, then refresh to restore default settings)
+				
+				<span id="imgurSettings" class="hidden">
+					<br /><br />
+					<input type="checkbox" id="chk-imgur" /><label for="chk-imgur">Show button to generate an image and upload it to imgur</label>
+				</span>
+			</div>
+		</div>
+		
+		<br />
+		
+		<div id="stageSettings">
+			<div class="showhidesettings"><span class="settingsplusminus">+</span> Stage settings</div>
+			<div class="inner hidden">
+				<div id="stageSettingsTable"></div>
+				<span id="stagecounts"></span><br />
+				<span id="shiftycounts"></span><br />
+				<div class="showhideshifty"><span class="settingsplusminus">+</span> Select Shifty Stations</div>
+				<div class="hidden">
+					<span class="weaponbig"><span class='shiftyselectall'>all</span> / <span class='shiftyselectnone'>none</span></span><br />
+					<div id="shiftySettingsTable"></div>
+				</div>
+				<input type="checkbox" id="chk-allowstagedupe" /><label for="chk-allowstagedupe">Allow the same mode/stage combination to get picked repeatedly</label><br />
+				<input type="checkbox" id="chk-rotatestages" checked /><label for="chk-rotatestages">Try not to repeat stages until all stages have been chosen</label><br />
+				<input type="checkbox" id="chk-rotatemodes" checked /><label for="chk-rotatemodes">Try not to repeat modes until all modes have been chosen</label><br />
+				<input type="checkbox" id="chk-allowstagerepeat" checked /><label for="chk-allowstagerepeat">If all combinations have been picked, remake list and continue</label><br /><br />
+				
+				Get a code to share your selected stages with people<br />or paste it here if someone sent you a code:<br />
+				<input type="text" id="txt-stagestring" value="" /><br />
+				<button id='btn-stagestostring'>Create code</button> <button id='btn-copystagestring'>Copy code</button> <button id='btn-stringtostages'>Load stages from code</button>
+			</div>
+		</div>
+		
+		<br />
+		
+		<div id="weaponSettings">
+			<div class="showhidesettings"><span class="settingsplusminus">+</span> Weapon settings</div>
+			<div class="inner hidden">
+				Teams:
+				<select id='dd-team1'><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option></select> vs
+				<select id='dd-team2'><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option><option value="0">0</option></select><br />
+				<input type="checkbox" id="chk-includeteamnames" checked /><label for="chk-includeteamnames">Team names: </label><input type="text" id="txt-teamnames" value="Alpha Team, Bravo Team" /><br />
+				<input type="checkbox" id="chk-includeplayernames" checked /><label for="chk-includeplayernames">Player names: </label><input type="text" id="txt-playernames" value="Player 1, Player 2, Player 3, Player 4, Player 5, Player 6, Player 7, Player 8" /><br />
+				<input type="checkbox" id="chk-randomizeteams" /><label for="chk-randomizeteams">Randomize team members</label><br />
+				<input type="checkbox" id="chk-keeprandomizedteams" /><label for="chk-keeprandomizedteams">Keep the same randomized teams for all sets</label><br /><br />
+				
+				<!-- <input type="checkbox" id="chk-allowoctoshot" /><label for="chk-allowoctoshot">Include Octoshot Replica</label><br /> -->
+				<input type="checkbox" id="chk-allowstoryweapons" /><label for="chk-allowstoryweapons">Include weapons unlocked in Story Mode</label><br />
+				<!-- <input type="checkbox" id="chk-allowamiiboweapons" /><label for="chk-allowamiiboweapons">Include weapons unlocked in amiibo Challenges</label><br /> --><br />
+				
+				<input type="checkbox" id="chk-allowenemydupe" checked /><label for="chk-allowenemydupe">Allow a weapon to appear on both teams</label><br />
+				<input type="checkbox" id="chk-allowallydupe" /><label for="chk-allowallydupe">Also allow multiple of the same weapon on a single team</label><br />
+				<input type="checkbox" id="chk-mirrorweapons" /><label for="chk-mirrorweapons">Give both teams the same weapons</label><br />
+				<!-- <input type="checkbox" id="chk-balanceteams" checked /><label for="chk-balanceteams">Mystery checkbox that mysteriously ignores some other checkboxes to do something mysterious!! :o</label><br /> --><br />
+				
+				<label for="txt-freepick">Chance (per player) of a free pick: </label><input type="number" id="txt-freepick" value="0.00" min="0" max="100" />%<br />
+				<input type="checkbox" id="chk-equalfreepicks" checked /><label for="chk-equalfreepicks">Give both teams an equal amount of free picks</label><br /><br />
+				
+				<input type="checkbox" id="chk-showsubspecial" checked /><label for="chk-showsubspecial">Display sub &amp; special weapons</label><br /><br />
+				
+				<div class="showhideweapons"><span class="settingsplusminus">+</span> Weapon list (select which weapons to include)</div>
+				<div class="hidden">
+					<div id="weaponselectlinksTop">
+						<span class="weaponbig"><span class="weaponselect" data-on="all">Select all weapons</span> / <span class="weaponselect" data-off="all">Select no weapons</span></span>
+					</div>
+					<div id="weaponselectlinksMain">
+						<div class="lefty">
+						<span class="weaponbig">Shooters: <span class="weaponselect" data-on="jr,splattershot,splatterpro,aerospray,nzap,splash,sploosh,52gal,96gal,jetsquelcher,l3nozzlenose,h3nozzlenose,squeezer">all</span> / <span class="weaponselect" data-off="jr,splattershot,splatterpro,aerospray,nzap,splash,sploosh,52gal,96gal,jetsquelcher,l3nozzlenose,h3nozzlenose,squeezer">none</span></span><br />
+						Splattershot Jr.: <span class="weaponselect" data-on="jr">all</span> / <span class="weaponselect" data-off="jr">none</span><br />
+						Splattershot: <span class="weaponselect" data-on="splattershot">all</span> / <span class="weaponselect" data-off="splattershot">none</span><br />
+						Splattershot Pro: <span class="weaponselect" data-on="splatterpro">all</span> / <span class="weaponselect" data-off="splatterpro">none</span><br />
+						.52 Gal: <span class="weaponselect" data-on="52gal">all</span> / <span class="weaponselect" data-off="52gal">none</span><br />
+						.96 Gal: <span class="weaponselect" data-on="96gal">all</span> / <span class="weaponselect" data-off="96gal">none</span><br />
+						Aerospray: <span class="weaponselect" data-on="aerospray">all</span> / <span class="weaponselect" data-off="aerospray">none</span><br />
+						N-ZAP: <span class="weaponselect" data-on="nzap">all</span> / <span class="weaponselect" data-off="nzap">none</span><br />
+						Splash-o-matic: <span class="weaponselect" data-on="splash">all</span> / <span class="weaponselect" data-off="splash">none</span><br />
+						Sploosh-o-matic: <span class="weaponselect" data-on="sploosh">all</span> / <span class="weaponselect" data-off="sploosh">none</span><br />
+						Jet Squelcher: <span class="weaponselect" data-on="jetsquelcher">all</span> / <span class="weaponselect" data-off="jetsquelcher">none</span><br />
+						L-3 Nozzlenose: <span class="weaponselect" data-on="l3nozzlenose">all</span> / <span class="weaponselect" data-off="l3nozzlenose">none</span><br />
+						H-3 Nozzlenose: <span class="weaponselect" data-on="h3nozzlenose">all</span> / <span class="weaponselect" data-off="h3nozzlenose">none</span><br />
+						Squeezer: <span class="weaponselect" data-on="squeezer">all</span> / <span class="weaponselect" data-off="squeezer">none</span><br />
+						<br />
+						<span class="weaponbig">Dualies: <span class="weaponselect" data-on="dualies,dualiesquelchers,dapple,tetra,glooga">all</span> / <span class="weaponselect" data-off="dualies,dualiesquelchers,dapple,tetra,glooga">none</span></span><br />
+						Splat Dualies: <span class="weaponselect" data-on="dualies">all</span> / <span class="weaponselect" data-off="dualies">none</span><br />
+						Dapple Dualies: <span class="weaponselect" data-on="dapple">all</span> / <span class="weaponselect" data-off="dapple">none</span><br />
+						Dualie Squelchers: <span class="weaponselect" data-on="dualiesquelchers">all</span> / <span class="weaponselect" data-off="dualiesquelchers">none</span><br />
+						Glooga Dualies: <span class="weaponselect" data-on="glooga">all</span> / <span class="weaponselect" data-off="glooga">none</span><br />
+						Tetra Dualies: <span class="weaponselect" data-on="tetra">all</span> / <span class="weaponselect" data-off="tetra">none</span><br />
+						<br />
+						<span class="weaponbig">Sloshers: <span class="weaponselect" data-on="slosher,trislosher,sloshingmachine,explosher,bloblobber">all</span> / <span class="weaponselect" data-off="slosher,trislosher,sloshingmachine,explosher,bloblobber">none</span></span><br />
+						Slosher: <span class="weaponselect" data-on="slosher">all</span> / <span class="weaponselect" data-off="slosher">none</span><br />
+						Tri-Slosher: <span class="weaponselect" data-on="trislosher">all</span> / <span class="weaponselect" data-off="trislosher">none</span><br />
+						Sloshing Machine: <span class="weaponselect" data-on="sloshingmachine">all</span> / <span class="weaponselect" data-off="sloshingmachine">none</span><br />
+						Explosher: <span class="weaponselect" data-on="explosher">all</span> / <span class="weaponselect" data-off="explosher">none</span><br />
+						Bloblobber: <span class="weaponselect" data-on="bloblobber">all</span> / <span class="weaponselect" data-off="bloblobber">none</span><br />
+						<br />
+						<span class="weaponbig">Splatlings: <span class="weaponselect" data-on="mini,heavy,hydra,ballpoint,nautilus">all</span> / <span class="weaponselect" data-off="mini,heavy,hydra,ballpoint,nautilus">none</span></span><br />
+						Mini Splatling: <span class="weaponselect" data-on="mini">all</span> / <span class="weaponselect" data-off="mini">none</span><br />
+						Heavy Splatling: <span class="weaponselect" data-on="heavy">all</span> / <span class="weaponselect" data-off="heavy">none</span><br />
+						Hydra Splatling: <span class="weaponselect" data-on="hydra">all</span> / <span class="weaponselect" data-off="hydra">none</span><br />
+						Ballpoint Splatling: <span class="weaponselect" data-on="ballpoint">all</span> / <span class="weaponselect" data-off="ballpoint">none</span><br />
+						Nautilus: <span class="weaponselect" data-on="nautilus">all</span> / <span class="weaponselect" data-off="nautilus">none</span><br />
+						</div>
+						
+						<div class="lefty">
+						<span class="weaponbig">Blasters: <span class="weaponselect" data-on="blaster,luna,rangeblaster,rapidblaster,rapidblasterpro,clash">all</span> / <span class="weaponselect" data-off="luna,blaster,rangeblaster,rapidblaster,rapidblasterpro,clash">none</span></span><br />
+						Blaster: <span class="weaponselect" data-on="blaster">all</span> / <span class="weaponselect" data-off="blaster">none</span><br />
+						Luna Blaster: <span class="weaponselect" data-on="luna">all</span> / <span class="weaponselect" data-off="luna">none</span><br />
+						Range Blaster: <span class="weaponselect" data-on="rangeblaster">all</span> / <span class="weaponselect" data-off="rangeblaster">none</span><br />
+						Rapid Blaster: <span class="weaponselect" data-on="rapidblaster">all</span> / <span class="weaponselect" data-off="rapidblaster">none</span><br />
+						Rapid Blaster Pro: <span class="weaponselect" data-on="rapidblasterpro">all</span> / <span class="weaponselect" data-off="rapidblasterpro">none</span><br />
+						Clash Blaster: <span class="weaponselect" data-on="clash">all</span> / <span class="weaponselect" data-off="clash">none</span><br />
+						<br />
+						<span class="weaponbig">Chargers: <span class="weaponselect" data-on="squiffer,splatcharger,herocharger,splatterscope,eliter,eliterscope,bamboozler,gootuber">all</span> / <span class="weaponselect" data-off="squiffer,splatcharger,herocharger,splatterscope,eliter,eliterscope,bamboozler,gootuber">none</span></span><br />
+						<span class="weaponmed"><span class="weaponselect" data-on="splatcharger,herocharger,eliter" data-off="splatterscope,eliterscope">Unscoped</span> / <span class="weaponselect" data-on="splatterscope,eliterscope" data-off="splatcharger,herocharger,eliter">Scoped</span></span><br />
+						Squiffer: <span class="weaponselect" data-on="squiffer">all</span> / <span class="weaponselect" data-off="squiffer">none</span><br />
+						Splat Charger: <span class="weaponselect" data-on="splatcharger">all</span> / <span class="weaponselect" data-off="splatcharger">none</span><br />
+						Splatterscope: <span class="weaponselect" data-on="splatterscope">all</span> / <span class="weaponselect" data-off="splatterscope">none</span><br />
+						E-liter 4K: <span class="weaponselect" data-on="eliter">all</span> / <span class="weaponselect" data-off="eliter">none</span><br />
+						E-liter 4K Scope: <span class="weaponselect" data-on="eliterscope">all</span> / <span class="weaponselect" data-off="eliterscope">none</span><br />
+						Bamboozler: <span class="weaponselect" data-on="bamboozler">all</span> / <span class="weaponselect" data-off="bamboozler">none</span><br />
+						Goo Tuber: <span class="weaponselect" data-on="gootuber">all</span> / <span class="weaponselect" data-off="gootuber">none</span><br />
+						<br />
+						<span class="weaponbig">Rollers: <span class="weaponselect" data-on="carbon,roller,dynamo,flingza">all</span> / <span class="weaponselect" data-off="carbon,roller,dynamo,flingza">none</span></span><br />
+						Carbon Roller: <span class="weaponselect" data-on="carbon">all</span> / <span class="weaponselect" data-off="carbon">none</span><br />
+						Splat Roller: <span class="weaponselect" data-on="roller">all</span> / <span class="weaponselect" data-off="roller">none</span><br />
+						Dynamo Roller: <span class="weaponselect" data-on="dynamo">all</span> / <span class="weaponselect" data-off="dynamo">none</span><br />
+						Flingza Roller: <span class="weaponselect" data-on="flingza">all</span> / <span class="weaponselect" data-off="flingza">none</span><br />
+						<br />
+						<span class="weaponbig">Brushes: <span class="weaponselect" data-on="inkbrush,octobrush">all</span> / <span class="weaponselect" data-off="inkbrush,octobrush">none</span></span><br />
+						Inkbrush: <span class="weaponselect" data-on="inkbrush">all</span> / <span class="weaponselect" data-off="inkbrush">none</span><br />
+						Octobrush: <span class="weaponselect" data-on="octobrush">all</span> / <span class="weaponselect" data-off="octobrush">none</span><br />
+						<br />
+						<span class="weaponbig">Brellas: <span class="weaponselect" data-on="brella,tenta,undercover">all</span> / <span class="weaponselect" data-off="brella,tenta,undercover">none</span></span><br />
+						Splat Brella: <span class="weaponselect" data-on="brella">all</span> / <span class="weaponselect" data-off="brella">none</span><br />
+						Tenta Brella: <span class="weaponselect" data-on="tenta">all</span> / <span class="weaponselect" data-off="tenta">none</span><br />
+						Undercover Brella: <span class="weaponselect" data-on="undercover">all</span> / <span class="weaponselect" data-off="undercover">none</span>
+						</div>
+					</div>
+					<div id="weaponselectlinksBottom">
+						<span class="weaponcounts"></span>
+					</div>
+					<div id="weaponSettingsTable"></div>
+					<span class="weaponcounts"></span><br />
+					<span class="showhideweaponsBottom">I want to close the weapon list but it takes so long to scroll up,<br />please give me a clickable link at the bottom to close it! (ok)</span>
+				</div>
+			</div>
+		</div>
+		
+		<br />
+		
+		<button id='btn-randomize'>Randomize!</button>
+		
+		<div id="result"></div>
+	</div>
+</body>
+</html>
