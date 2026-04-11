@@ -1,0 +1,262 @@
+.subpic {
+	--subpic-width: 30px;
+	--subpic-height: 30px;
+
+	display: inline-block;
+	overflow: hidden;
+	
+	width: var(--subpic-width);
+	height: var(--subpic-width);
+
+	background: url('../img/subs30x30.png') no-repeat;
+	background-position: calc(-1 * var(--subpic-width) * var(--col)) calc(-1 * var(--subpic-height) * var(--row));
+}
+
+.any-sub { --row: 0; --col: 1 }
+.angle-shooter { --row: 0; --col: 2; }
+.autobomb { --row: 1; --col: 0; }
+.burst-bomb { --row: 1; --col: 1; }
+.curling-bomb { --row: 1; --col: 2; }
+.fizzy-bomb { --row: 2; --col: 0; }
+.ink-mine { --row: 2; --col: 1; }
+.point-sensor { --row: 2; --col: 2; }
+.splash-wall { --row: 3; --col: 0; }
+.splat-bomb { --row: 3; --col: 1; }
+.sprinkler { --row: 3; --col: 2; }
+.squid-beakon { --row: 4; --col: 0; }
+.suction-bomb { --row: 4; --col: 1; }
+.torpedo { --row: 4; --col: 2; }
+.toxic-mist { --row: 5; --col: 0; }
+
+.specialpic {
+	--specialpic-width: 30px;
+	--specialpic-height: 30px;
+
+	display: inline-block;
+	overflow: hidden;
+	
+	width: var(--specialpic-width);
+	height: var(--specialpic-height);
+
+	background: url('../img/specials30x30.png') no-repeat;
+	background-position: calc(-1 * var(--specialpic-width) * var(--col)) calc(-1 * var(--specialpic-height) * var(--row));
+}
+
+.any-special { --row: 0; --col: 1 }
+.big-bubbler { --row: 0; --col: 2; }
+.booyah-bomb { --row: 1; --col: 0; }
+.crab-tank { --row: 1; --col: 1; }
+.ink-storm { --row: 1; --col: 2; }
+.ink-vac { --row: 2; --col: 0; }
+.inkjet { --row: 2; --col: 1; }
+.killer-wail-5-1 { --row: 2; --col: 2; }
+.reefslider { --row: 3; --col: 0; }
+.tacticooler { --row: 3; --col: 1; }
+.tenta-missiles { --row: 3; --col: 2; }
+.triple-inkstrike { --row: 4; --col: 0; }
+.trizooka { --row: 4; --col: 1; }
+.ultra-stamp { --row: 4; --col: 2; }
+.wave-breaker { --row: 5; --col: 0; }
+.zipcaster { --row: 5; --col: 1; }
+.kraken-royale { --row: 5; --col: 2; }
+.super-chump { --row: 6; --col: 0; }
+.splattercolor-screen { --row: 6; --col: 1; }
+.triple-splashdown { --row: 6; --col: 2; }
+
+.weaponpic {
+	--weaponpic-width: 64px;
+	--weaponpic-height: 64px;
+
+	display: inline-block;
+	overflow: hidden;
+
+	width: var(--weaponpic-width);
+	height: var(--weaponpic-height);
+
+	background: url('../img/weapons64x64.png') no-repeat;
+	background-position: calc(-1 * var(--weaponpic-width) * var(--col)) calc(-1 * var(--weaponpic-height) * var(--row));
+}
+
+.any-weapon { --row: 0; --col: 1 }
+.wst-blaster-light-00 { --row: 0; --col: 2; }
+.wst-blaster-lightlong-00 { --row: 0; --col: 3; }
+.wst-blaster-lightshort-00 { --row: 0; --col: 4; }
+.wst-blaster-long-00 { --row: 0; --col: 5; }
+.wst-blaster-middle-00 { --row: 0; --col: 6; }
+.wst-blaster-short-00 { --row: 0; --col: 7; }
+.wst-brush-mini-00 { --row: 0; --col: 8; }
+.wst-brush-normal-00 { --row: 0; --col: 9; }
+.wst-charger-keeper-00 { --row: 1; --col: 0; }
+.wst-charger-light-00 { --row: 1; --col: 1; }
+.wst-charger-long-00 { --row: 1; --col: 2; }
+.wst-charger-longscope-00 { --row: 1; --col: 3; }
+.wst-charger-normal-00 { --row: 1; --col: 4; }
+.wst-charger-normalscope-00 { --row: 1; --col: 5; }
+.wst-charger-quick-00 { --row: 1; --col: 6; }
+.wst-maneuver-dual-00 { --row: 1; --col: 7; }
+.wst-maneuver-gallon-00 { --row: 1; --col: 8; }
+.wst-maneuver-normal-00 { --row: 1; --col: 9; }
+.wst-maneuver-short-00 { --row: 2; --col: 0; }
+.wst-maneuver-stepper-00 { --row: 2; --col: 1; }
+.wst-roller-compact-00 { --row: 2; --col: 2; }
+.wst-roller-heavy-00 { --row: 2; --col: 3; }
+.wst-roller-hunter-00 { --row: 2; --col: 4; }
+.wst-roller-normal-00 { --row: 2; --col: 5; }
+.wst-saber-lite-00 { --row: 2; --col: 6; }
+.wst-saber-normal-00 { --row: 2; --col: 7; }
+.wst-shelter-compact-00 { --row: 2; --col: 8; }
+.wst-shelter-normal-00 { --row: 2; --col: 9; }
+.wst-shelter-wide-00 { --row: 3; --col: 0; }
+.wst-shooter-blaze-00 { --row: 3; --col: 1; }
+.wst-shooter-expert-00 { --row: 3; --col: 2; }
+.wst-shooter-first-00 { --row: 3; --col: 3; }
+.wst-shooter-flash-00 { --row: 3; --col: 4; }
+.wst-shooter-gravity-00 { --row: 3; --col: 5; }
+.wst-shooter-heavy-00 { --row: 3; --col: 6; }
+.wst-shooter-long-00 { --row: 3; --col: 7; }
+.wst-shooter-normal-00 { --row: 3; --col: 8; }
+.wst-shooter-normal-h { --row: 3; --col: 9; }
+.wst-shooter-precision-00 { --row: 4; --col: 0; }
+.wst-shooter-quickmiddle-00 { --row: 4; --col: 1; }
+.wst-shooter-short-00 { --row: 4; --col: 2; }
+.wst-shooter-triplemiddle-00 { --row: 4; --col: 3; }
+.wst-shooter-triplequick-00 { --row: 4; --col: 4; }
+.wst-slosher-bathtub-00 { --row: 4; --col: 5; }
+.wst-slosher-diffusion-00 { --row: 4; --col: 6; }
+.wst-slosher-launcher-00 { --row: 4; --col: 7; }
+.wst-slosher-strong-00 { --row: 4; --col: 8; }
+.wst-slosher-washtub-00 { --row: 4; --col: 9; }
+.wst-spinner-downpour-00 { --row: 5; --col: 0; }
+.wst-spinner-hyper-00 { --row: 5; --col: 1; }
+.wst-spinner-quick-00 { --row: 5; --col: 2; }
+.wst-spinner-serein-00 { --row: 5; --col: 3; }
+.wst-spinner-standard-00 { --row: 5; --col: 4; }
+.wst-stringer-normal-00 { --row: 5; --col: 5; }
+.wst-stringer-short-00 { --row: 5; --col: 6; }
+
+.wst-blaster-short-01 { --row: 5; --col: 7; }
+.wst-brush-mini-01 { --row: 5; --col: 8; }
+.wst-charger-pencil-00 { --row: 5; --col: 9; }
+.wst-maneuver-short-01 { --row: 6; --col: 0; }
+.wst-roller-compact-01 { --row: 6; --col: 1; }
+.wst-roller-wide-00 { --row: 6; --col: 2; }
+.wst-shooter-blaze-01 { --row: 6; --col: 3; }
+.wst-shooter-expert-01 { --row: 6; --col: 4; }
+.wst-shooter-first-01 { --row: 6; --col: 5; }
+.wst-shooter-normal-01 { --row: 6; --col: 6; }
+.wst-shooter-quicklong-00 { --row: 6; --col: 7; }
+.wst-slosher-strong-01 { --row: 6; --col: 8; }
+.wst-spinner-quick-01 { --row: 6; --col: 9; }
+
+.wst-blaster-light-01 { --row: 7; --col: 0; }
+.wst-blaster-lightshort-01 { --row: 7; --col: 1; }
+.wst-charger-normal-01 { --row: 7; --col: 2; }
+.wst-charger-normalscope-01 { --row: 7; --col: 3; }
+.wst-roller-normal-01 { --row: 7; --col: 4; }
+.wst-shooter-heavy-01 { --row: 7; --col: 5; }
+.wst-shooter-long-01 { --row: 7; --col: 6; }
+.wst-shooter-precision-01 { --row: 7; --col: 7; }
+.wst-shooter-quickmiddle-01 { --row: 7; --col: 8; }
+.wst-shooter-short-01 { --row: 7; --col: 9; }
+.wst-shooter-triplequick-01 { --row: 8; --col: 0; }
+.wst-slosher-diffusion-01 { --row: 8; --col: 1; }
+
+.wst-blaster-lightlong-01 { --row: 8; --col: 2; }
+.wst-blaster-precision-00 { --row: 8; --col: 3; }
+.wst-brush-heavy-00 { --row: 8; --col: 4; }
+.wst-maneuver-dual-01 { --row: 8; --col: 5; }
+.wst-maneuver-stepper-01 { --row: 8; --col: 6; }
+.wst-roller-wide-01 { --row: 8; --col: 7; }
+.wst-saber-lite-01 { --row: 8; --col: 8; }
+.wst-shelter-wide-01 { --row: 8; --col: 9; }
+.wst-shooter-quicklong-01 { --row: 9; --col: 0; }
+.wst-shooter-triplemiddle-01 { --row: 9; --col: 1; }
+.wst-spinner-standard-01 { --row: 9; --col: 2; }
+
+.wst-brush-normal-01 { --row: 9; --col: 3; }
+.wst-charger-keeper-01 { --row: 9; --col: 4; }
+.wst-roller-heavy-01 { --row: 9; --col: 5; }
+.wst-shelter-normal-01 { --row: 9; --col: 6; }
+.wst-slosher-bathtub-01 { --row: 9; --col: 7; }
+.wst-slosher-double-00 { --row: 9; --col: 8; }
+.wst-slosher-launcher-01 { --row: 9; --col: 9; }
+.wst-spinner-downpour-01 { --row: 10; --col: 0; }
+.wst-spinner-hypershort-00 { --row: 10; --col: 1; }
+.wst-stringer-normal-01 { --row: 10; --col: 2; }
+
+.wst-blaster-middle-01 { --row: 10; --col: 3; }
+.wst-blaster-precision-01 { --row: 10; --col: 4; }
+.wst-brush-heavy-01 { --row: 10; --col: 5; }
+.wst-charger-pencil-01 { --row: 10; --col: 6; }
+.wst-maneuver-normal-01 { --row: 10; --col: 7; }
+.wst-saber-normal-01 { --row: 10; --col: 8; }
+.wst-shelter-compact-01 { --row: 10; --col: 9; }
+.wst-shooter-flash-01 { --row: 11; --col: 0; }
+.wst-stringer-short-01 { --row: 11; --col: 1; }
+
+.wst-blaster-short-o { --row: 11; --col: 2; }
+.wst-brush-normal-o { --row: 11; --col: 3; }
+.wst-charger-normal-o { --row: 11; --col: 4; }
+.wst-maneuver-normal-o { --row: 11; --col: 5; }
+.wst-roller-normal-o { --row: 11; --col: 6; }
+.wst-saber-normal-o { --row: 11; --col: 7; }
+.wst-shelter-normal-o { --row: 11; --col: 8; }
+.wst-shooter-normal-o { --row: 11; --col: 9; }
+.wst-shooter-normal-oct { --row: 12; --col: 0; }
+.wst-slosher-strong-o { --row: 12; --col: 1; }
+.wst-spinner-standard-o { --row: 12; --col: 2; }
+.wst-stringer-normal-o { --row: 12; --col: 3; }
+
+.wst-charger-long-01 { --row: 12; --col: 4; }
+.wst-charger-longscope-01 { --row: 12; --col: 5; }
+.wst-charger-quick-01 { --row: 12; --col: 6; }
+.wst-maneuver-gallon-01 { --row: 12; --col: 7; }
+.wst-maneuver-long-00 { --row: 12; --col: 8; }
+.wst-roller-hunter-01 { --row: 12; --col: 9; }
+.wst-shelter-focus-00 { --row: 13; --col: 0; }
+.wst-shooter-gravity-01 { --row: 13; --col: 1; }
+.wst-slosher-double-01 { --row: 13; --col: 2; }
+.wst-slosher-washtub-01 { --row: 13; --col: 3; }
+.wst-spinner-serein-01 { --row: 13; --col: 4; }
+
+.wst-blaster-long-01 { --row: 13; --col: 5; }
+.wst-charger-light-01 { --row: 13; --col: 6; }
+.wst-maneuver-long-01 { --row: 13; --col: 7; }
+.wst-saber-heavy-00 { --row: 13; --col: 8; }
+.wst-saber-heavy-01 { --row: 13; --col: 9; }
+.wst-shelter-focus-01 { --row: 14; --col: 0; }
+.wst-spinner-hyper-01 { --row: 14; --col: 1; }
+.wst-spinner-hypershort-01 { --row: 14; --col: 2; }
+.wst-stringer-explosion-00 { --row: 14; --col: 3; }
+.wst-stringer-explosion-01 { --row: 14; --col: 4; }
+
+.wst-blaster-lightlong-02 { --row: 14; --col: 5; }
+.wst-blaster-middle-02 { --row: 14; --col: 6; }
+.wst-brush-heavy-02 { --row: 14; --col: 7; }
+.wst-brush-normal-02 { --row: 14; --col: 8; }
+.wst-charger-normal-02 { --row: 14; --col: 9; }
+.wst-charger-normalscope-02 { --row: 15; --col: 0; }
+.wst-maneuver-dual-02 { --row: 15; --col: 1; }
+.wst-maneuver-normal-02 { --row: 15; --col: 2; }
+.wst-maneuver-short-02 { --row: 15; --col: 3; }
+.wst-roller-compact-02 { --row: 15; --col: 4; }
+.wst-roller-heavy-02 { --row: 15; --col: 5; }
+.wst-roller-wide-02 { --row: 15; --col: 6; }
+.wst-saber-lite-02 { --row: 15; --col: 7; }
+.wst-saber-normal-02 { --row: 15; --col: 8; }
+.wst-shelter-compact-02 { --row: 15; --col: 9; }
+.wst-shelter-wide-02 { --row: 16; --col: 0; }
+.wst-shooter-blaze-02 { --row: 16; --col: 1; }
+.wst-shooter-expert-02 { --row: 16; --col: 2; }
+.wst-shooter-heavy-02 { --row: 16; --col: 3; }
+.wst-shooter-long-02 { --row: 16; --col: 4; }
+.wst-shooter-normal-02 { --row: 16; --col: 5; }
+.wst-shooter-precision-02 { --row: 16; --col: 6; }
+.wst-shooter-triplemiddle-02 { --row: 16; --col: 7; }
+.wst-shooter-triplequick-02 { --row: 16; --col: 8; }
+.wst-slosher-diffusion-02 { --row: 16; --col: 9; }
+.wst-slosher-double-02 { --row: 17; --col: 0; }
+.wst-spinner-hyper-02 { --row: 17; --col: 1; }
+.wst-spinner-quick-02 { --row: 17; --col: 2; }
+.wst-stringer-normal-02 { --row: 17; --col: 3; }
+.wst-stringer-short-02 { --row: 17; --col: 4; }

@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Splatoon 3 Weapon Freshness - Nkitten's space</title>
+
+<meta charset="UTF-8">
+<meta name="description" content="Tool for tracking Splatoon 3 weapon freshness.">
+
+<script type="text/javascript" src="../res/script/weaponlist.js"></script>
+
+<script>
+	const weapons = weaponlist.weapons;
+	weapons.sort((a, b) => {
+		if (a.name < b.name) return -1;
+		else if (a.name > b.name) return 1;
+		return 0;
+	});
+	let counts = {"-1": 0, "0": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "total": 0};
+	let freshnessLevels = {};
+	const heights = {"filters-wrapper": 0, "page-container": 0};
+	
+	function randMinMax(min,max) {
+		return Math.floor((Math.random()*((max+1)-min))+min);
+	}
+
+	function getFilters() {
+		const filters = {};
+		document.querySelectorAll(".starfilter").forEach(ele => {
+			filters[ele.getAttribute("data-star")] = ele.classList.contains("selected");
+		});
+		return filters;
+	}
+	function saveFilters() {
+		localStorage.splatoon3_freshness_filters = JSON.stringify(getFilters());
+	}
+	function loadFilters() {
+		if (localStorage.splatoon3_freshness_filters === undefined) return;
+
+		const table = document.getElementById("weapontable");
+		const filters = JSON.parse(localStorage.splatoon3_freshness_filters);
+		for (let star in filters) {
+			document.querySelector(`.starfilter[data-star='${star}']`).classList.toggle("selected", filters[star]);
+			table.classList.toggle(`hide${star}`, !filters[star]);
+		}
+	}
+
+	function makeWeaponTable(levels = {}) {
+		let txt = "";
+		for (let wpn in weapons) {
+			txt += `<tr data-id='${wpn}' data-freshness='${(levels[weapons[wpn].name] !== undefined ? levels[weapons[wpn].name] : -1)}'>
+				<td class="weapon--owned"></td>
+				<td class="weapon--freshness"><span class="stars"><span class='star' data-star='0'></span> <span class='star star1' data-star='1'></span><span class='star star2' data-star='2'></span><span class='star star3' data-star='3'></span><span class='star star4' data-star='4'></span><span class='star star5' data-star='5'></span></span></td>
+				<td class="weapon--name">${weapons[wpn].name}</td>
+				<td class="weapon--sub">${weapons[wpn].sub}</td>
+				<td class="weapon--special">${weapons[wpn].special}</td>
+			</tr>`;
+		}
+
+		document.querySelector("#weapontable tbody").innerHTML = txt;
+	}
+
+	function getWeaponCounts() {
+		counts = {"-1": 0, "0": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "total": 0};
+		document.querySelectorAll("tbody tr").forEach(tr => {
+			counts[tr.getAttribute("data-freshness")] += 1;
+			counts.total += 1;
+		});
+		for (let s in counts) {
+			if (s !== "total") {
+				document.querySelectorAll(`.starfilter[data-star='${s}'] .count, .massupdate-from[data-star='${s}'] .count`).forEach(ele => ele.innerText = counts[s]);
+			}
+		}
+		return counts;
+	}
+	function updateWeaponCounts(increase, decrease) {
+		if (increase === undefined || decrease === undefined) return console.warn(`need to increase AND decrease a count -> [${increase}]++ / [${decrease}]--`);
+
+		counts[increase] += 1;
+		document.querySelectorAll(`.starfilter[data-star='${increase}'] .count, .massupdate-from[data-star='${increase}'] .count`).forEach(ele => ele.innerText = counts[increase]);
+		counts[decrease] -= 1;
+		document.querySelectorAll(`.starfilter[data-star='${decrease}'] .count, .massupdate-from[data-star='${decrease}'] .count`).forEach(ele => ele.innerText = counts[decrease]);
+	}
+
+	function updateFreshness(wpnId, freshness, oldFreshness) {
+		if (wpnId === undefined || freshness === undefined) return console.warn(`Didn't supply enough arguments - wpnId: ${wpnId} / freshness: ${freshness}`);
+
+		document.querySelector(`tr[data-id='${wpnId}']`).setAttribute("data-freshness", freshness);
+		freshnessLevels[weapons[wpnId].name] = freshness;
+
+		updateWeaponCounts(freshness, oldFreshness);
+		
+		localStorage.splatoon3_freshness_levels = JSON.stringify(freshnessLevels);
+	}
+
+	function getUnfilteredWeaponIds() {
+		const filters = getFilters();
+		const wpns = [];
+		document.querySelectorAll("tbody tr").forEach(tr => {
+			if (filters[tr.getAttribute("data-freshness")] === true) {
+				wpns.push(Number(tr.getAttribute("data-id")));
+			}
+		});
+		return wpns;
+	}
+
+	function getRandomWeapons(amount = 1) {
+		const remaininglist = getUnfilteredWeaponIds();
+		const chosen = [];
+		
+		for (let i = 0; i < amount; i++) {
+			if (remaininglist.length <= 0) { break; }
+			const RNG = randMinMax(0, remaininglist.length-1);
+
+			chosen.push(remaininglist.splice(RNG, 1)[0]);
+		}
+		return chosen;
+	}
+
+	function weaponBox(wpnId) {
+		const wpn = weapons[wpnId];
+		return `<div class='weapon' data-id='${wpnId}'><span class='weaponpic ${wpn.pic}'></span><span class='weaponname'>${wpn.name}</span><span class='subpic ${wpn.sub.toLowerCase().replaceAll(" ", "-")}'></span><span class='weaponsub'>${wpn.sub}</span><span class='specialpic ${wpn.special.toLowerCase().replaceAll(/[ \.]/g, "-")}'></span><span class='weaponspecial'>${wpn.special}</span></div>`;
+	}
+
+	function heightHandler() {
+		const windowHeight = window.innerHeight;
+		const beSticky = windowHeight > (heights["filters-wrapper"] + 250); //give 250px of room for the table (a bit over 5 rows), if not enough space, the headers shouldn't be sticky
+		const hideScrollDown = windowHeight > (heights["page-container"] - document.querySelector(".header").getBoundingClientRect().height);
+		const hideScrollTop = 1.3 * windowHeight > heights["page-container"];
+		
+		document.documentElement.style.setProperty("--thead-top", heights["filters-wrapper"] + "px");
+		document.body.classList.toggle("sticky", beSticky);
+		document.querySelector(".scroll-down").classList.toggle("hidden", hideScrollDown);
+		document.querySelector(".scroll-top-wrapper").classList.toggle("hidden", hideScrollTop);
+		
+	}
+	
+	document.addEventListener("DOMContentLoaded", function() {
+		if (localStorage.splatoon3_freshness_levels !== undefined) {
+			freshnessLevels = JSON.parse(localStorage.splatoon3_freshness_levels);
+		}
+
+		makeWeaponTable(freshnessLevels);
+		loadFilters();
+		getWeaponCounts();
+		
+		const resizeObserver = new ResizeObserver(entries => {
+			for (let entry of entries) {
+				heights[entry.target.id] = entry.borderBoxSize[0].blockSize;
+			}
+			heightHandler();
+		});
+		resizeObserver.observe(document.getElementById("filters-wrapper"));
+		resizeObserver.observe(document.getElementById("page-container"));
+		window.addEventListener("resize", function (evt) {
+			heightHandler();
+		})
+
+		document.getElementById("filters").addEventListener("click", function(evt) {
+			const target = evt.target.closest(".starfilter");
+			if (!target) return;
+
+			const star = Number(target.getAttribute("data-star"));
+			target.classList.toggle("selected");
+
+			const table = document.getElementById("weapontable");
+			table.classList.toggle(`hide${star}`, !target.classList.contains("selected"));
+
+			saveFilters();
+		});
+
+		document.getElementById("btn-random").addEventListener("click", function(evt) {
+			const wpns = getRandomWeapons(document.getElementById("nr-random-amount").value);
+			let wpnBoxes = "";
+
+			document.querySelectorAll(`tr.randomweaponhighlight`).forEach(ele => ele.classList.remove("randomweaponhighlight"));
+
+			for (let wpnId of wpns) {
+				wpnBoxes += weaponBox(wpnId);
+				document.querySelector(`tr[data-id='${wpnId}']`).classList.add("randomweaponhighlight");
+			}
+			
+			document.getElementById("randomweapons").innerHTML = wpnBoxes;
+		});
+		document.querySelectorAll("input[type='number'][min][max]").forEach(ele => ele.addEventListener("change", function () {
+			const min = Number(this.getAttribute("min"));
+			const max = Number(this.getAttribute("max"));
+			const val = Number(this.value);
+
+			if (val < min) {
+				this.value = min;
+			} else if (val > max) {
+				this.value = max;
+			}
+		}));
+
+		document.getElementById("randomweapons").addEventListener("click", function(evt) {
+			const wpnBox = evt.composedPath().find(ele => ele.classList?.contains("weapon"));
+			if (!wpnBox) return;
+			
+			document.querySelector(`tr[data-id='${wpnBox.getAttribute("data-id")}']`).classList.remove("randomweaponhighlight");
+			wpnBox.remove();
+		});
+
+		document.querySelector("#weapontable tbody").addEventListener("click", function(evt) {
+			const row = evt.composedPath().find(ele => ele.tagName === "TR");
+			if (!row) return;
+
+			const wpnId = Number(row.getAttribute("data-id"));
+			const prevFreshness = row.getAttribute("data-freshness");
+			if (evt.target.classList.contains("star")) {
+				const star = Number(evt.target.getAttribute("data-star"));
+				updateFreshness(wpnId, star, prevFreshness);
+			}
+			else if (evt.target.classList.contains("weapon--owned")) {
+				if (Number(row.getAttribute("data-freshness")) < 0) updateFreshness(wpnId, 0, prevFreshness);
+				else updateFreshness(wpnId, -1, prevFreshness);
+			}
+		});
+		document.getElementById("open-modal-massupdate").addEventListener("click", function(evt) {
+			document.getElementById("modal-massupdate").showModal();
+		});
+		document.getElementById("modal-massupdate").addEventListener("click", function(evt) {
+			const massFrom = evt.target.closest(".massupdate-from");
+
+			if (massFrom) {
+				document.querySelector(".massupdate-from.selected")?.classList.remove("selected");
+				massFrom.classList.add("selected");
+			}
+			else if (evt.target.classList.contains("massupdate-to")) {
+				document.querySelector(".massupdate-to.selected")?.classList.remove("selected");
+				evt.target.classList.add("selected");
+			}
+			else if (evt.target.classList.contains("close-modal")) {
+				document.getElementById("modal-massupdate").close();
+			}
+			else if (evt.target.classList.contains("massupdate-error")) {
+				evt.target.innerText = "";
+			}
+		});
+		document.getElementById("btn-massupdate").addEventListener("click", function(evt) {
+			const massFrom = document.querySelector(".massupdate-from.selected")?.getAttribute("data-star");
+			const massTo = document.querySelector(".massupdate-to.selected")?.getAttribute("data-star");
+			if (massFrom === undefined || massTo === undefined) {
+				document.querySelector(".massupdate-error").innerText = "Please select a value in both rows.";
+				return;
+			}
+
+			document.querySelector(".massupdate-error").innerText = "";
+			document.querySelectorAll(`tr[data-freshness='${massFrom}']`).forEach(tr => {
+				updateFreshness(tr.getAttribute("data-id"), massTo, massFrom);
+			});
+		});
+		document.querySelector(".scroll-down").addEventListener("click", function(evt) {
+			document.documentElement.scrollTop = document.querySelector("#filters-wrapper").getBoundingClientRect().top;
+		});
+		document.querySelector(".scroll-top").addEventListener("click", function(evt) {
+			document.documentElement.scrollTop = 0;
+		});
+	});
+</script>
+
+<link rel="stylesheet" type="text/css" href="../res/style/weaponpics.css"/>
+
+<style>
+	:root {
+	    --page-bg: #555;
+		--thead-top: 102.25px;
+		
+	    font-size: 0.88em;
+	}
+	body {
+	    margin: 0;
+	    padding: 0;
+
+	    background-color: var(--page-bg);
+	    color: #fff;
+	    font-family: Arial, Helvetica, sans-serif;
+	}
+	a {
+	    color: #fff;
+	}
+	.hidden {
+		display: none;
+	}
+
+
+	#open-modal-massupdate {
+		color: hsl(60, 100%, 69%);
+		text-decoration: underline;
+		cursor: pointer;
+	}
+	#modal-massupdate {
+		text-align: center;
+		color: #fff;
+		background-color: #555;
+	}
+	#modal-massupdate::backdrop {
+		background-color: rgb(0 0 0 / 0.7);
+	}
+	.close-modal {
+		position: absolute;
+		top: 0;
+		right: 0;
+		margin: 0.2em;
+		padding: 0.2em;
+		font-size: 1.2em;
+		font-weight: bold;
+		cursor: pointer;
+	}
+	.massupdate-wrapper {
+		display: flex;
+		gap: 0.5em;
+		margin-block: 0.5em;
+	}
+	.massupdate-from, .massupdate-to {
+		padding: 0.5em 0.75em;
+		border-radius: 1em;
+		background-color: #888;
+		color: white;
+		cursor: pointer;
+	}
+	.massupdate-from:hover, .massupdate-to:hover {
+		background-color: #aaa;
+		color: black;
+	}
+	.massupdate-from.selected, .massupdate-to.selected {
+		background-color: hsl(49, 100%, 70%);
+		color: black;
+	}
+	.massupdate-from.selected:hover, .massupdate-to.selected:hover {
+		background-color: hsl(49, 100%, 85%);
+	}
+	.massupdate-error:not(:empty) {
+		margin-top: 0.5em;
+		padding: 0.5em;
+		background-color: hsl(350, 100%, 75%);
+		color: black;
+	}
+	.massupdate-error:hover {
+		opacity: 0.7;
+		cursor: pointer;
+	}
+
+	#page-container {
+		position: relative;
+	}
+	.scrollbutton {
+		width: 1em;
+		aspect-ratio: 1 / 1;
+		padding: 0.5em;
+		border-radius: 50%;
+
+		background-color: #888;
+		text-align: center;
+	}
+	.scrollbutton:hover {
+		background-color: #aaa;
+		color: black;
+		cursor: pointer;
+	}
+
+	.header {
+		padding-top: 0.5em;
+		text-align: center;
+		
+		display: grid;
+		grid-template-columns: 1fr max-content 1fr;
+		column-gap: 2em;
+		align-items: center;
+	}
+	.header > * {
+		grid-column: 2;
+	}
+	.otherversionlink {
+		font-size: 1.3em;
+    	font-weight: bold;
+	}
+
+	.scroll-down {
+		grid-column: 3;
+		grid-row: 1 / span 2;
+	}
+	.scroll-top-wrapper {
+		--min-scroll-before-showing: 120vh;
+		--spacing-around: 0.5em;
+		font-size: 2em;
+		position: absolute;
+		z-index: 1000;
+		top: 0;
+		right: var(--spacing-around);
+		margin-top: var(--min-scroll-before-showing);
+		height: calc(100% - 2em - var(--spacing-around) - var(--min-scroll-before-showing));
+	}
+	@media (max-width: 899px) {
+		.scroll-top-wrapper {
+			height: calc(100% + 2*var(--spacing-around) - var(--min-scroll-before-showing));
+		}
+	}
+	.scroll-top-wrapper::before {
+		content: "";
+		display: block;
+		height: 100%;
+	}
+	.scroll-top {
+		position: sticky;
+		bottom: var(--spacing-around);
+	}
+	
+	.sticky #filters-wrapper {
+		background-color: var(--page-bg);
+		position: sticky;
+    	top: 0;
+		z-index: 100;
+	}
+	#filters-wrapper {
+		padding-bottom: 0.5em;
+
+		display: grid;
+		justify-items: center;
+	}
+	#filters {
+		margin-block: 0.5em;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 1em;
+	}
+	.starfilter {
+		position: relative;
+		padding: 1em 1.5em;
+		border-radius: 1em;
+		background-color: hsl(00, 100%, 40%);
+		text-align: center;
+		cursor: pointer;
+	}
+	.starfilter:hover {
+		background-color: hsl(0, 100%, 60%);
+		color: black;
+	}
+	.starfilter.selected {
+		background-color: hsl(120, 100%, 35%);
+		color: black;
+	}
+	.starfilter.selected:hover {
+		background-color: hsl(120, 100%, 45%);
+	}
+	.count {
+		font-size: 0.8em;
+	}
+	.count::before {
+		content: "(";
+	}
+	.count::after {
+		content: ")";
+	}
+	#nr-random-amount {
+		max-width: 6ch;
+	}
+	#randomweapons {
+		max-height: 240px;
+		overflow-y: auto;
+	}
+	.weapon {
+		--weaponname-width: 320px;
+		--pic-bg: #aaa;
+
+		padding: 4px;
+		margin-top: 0.5em;
+
+		border-radius: 10px;
+		background-color: #777;
+
+		display: grid;
+		grid-template-areas:
+			"wpn_pic wpn_name sub_pic sub_name"
+			"wpn_pic wpn_name spc_pic spc_name";
+		grid-template-columns: max-content var(--weaponname-width) max-content 95px;
+		justify-content: center;
+		align-items: center;
+	}
+	.weapon:hover {
+		opacity: 0.5;
+		cursor: pointer;
+	}
+	.weaponpic {
+		grid-area: wpn_pic;
+
+		margin-right: 5px;
+		border-radius: 10px;
+		background-color: var(--pic-bg);
+	}
+	.weaponname {
+		grid-area: wpn_name;
+
+		font-size: 1.8em;
+		text-align: center;
+	}
+	.subpic {
+		grid-area: sub_pic;
+
+		margin: 0 5px;
+		border-radius: 5px;
+		background-color: var(--pic-bg);
+	}
+	.weaponsub {
+		grid-area: sub_name;
+	}
+	.specialpic {
+		grid-area: spc_pic;
+
+		margin: 0 5px;
+		border-radius: 5px;
+		background-color: var(--pic-bg);
+	}
+	.weaponspecial {
+		grid-area: spc_name;
+	}
+
+
+
+	table.hide-1 tr[data-freshness='-1'],
+	table.hide0 tr[data-freshness='0'],
+	table.hide1 tr[data-freshness='1'],
+	table.hide2 tr[data-freshness='2'],
+	table.hide3 tr[data-freshness='3'],
+	table.hide4 tr[data-freshness='4'],
+	table.hide5 tr[data-freshness='5'] {
+		display: none;
+	}
+
+	table, th, td {
+		border: 1px #ccc solid;
+	}
+	table {
+		margin-inline: auto;
+		border-collapse: separate;
+		border-spacing: 0;
+		border-top: 0;
+	}
+	.sticky thead {
+		position: sticky;
+		top: var(--thead-top);
+		z-index: 90;
+		
+		background-color: var(--page-bg);
+	}
+	th {
+		padding: 0.5em 0.8em;
+		border-top-width: 2px;
+	}
+	td {
+		padding-inline: 0.8em;
+	}
+	
+	.weapon--owned {
+		font-size: 2rem;
+		cursor: pointer;
+	}
+	.weapon--owned::before {
+		content: "✓";
+	}
+	tr[data-freshness='-1'] .weapon--owned::before {
+		content: "✗";
+	}
+	tr[data-freshness='-1'] {
+		opacity: 0.6;
+	}
+
+	.stars {
+		translate: 0 -2px;
+
+		display: grid;
+		grid-template-columns: repeat(6, 1fr);
+		align-items: baseline;
+	}
+	.star {
+		text-align: center;
+		font-size: 2rem;
+		cursor: pointer;
+	}
+	.star::before {
+		content: "☆";
+	}
+	.star[data-star='0']::before {
+		content: "x";
+		color: hsl(0, 100%, 60%);
+	}
+
+	tr:is([data-freshness='1'],[data-freshness='2'],[data-freshness='3'],[data-freshness='4'],[data-freshness='5']) .star[data-star='1']::before,
+	tr:is([data-freshness='2'],[data-freshness='3'],[data-freshness='4'],[data-freshness='5']) .star[data-star='2']::before,
+	tr:is([data-freshness='3'],[data-freshness='4'],[data-freshness='5']) .star[data-star='3']::before,
+	tr:is([data-freshness='4'],[data-freshness='5']) .star[data-star='4']::before,
+	tr[data-freshness='5'] .star[data-star='5']::before {
+		content: "★";
+	}
+
+	.randomweaponhighlight {
+		background-color: hsl(215, 80%, 20%);
+	}
+
+	tr :has(:hover) {
+		/*
+			oh nyo, empty rulesets are bad :( 
+			but :has() selectors only seem to work (Chrome 107) after the one that's listed first is triggered, so this is here to make the ones below all work without having to hover over any [data-star='0'] first
+		*/
+		/* color: inherit; */
+	}
+	tr:has(.weapon--owned:hover) {
+		background-color: hsl(0, 10%, 33%);
+	}
+	tr.randomweaponhighlight:has(.weapon--owned:hover) {
+		background-color: hsl(225, 24%, 27%);
+	}
+
+	tr :has(.star[data-star='0']:hover) .star,
+	tr:not([data-freshness='-1'], [data-freshness='0']):has(.weapon--owned:hover) .star {
+		color: hsl(0, 100%, 80%);
+	}
+	tr :has(.star[data-star='1']:hover) .star[data-star='1'],
+	tr :has(.star[data-star='2']:hover) .star:is([data-star='1'], [data-star='2']),
+	tr :has(.star[data-star='3']:hover) .star:is([data-star='1'], [data-star='2'], [data-star='3']),
+	tr :has(.star[data-star='4']:hover) .star:is([data-star='1'], [data-star='2'], [data-star='3'], [data-star='4']),
+	tr :has(.star[data-star='5']:hover) .star:is([data-star='1'], [data-star='2'], [data-star='3'], [data-star='4'], [data-star='5']) {
+		color: hsl(60, 100%, 60%);
+	}
+</style>
+</head>
+<body>
+	<dialog id="modal-massupdate">
+		<span class="close-modal">X</span>
+		Change all:
+		<div class="massupdate-wrapper">
+			<span class="massupdate-from" data-star="-1">Unowned<br><span class="count"></span></span>
+			<span class="massupdate-from" data-star="0">0 stars<br><span class="count"></span></span>
+			<span class="massupdate-from" data-star="1">1 star<br><span class="count"></span></span>
+			<span class="massupdate-from" data-star="2">2 stars<br><span class="count"></span></span>
+			<span class="massupdate-from" data-star="3">3 stars<br><span class="count"></span></span>
+			<span class="massupdate-from" data-star="4">4 stars<br><span class="count"></span></span>
+			<span class="massupdate-from" data-star="5">5 stars<br><span class="count"></span></span>
+		</div>
+		to:
+		<div class="massupdate-wrapper">
+			<span class="massupdate-to" data-star="-1">Unowned</span>
+			<span class="massupdate-to" data-star="0">0 stars</span>
+			<span class="massupdate-to" data-star="1">1 star</span>
+			<span class="massupdate-to" data-star="2">2 stars</span>
+			<span class="massupdate-to" data-star="3">3 stars</span>
+			<span class="massupdate-to" data-star="4">4 stars</span>
+			<span class="massupdate-to" data-star="5">5 stars</span>
+		</div>
+		<button id="btn-massupdate">Do it!</button>
+		<div class="massupdate-error"></div>
+	</dialog>
+
+	<div id="page-container">
+		<div class="header">
+			<div class="scrollbutton scroll-down">&#9660;</div>
+			<a class="otherversionlink" href="../../splatoon/">Splatoon Tools Hub</a>
+			<span id="open-modal-massupdate">mass update weapons</span>
+		</div>
+		<div id="filters-wrapper">
+			<div id="filters">
+				<span class="starfilter selected" data-star="-1">Unowned<br><span class="count"></span></span>
+				<span class="starfilter selected" data-star="0">0 stars<br><span class="count"></span></span>
+				<span class="starfilter selected" data-star="1">1 star<br><span class="count"></span></span>
+				<span class="starfilter selected" data-star="2">2 stars<br><span class="count"></span></span>
+				<span class="starfilter selected" data-star="3">3 stars<br><span class="count"></span></span>
+				<span class="starfilter selected" data-star="4">4 stars<br><span class="count"></span></span>
+				<span class="starfilter selected" data-star="5">5 stars<br><span class="count"></span></span>
+			</div>
+			<span><button id="btn-random">Random weapon</button> &times; <input type="number" id="nr-random-amount" value="1" min="1" max="999"></span>
+			<div id="randomweapons"></div>
+		</div>
+		<table id="weapontable">
+			<thead>
+				<tr>
+					<th>Owned</th>
+					<th>Freshness</th>
+					<th>Weapon</th>
+					<th>Sub</th>
+					<th>Special</th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+	
+		<div class="scroll-top-wrapper">
+			<div class="scrollbutton scroll-top">&#9650;</div>
+		</div>
+	</div>
+</body>
+</html>

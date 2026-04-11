@@ -1,0 +1,39 @@
+.stagepic {
+    --stagepic-width: 113px;
+    --stagepic-height: 64px;
+
+	display: inline-block;
+	overflow: hidden;
+
+	width: var(--stagepic-width);
+	height: var(--stagepic-height);
+
+	background: url('../img/stages113x64.png') no-repeat;
+	background-position: calc(-1 * var(--stagepic-width) * var(--col)) calc(-1 * var(--stagepic-height) * var(--row));
+}
+
+.eeltailalley { --row: 0; --col: 1; }
+.hagglefishmarket { --row: 0; --col: 2; }
+.hammerheadbridge { --row: 1; --col: 0; }
+.inkblotartacademy { --row: 1; --col: 1; }
+.mahimahiresort { --row: 1; --col: 2; }
+.makomart { --row: 2; --col: 0; }
+.mincemeatmetalworks { --row: 2; --col: 1; }
+.museumdalfonsino { --row: 2; --col: 2; }
+.scorchgorge { --row: 3; --col: 0; }
+.sturgeonshipyard { --row: 3; --col: 1; }
+.undertowspillway { --row: 3; --col: 2; }
+.wahooworld { --row: 4; --col: 0; }
+.brinewatersprings { --row: 4; --col: 1; }
+.flounderheights { --row: 4; --col: 2; }
+.mantamaria { --row: 5; --col: 0; }
+.umamiruins { --row: 5; --col: 1; }
+.barnacledime { --row: 5; --col: 2; }
+.humpbackpumptrack { --row: 6; --col: 0; }
+.crablegcapital { --row: 6; --col: 1; }
+.shipshapecargoco { --row: 6; --col: 2; }
+.roboromen { --row: 7; --col: 0; }
+.bluefindepot { --row: 7; --col: 1; }
+.marlinairport { --row: 7; --col: 2; }
+.lemuriahub { --row: 8; --col: 0; }
+.urchinunderpass { --row: 8; --col: 1; }

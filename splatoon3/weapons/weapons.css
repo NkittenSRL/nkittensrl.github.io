@@ -1,5 +1,5 @@
 :root {
-    --page-max-width: 700px;
+    --page-max-width: 680px;
     --page-bg: #555;
     --border-clr: #ccc;
     
@@ -93,8 +93,6 @@ a {
 	align-self: end;
 }
 
-#nr-mincost,
-#nr-maxcost,
 #nr-minlevel,
 #nr-maxlevel {
     text-align: right;
@@ -148,9 +146,9 @@ a {
 
     display: grid;
     grid-template-areas:
-        "wpn_pic wpn_name sub_pic sub_name level depletion"
-        "wpn_pic wpn_name spc_pic spc_name cost depletion";
-    grid-template-columns: max-content var(--weaponname-width) max-content 95px 105px 70px;
+        "wpn_pic wpn_name sub_pic sub_name level"
+        "wpn_pic wpn_name spc_pic spc_name depletion";
+    grid-template-columns: max-content var(--weaponname-width) max-content 95px 155px;
     justify-content: center;
     align-items: center;
 }
@@ -196,21 +194,10 @@ a {
 .levelcolor {
     color: #BAE301;
 }
-.cost {
-    grid-area: cost;
-
-    background: url('../res/img/coin.png') no-repeat;
-    background-size: 22px;
-    margin-left: 15px;
-    padding-top: 2px;
-    text-indent: 28px;
-    font-size: 1.2em;
-    font-weight: bold;
-}
 .DepletionContainer {
     grid-area: depletion;
 
-    text-align: center;
+	margin-left: 15px;
     font-weight: bold;
 }
 .depletionTxt {

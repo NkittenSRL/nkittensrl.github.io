@@ -3,14 +3,14 @@
 	--detailedweaponbox-min-width: 360px;
 	
 	/* when changing these colors, check if text is readable wherever you use these as backgrounds */
-	--alphateam-bg-light: hsl(346, 100%, 75%);
-	--alphateam-bg: hsl(346, 100%, 68%);
-	--alphateam-bg-dark: hsl(346, 100%, 55%);
+	--alphateam-bg-light: hsl(68, 100%, 75%);
+	--alphateam-bg: hsl(68, 100%, 58%);
+	--alphateam-bg-dark: hsl(68, 100%, 30%);
 	
-	--bravoteam-bg-light: hsl(146, 100%, 70%);
-	--bravoteam-bg: hsl(146, 100%, 45%);
-	--bravoteam-bg-dark: hsl(146, 100%, 30%);
-	
+	--bravoteam-bg-light: hsl(250, 100%, 70%);
+	--bravoteam-bg: hsl(250, 100%, 62%);
+	--bravoteam-bg-dark: hsl(250, 100%, 50%);
+
 	font-size: 0.88em;
 }
 body {
@@ -202,7 +202,7 @@ kbd {
 .detailed .weapon.bravo,
 .compact .weapon.bravo .weaponpic {
 	background-color: var(--bravoteam-bg);
-	color: black;
+	color: white;
 }
 
 .compact .weapon:where(.alpha, .bravo) .weaponpic {
@@ -314,7 +314,7 @@ kbd {
 }
 #bravoteam.active {
 	border-color: var(--bravoteam-bg-dark);
-	color: black;
+	color: white;
 	background-color: var(--bravoteam-bg);
 }
 #alphateam:hover {
