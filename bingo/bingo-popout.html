@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+<head>
+	<title>Bingo Popout</title>
+	<style type="text/css">
+		html, body {
+			background: #000;
+			color: #fff;
+			height: 100%;
+			margin: 0;
+			padding: 0;
+			text-align: center;
+			font-weight: bold;
+			font-family: Helvetica,Arial,sans-serif;
+			font-size: 19px;
+			-webkit-user-select: none;
+			-khtml-user-select: none;
+			-moz-user-select: none;
+			-o-user-select: none;
+			user-select: none;
+		}
+		table {
+			width: 100%;
+			height: 100%;
+			border-collapse: collapse;
+		}
+		th {
+			height: 20px;
+			background: #1448b3;
+			box-shadow: inset 0px 0px 50px rgba(0,0,0,.6);
+		}
+		td {
+			padding: 0 10px;
+			height: 19%;
+			border-top: 2px #666 solid;
+			box-shadow: inset 0px 0px 50px rgba(0,0,0,.6);
+		}
+		td:hover {
+			background: #012;
+			cursor: pointer;
+		}
+		.greensquare { background:#051; }
+		.greensquare:hover { background:#072; }
+		.redsquare { background:#501; }
+		.redsquare:hover { background:#702; }
+	</style>
+</head>
+<body>
+	<table>
+	<tbody>
+    <th></th>
+	</tbody>
+	</table>
+	
+	<script type="text/javascript">
+	document.addEventListener("DOMContentLoaded", function() {
+		var data = document.location.hash.substring(1).split("=");
+		var line = data[0];
+		var items = decodeURIComponent(data[1]).split(";;;");
+		document.querySelector("table th").innerHTML = line;
+		for (a in items) {
+			document.querySelector("table tbody").insertAdjacentHTML("beforeEnd", "<tr><td>" + items[a] + "</td></tr>");
+		}
+		document.querySelectorAll("td").forEach(td => td.addEventListener("click", function() {
+			if (this.classList.contains("greensquare")) {
+				this.classList.remove("greensquare");
+				this.classList.add("redsquare");
+			} else if (this.classList.contains("redsquare")) {
+				this.classList.remove("redsquare");
+			} else {
+				this.classList.add("greensquare");
+			}
+		}));
+	});
+	</script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+	<!-- Title -->
+	<title>BLUE COIN BINGO</title>
+	
+	<!-- Meta -->
+	<meta name="description" content="Generates 'Bingo' boards for Super Mario Sunshine">
+	<meta name="keywords" content="sms bingo, mario sunshine bingo">
+	
+	<!-- Style -->
+	<link rel="stylesheet" type="text/css" href="../../../res/style/bingopage.css"/>
+	
+	<!-- Scripts -->
+	<!-- get seed random, the bingo script, and this game's item list -->
+	<script src="../../../res/script/seedrandom-min.js" type="text/javascript"></script>
+	<script src="../../../res/script/bingo-v5vanilla.js" type="text/javascript"></script> <!-- previously v5pick -->
+	<script src="sms-bingo-bluecoin.js" type="text/javascript"></script>
+</head>
+
+<body>
+	<div id="wrap"><div id="main">
+	<div class="container">
+	<div id="bingoPage">
+		<div id="about_bingo">
+			<h1>Super Mario Sunshine Bingo</h1>
+			
+			<a class="newcard" href="javascript:BlueCard();">New card</a>
+			<a class="newcard" href="javascript:BlueCard('short');">Blue-less card</a>
+			<a class="newcard" href="javascript:BlueCard('long');">Bluer card</a>
+			<div style="clear:both"></div>
+			
+			<h2>About</h2>
+			<p>This is a "Bingo" board for Super Mario Sunshine races.</p>
+			<p>To win, you must collect a lot of blue coins...</p>
+			<p>The seed number is used to generate the board. Changing the seed will make a new board.</p>
+			<p>You can click on the squares to turn them blue and blue. This may help you organize your route planning.</p>
+			<p>Basic Rules:</p>
+			<ul>
+				<li>Start from a new file on GO!</li>
+				<li>You are done when you finish the 5th objective in a line. <strong>You do not have to defeat Blueser.</strong></li>
+			</ul>
+			<p>Restrictions:</p>
+			<ul class="rule_restrictions big">
+				<li>Gelato Bluech skip is <span style="color: hsl(266, 100%, 67%)">NOT</span> allowed!</li>
+			</ul>
+			
+			<p><strong>STAGES</strong><br/>
+				- Bluanco Hills<br/>
+				- Ricco Harblue - Requires: 3 Shines<br/>
+				- Gelato Bluech - Req: 5 Shines<br/>
+				- Bluenna Park - Req: 10 Shines, open Ricco and Gelato<br/>
+				- Sapphire Beach<br/>
+				- Noki Bluey - Req: 20 Shines, open Pinna<br/>
+				- Pianta Bluellage
+			</p>
+			
+			<p><span class="note">SRL Bingo v5 by Narcissa.<br />Blue coins by Nkitten.</span></p>
+		</div>
+		<div id="results">
+			<table id="bingo">
+			<tbody><tr>
+			<td class="popout" id="tlbr">TL-BR</td>
+			<td class="popout" id="col1">COL1</td>
+			<td class="popout" id="col2">COL2</td>
+			<td class="popout" id="col3">COL3</td>
+			<td class="popout" id="col4">COL4</td>
+			<td class="popout" id="col5">COL5</td>
+			</tr><tr>
+			<td class="popout" id="row1">ROW1</td>
+			<td class="row1 col1 tlbr" id="slot1"></td> 
+			<td class="row1 col2" id="slot2"></td> 
+			<td class="row1 col3" id="slot3"></td> 
+			<td class="row1 col4" id="slot4"></td> 
+			<td class="row1 col5 bltr" id="slot5"></td> 
+			</tr><tr> 
+			<td class="popout" id="row2">ROW2</td>
+			<td class="row2 col1" id="slot6"></td> 
+			<td class="row2 col2 tlbr" id="slot7"></td> 
+			<td class="row2 col3" id="slot8"></td> 
+			<td class="row2 col4 bltr" id="slot9"></td> 
+			<td class="row2 col5" id="slot10"></td> 
+			</tr><tr> 
+			<td class="popout" id="row3">ROW3</td>
+			<td class="row3 col1" id="slot11"></td> 
+			<td class="row3 col2" id="slot12"></td> 
+			<td class="row3 col3 tlbr bltr" id="slot13"></td> 
+			<td class="row3 col4" id="slot14"></td> 
+			<td class="row3 col5" id="slot15"></td> 
+			</tr><tr> 
+			<td class="popout" id="row4">ROW4</td>
+			<td class="row4 col1" id="slot16"></td> 
+			<td class="row4 col2 bltr" id="slot17"></td> 
+			<td class="row4 col3" id="slot18"></td> 
+			<td class="row4 col4 tlbr" id="slot19"></td> 
+			<td class="row4 col5" id="slot20"></td> 
+			</tr><tr> 
+			<td class="popout" id="row5">ROW5</td>
+			<td class="row5 col1 bltr" id="slot21"></td> 
+			<td class="row5 col2" id="slot22"></td> 
+			<td class="row5 col3" id="slot23"></td> 
+			<td class="row5 col4" id="slot24"></td> 
+			<td class="row5 col5 tlbr" id="slot25"></td> 
+			</tr><tr>
+			<td class="popout" id="bltr">BL-TR</td></tr>
+			</tbody></table>
+		</div>
+	</div>
+	</div>
+	</div></div>
+	
+	<style>
+		h1 {
+			color: hsl(202, 69%, 61%);
+		}
+		strong {
+			color: hsl(230 88.73% 72.16%);
+		}
+		.rule_restrictions {
+			color: hsl(216 100% 60%);
+			font-weight: bold;
+		}
+		#bingoPage #bingo tr td.greensquare {
+			background: hsl(202, 100%, 17%);
+		}
+		#bingoPage #bingo tr td.greensquare:hover,
+		#bingoPage #bingo tr td.greensquare.hover {
+			background: hsl(207, 100%, 23%);
+		}
+		#bingoPage #bingo tr td.redsquare {
+			background: hsl(228, 100%, 17%);
+		}
+		#bingoPage #bingo tr td.redsquare:hover,
+		#bingoPage #bingo tr td.redsquare.hover {
+			background: hsl(223, 100%, 23%);
+		}
+	</style>
+</body></html>

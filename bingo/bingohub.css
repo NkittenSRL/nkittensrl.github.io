@@ -1,0 +1,30 @@
+#pageContainer {
+	display: grid;
+	grid-template-columns: repeat(2, 500px);
+	justify-content: center;
+	column-gap: 50px;
+}
+
+a.bingoVersion {
+	display: block;
+	padding: 5px;
+	margin-bottom: 10px;
+	
+	border-radius: 5px;
+	
+	background-color: #333;
+	color: white;
+	text-decoration: none;
+}
+
+.bingoURL {
+	text-decoration: underline;
+}
+
+/*a.bingoVersion.beta {
+	background-color: #3D2828;
+}*/
+
+a.bingoVersion.latest {
+	background-color: #282F3D;
+}

@@ -1,0 +1,85 @@
+#bingoWrapper {
+	overflow: auto;
+}
+#bingoBoard {
+	--border-color: black;
+	
+	--cell_front_text: #000;
+	--cell_front_bg: #aaa;
+	--cell_back_text: #ccc;
+	--cell_back_bg: #333;
+	
+	margin-inline: auto;
+	width: min-content;
+	border: 2px solid var(--border-color);
+	background-color: var(--border-color); /* fake border using gap and a different background on the .cell-wrapper */
+	display: grid;
+	gap: 2px;
+	grid-template-columns: repeat(var(--cols), min-content);
+	/* perspective: 600px; */
+}
+.cell-wrapper {
+	width: 95px;
+	height: 90px;
+	background: var(--page-bg);
+	/* perspective: 600px; */
+}
+.cell {
+	cursor: pointer;
+	position: relative;
+	width: 100%;
+	height: 100%;
+	
+	transition: transform 2s;
+	transform-style: preserve-3d;
+}
+.cell > * {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	
+	display: grid;
+	place-content: center;
+}
+.cell_front {
+	color: var(--cell_front_text);
+	background-color: var(--cell_front_bg);
+}
+.cell_back {
+	color: var(--cell_back_text);
+	background-color: var(--cell_back_bg);
+	transform: rotateY(180deg) translateZ(0.1px);
+}
+
+.cell[data-shownside="back"] {
+	transform: rotateY(180deg);
+}
+/* by default .cell_back is translated 0.1px so it doesn't overlap .card_front (it's rotated 180deg, so this actually translates it BACKWARDS),
+THEN when it gets flipped, undo that translation and instead translate .card_front 0.1px forward
+(translating them causes annoying overlaps with the board's borders, this way their resting positions aren't translated, so you can see the full borders) */
+.cell[data-shownside="back"] .cell_front {
+	transform: translateZ(0.1px);
+}
+.cell[data-shownside="back"] .cell_back {
+	transform: rotateY(180deg) translateZ(0px);
+}
+
+
+#settings {
+	margin-inline: auto;
+	display: grid;
+	grid-template-columns: repeat(2, min-content);
+    width: min-content;
+}
+#settings > :first-child {
+	margin-block: 0.5rem;
+	grid-column: 1 / -1;
+	justify-self: center;
+	text-align: center;
+}
+#nr-board-cols, #nr-board-rows {
+	width: 4ch;
+}
+fieldset {
+	text-align: center;
+}

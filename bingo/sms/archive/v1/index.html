@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Super Mario Sunshine Bingo</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+	<!-- Main stylesheet -->
+	<link rel="stylesheet" href="srlstyle.css" type="text/css">
+	<!-- Bingo scripts -->
+	<script src="../../../res/script/seedrandom-min.js" type="text/javascript"></script>
+	<script src="../../../res/script/bingo-v4vanilla.js" type="text/javascript"></script>
+	<script src="sms-bingo.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="wrapper">
+	<div id="about_bingo">
+		<h2>Generate a new card</h2>
+		<p><span class="note2">Please note that if you got linked to this page as your goal, you are not allowed to use a different card.</span></p>
+		<p style="margin-top: 20px;" id="sortButtons">
+			<a class="sortButton" href="javascript:srl.NewCard();">New card</a>
+			<a class="sortButton" href="javascript:srl.NewCard('short');">Short card</a>
+			<a class="sortButton" href="javascript:srl.NewCard('long');">Long card</a>
+		</p>
+		
+		<h2 style="margin-top: 10px; padding-top: 0px">About SMS Bingo</h2>
+		<p>This is a "Bingo" board for Super Mario Sunshine races.</p>
+		<p>To win, you must complete 5 of the tasks in a row horizontally, vertically, or diagonally.</p>
+		<p>The seed number is used to generate the board. Changing the seed will make a new board.</p>
+		<p>You can click on the squares to turn them green and red. This may help you organize your route planning.</p>
+		<p>Rules for SMS Bingo:</p>
+		<p>Basic Rules:</p>
+		<ol>
+			<li>Start from a new file on GO!</li>
+			<li>You are done when you finish the 5th objective. <strong>You do not have to defeat bowser.</strong></li>
+		</ol>
+		<p>Individual Item Rules:</p>
+		<ol>
+			<li>X Lives - Your number of lives must be at least X when the game is over.</li>
+			<li>Defeat X Bosses - Some bosses (Petey Piranha and Gooper Blooper) have rematches, if the item requires <strong>unique</strong> bosses, these rematches don't count. (but the first fight counts!) If you skip the boss and just collect the shine, it doesn't count (Noki2).</li>
+			<li>X Red Coin Shines - It doesn't matter if they are on a timer (appear after ground pounding a red button) or not.</li>
+			<li>X Secret Levels - These are the episodes with "secret" in the name, where FLUDD gets taken away after reaching the secret area (doesn't include The Goopy Inferno). If you collect the red coins after 1st completion, it won't count twice towards this goal.</li>
+			<li>Stages/Levels - <strong>Stage</strong> refers to Bianco, Ricco, Gelato, Pinna, Sirena, Noki or Pianta, <strong>Level</strong> refers to a specific episode or shine, so 1 shine from each stage means the 7 main stages, not Delfino Plaza.</li>
+			<li>Defeat Shadow Mario in X Stages - Complete episode 7 of X stages, Delfino Plaza doesn't count (see previous rule).</li>
+			<li>Collect X Blue Coins - You are allowed to trade blue coins for shines, be sure to remember how many you spent!</li>
+			<li>X Blue Coins from Graffiti - If the goal states X blue coins from <strong>any</strong> graffiti, it can be from M, X, circle and triangle graffiti, otherwise all blue coins have to be from the single type specified.</li>
+			<li>Extinguish X people on fire - You don't have to talk to them afterwards, but they might give you something useful.</li>
+			<li>Ricco6 using Pink Blooper - Collect all 8 red coins while on the pink blooper and collect the shine, if you jump on a different blooper after collecting the 8 red coins, you may still collect the shine.</li>
+		</ol>
+
+		<p><strong>BOSSES</strong><br/>
+			- Petey Piranha (Bianco2, Bianco5)<br/>
+			- Gooper Blooper (Ricco1, Ricco5, Noki2)<br/>
+			- Wiggler (Gelato3)<br/>
+			- Mecha-Bowser (Pinna1)<br/>
+			- Phantamanta (Sirena1)<br/>
+			- King Boo (Sirena5)<br/>
+			- Eely-Mouth (Noki4)<br/>
+			- Bowser (Corona Mountain)
+		</p>
+
+		<p><strong>STAGES</strong><br/>
+			- Bianco Hills<br/>
+			- Ricco Harbor - Requires: 3 Shines<br/>
+			- Gelato Beach - Req: 5 Shines<br/>
+			- Pinna Park - Req: 10 Shines, open Ricco and Gelato<br/>
+			- Sirena Beach<br/>
+			- Noki Bay - Req: 20 Shines, open Pinna<br/>
+			- Pianta Village
+		</p>
+
+		<p><span class="note2">SMS bingo by Nkitten. SRL Bingo v4 by Narcissa.</span></p>
+	</div>
+	<div id="results">
+		<table id="bingo" cellspacing="4" cellpadding="7"><tr>
+		<td id="slot1"></td> 
+		<td id="slot2"></td> 
+		<td id="slot3"></td> 
+		<td id="slot4"></td> 
+		<td id="slot5"></td> 
+		</tr><tr> 
+		<td id="slot6"></td> 
+		<td id="slot7"></td> 
+		<td id="slot8"></td> 
+		<td id="slot9"></td> 
+		<td id="slot10"></td> 
+		</tr><tr> 
+		<td id="slot11"></td> 
+		<td id="slot12"></td> 
+		<td id="slot13"></td> 
+		<td id="slot14"></td> 
+		<td id="slot15"></td> 
+		</tr><tr> 
+		<td id="slot16"></td> 
+		<td id="slot17"></td> 
+		<td id="slot18"></td> 
+		<td id="slot19"></td> 
+		<td id="slot20"></td> 
+		</tr><tr> 
+		<td id="slot21"></td> 
+		<td id="slot22"></td> 
+		<td id="slot23"></td> 
+		<td id="slot24"></td> 
+		<td id="slot25"></td> 
+		</tr></table>
+    </div>
+    </div>
+</body>
+</html>

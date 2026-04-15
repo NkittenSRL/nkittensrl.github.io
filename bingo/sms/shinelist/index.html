@@ -1,0 +1,199 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Shine list for SMS Bingo</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		
+		<style type="text/css">
+			body {
+				margin: 0;
+				
+				background-color: #222222;
+				color: #DDDDDD;
+				font-family: Helvetica, Arial, sans-serif;
+				font-size: 0.88em;
+				line-height: 18px;
+			}
+			
+			#container {
+				min-width: 339px;
+				max-width: 850px;
+				margin: 0 auto;
+				padding: 0 0 16px 16px;
+			}
+			
+			p {
+				margin: 0;
+				padding: 10px;
+			}
+			
+			table {
+				border-collapse: collapse;
+				text-align: center;
+			}
+			
+			#tableShines table, #tableShines td, #tableShines th {
+				border: 3px solid #333333;
+				padding-inline: 5px;
+			}
+			
+			tr { background-color: #444444; }
+			thead tr {
+				background-color: #008B8B;
+				cursor: pointer;
+			}
+			tr[data-highlight="redcoins"] { background-color:#990000; }
+			tr[data-highlight="secretshine"] { background-color:#009900; }
+			tr[data-highlight="hiddenshine"] { background-color:#A37A00; }
+			tr[data-highlight="bossshine"] { background-color:#000099; }
+		</style>
+		
+		<script type="text/javascript">
+			document.addEventListener("DOMContentLoaded", function() {
+				const thead = document.querySelector("#tableShines thead");
+				const tbody = document.querySelector("#tableShines tbody");
+				
+				thead.querySelectorAll("th").forEach(th => th.addEventListener("click", function() {
+					const highlight = th.getAttribute("data-highlight");
+					
+					tbody.querySelectorAll("tr").forEach(row => {
+						row.removeAttribute("data-highlight");
+						if (highlight === "clear") return;
+						
+						const cell = row.querySelector("td."+highlight);
+						if (cell !== null && cell.innerHTML !== "") {
+							row.setAttribute("data-highlight", highlight);
+						}
+					});
+				}));
+			});
+		</script>
+	</head>
+
+	<body>
+	<div id="container">
+	<p>
+		Click the header of any of the last 4 columns to highlight the shines that meet that requirement.<br />
+		Clicking the header of one of the first 3 columns will clear the selection.
+	</p>
+	<table id="tableShines">
+		<thead>
+			<tr>
+				<th data-highlight="clear">Location</th>
+				<th data-highlight="clear">Episode</th>
+				<th data-highlight="clear">Shine</th>
+				<th data-highlight="redcoins">Red Coins</th>
+				<th data-highlight="secretshine">Secret</th>
+				<th data-highlight="hiddenshine">Hidden</th>
+				<th data-highlight="bossshine">Boss</th></tr>
+		</thead>
+		<tbody>
+			<tr><td class="shinelocation">Bianco Hills</td><td class="shineepisode">Ep 1</td><td class="shinename">Road to the Big Windmill</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Bianco Hills</td><td class="shineepisode">Ep 2</td><td class="shinename">Down with Petey Piranha!</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine">Petey Piranha</td></tr>
+			<tr><td class="shinelocation">Bianco Hills</td><td class="shineepisode">Ep 3</td><td class="shinename">The Hillside Cave Secret</td><td class="redcoins"></td><td class="secretshine">Yes</td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Bianco Hills</td><td class="shineepisode">Ep 4</td><td class="shinename">Red Coins of Windmill Village</td><td class="redcoins">Yes</td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Bianco Hills</td><td class="shineepisode">Ep 5</td><td class="shinename">Petey Piranha Strikes Back</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine">Petey Piranha</td></tr>
+			<tr><td class="shinelocation">Bianco Hills</td><td class="shineepisode">Ep 6</td><td class="shinename">The Secret of the Dirty Lake</td><td class="redcoins"></td><td class="secretshine">Yes</td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Bianco Hills</td><td class="shineepisode">Ep 7</td><td class="shinename">Shadow Mario on the Loose</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Bianco Hills</td><td class="shineepisode">Ep 8</td><td class="shinename">The Red Coins of the Lake</td><td class="redcoins">Yes</td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Bianco Hills</td><td class="shineepisode">Ep 3+</td><td class="shinename">Red Coins of the Hillside Cave</td><td class="redcoins">Yes</td><td class="secretshine"></td><td class="hiddenshine">Yes</td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Bianco Hills</td><td class="shineepisode">Ep 6+</td><td class="shinename">Red Coins of the Dirty Lake</td><td class="redcoins">Yes</td><td class="secretshine"></td><td class="hiddenshine">Yes</td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Bianco Hills</td><td class="shinename" colspan="2">100 Coins</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			
+			<tr><td class="shinelocation">Ricco Harbor</td><td class="shineepisode">Ep 1</td><td class="shinename">Gooper Blooper Breaks Out</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine">Gooper Blooper</td></tr>
+			<tr><td class="shinelocation">Ricco Harbor</td><td class="shineepisode">Ep 2</td><td class="shinename">Blooper Surfing Safari</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Ricco Harbor</td><td class="shineepisode">Ep 3</td><td class="shinename">The Caged Shine Sprite</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Ricco Harbor</td><td class="shineepisode">Ep 4</td><td class="shinename">The Secret of Ricco Tower</td><td class="redcoins"></td><td class="secretshine">Yes</td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Ricco Harbor</td><td class="shineepisode">Ep 5</td><td class="shinename">Gooper Blooper Returns</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine">Gooper Blooper</td></tr>
+			<tr><td class="shinelocation">Ricco Harbor</td><td class="shineepisode">Ep 6</td><td class="shinename">Red Coins on the Water</td><td class="redcoins">Yes</td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Ricco Harbor</td><td class="shineepisode">Ep 7</td><td class="shinename">Shadow Mario Revisited</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Ricco Harbor</td><td class="shineepisode">Ep 8</td><td class="shinename">Yoshi's Fruit Adventure</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Ricco Harbor</td><td class="shineepisode">Ep 2</td><td class="shinename">Blooper Surfing Sequel</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine">Yes</td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Ricco Harbor</td><td class="shineepisode">Ep 4</td><td class="shinename">Red Coins in Ricco Tower</td><td class="redcoins">Yes</td><td class="secretshine"></td><td class="hiddenshine">Yes</td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Ricco Harbor</td><td class="shinename" colspan="2">100 Coins</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			
+			<tr><td class="shinelocation">Gelato Beach</td><td class="shineepisode">Ep 1</td><td class="shinename">Dune Bud Sand Castle Secret</td><td class="redcoins"></td><td class="secretshine">Yes</td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Gelato Beach</td><td class="shineepisode">Ep 2</td><td class="shinename">Mirror Madness! Tilt, Slam, Bam!</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Gelato Beach</td><td class="shineepisode">Ep 3</td><td class="shinename">Wiggler Ahoy! Full Steam Ahead!</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine">Wiggler</td></tr>
+			<tr><td class="shinelocation">Gelato Beach</td><td class="shineepisode">Ep 4</td><td class="shinename">The Sand Bird is Born</td><td class="redcoins">Yes</td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Gelato Beach</td><td class="shineepisode">Ep 5</td><td class="shinename">Il Piantissimo's Sand Sprint</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Gelato Beach</td><td class="shineepisode">Ep 6</td><td class="shinename">Red Coins in the Coral Reef</td><td class="redcoins">Yes</td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Gelato Beach</td><td class="shineepisode">Ep 7</td><td class="shinename">It's Shadow Mario! After Him!</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Gelato Beach</td><td class="shineepisode">Ep 8</td><td class="shinename">The Watermelon Festival</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Gelato Beach</td><td class="shineepisode">Ep 1</td><td class="shinename">Red Coins in the Sand Castle</td><td class="redcoins">Yes</td><td class="secretshine"></td><td class="hiddenshine">Yes</td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Gelato Beach</td><td class="shineepisode">Any</td><td class="shinename">Sandy Shine Sprite</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine">Yes</td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Gelato Beach</td><td class="shinename" colspan="2">100 Coins</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			
+			<tr><td class="shinelocation">Pinna Park</td><td class="shineepisode">Ep 1</td><td class="shinename">Mecha-Bowser Appears!</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine">Mecha-Bowser</td></tr>
+			<tr><td class="shinelocation">Pinna Park</td><td class="shineepisode">Ep 2</td><td class="shinename">The Beach Cannon's Secret</td><td class="redcoins"></td><td class="secretshine">Yes</td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Pinna Park</td><td class="shineepisode">Ep 3</td><td class="shinename">Red Coins of the Pirate Ships</td><td class="redcoins">Yes</td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Pinna Park</td><td class="shineepisode">Ep 4</td><td class="shinename">The Wilted Sunflowers</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Pinna Park</td><td class="shineepisode">Ep 5</td><td class="shinename">The Runaway Ferris Wheel</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Pinna Park</td><td class="shineepisode">Ep 6</td><td class="shinename">The Yoshi-Go-Round's Secret</td><td class="redcoins"></td><td class="secretshine">Yes</td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Pinna Park</td><td class="shineepisode">Ep 7</td><td class="shinename">Shadow Mario in the Park</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Pinna Park</td><td class="shineepisode">Ep 8</td><td class="shinename">Roller Coaster Balloons</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Pinna Park</td><td class="shineepisode">Ep 2</td><td class="shinename">Red Coins in the Cannon</td><td class="redcoins">Yes</td><td class="secretshine"></td><td class="hiddenshine">Yes</td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Pinna Park</td><td class="shineepisode">Ep 6</td><td class="shinename">Red Coins in the Yoshi-Go-Round</td><td class="redcoins">Yes</td><td class="secretshine"></td><td class="hiddenshine">Yes</td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Pinna Park</td><td class="shinename" colspan="2">100 Coins</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			
+			<tr><td class="shinelocation">Sirena Beach</td><td class="shineepisode">Ep 1</td><td class="shinename">The Manta Storm</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine">Phantamanta</td></tr>
+			<tr><td class="shinelocation">Sirena Beach</td><td class="shineepisode">Ep 2</td><td class="shinename">The Hotel Lobby's Secret</td><td class="redcoins"></td><td class="secretshine">Yes</td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Sirena Beach</td><td class="shineepisode">Ep 3</td><td class="shinename">Mysterious Hotel Delfino</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Sirena Beach</td><td class="shineepisode">Ep 4</td><td class="shinename">The Secret of Casino Delfino</td><td class="redcoins"></td><td class="secretshine">Yes</td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Sirena Beach</td><td class="shineepisode">Ep 5</td><td class="shinename">King Boo Down Below</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine">King Boo</td></tr>
+			<tr><td class="shinelocation">Sirena Beach</td><td class="shineepisode">Ep 6</td><td class="shinename">Scrubbing Sirena Beach</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Sirena Beach</td><td class="shineepisode">Ep 7</td><td class="shinename">Shadow Mario Checks In</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Sirena Beach</td><td class="shineepisode">Ep 8</td><td class="shinename">Red Coins in the Hotel</td><td class="redcoins">Yes</td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Sirena Beach</td><td class="shineepisode">Ep 2</td><td class="shinename">Red Coins in Boo's Big Mouth</td><td class="redcoins">Yes</td><td class="secretshine"></td><td class="hiddenshine">Yes</td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Sirena Beach</td><td class="shineepisode">Ep 4</td><td class="shinename">Red Coin Winnings in the Casino</td><td class="redcoins">Yes</td><td class="secretshine"></td><td class="hiddenshine">Yes</td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Sirena Beach</td><td class="shinename" colspan="2">100 Coins</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			
+			<tr><td class="shinelocation">Noki Bay</td><td class="shineepisode">Ep 1</td><td class="shinename">Uncork the Waterfall</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Noki Bay</td><td class="shineepisode">Ep 2</td><td class="shinename">The Boss of Tricky Ruins</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine">Gooper Blooper</td></tr>
+			<tr><td class="shinelocation">Noki Bay</td><td class="shineepisode">Ep 3</td><td class="shinename">Red Coins in a Bottle</td><td class="redcoins">Yes</td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Noki Bay</td><td class="shineepisode">Ep 4</td><td class="shinename">Eely-Mouth's Dentist</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine">Eely-Mouth</td></tr>
+			<tr><td class="shinelocation">Noki Bay</td><td class="shineepisode">Ep 5</td><td class="shinename">Il Piantissimo's Surf Swim</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Noki Bay</td><td class="shineepisode">Ep 6</td><td class="shinename">The Shell's Secret</td><td class="redcoins"></td><td class="secretshine">Yes</td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Noki Bay</td><td class="shineepisode">Ep 7</td><td class="shinename">Hold It, Shadow Mario!</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Noki Bay</td><td class="shineepisode">Ep 8</td><td class="shinename">The Red Coin Fish</td><td class="redcoins">Yes</td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Noki Bay</td><td class="shineepisode">Ep 6</td><td class="shinename">Red Coins on the Half Shell</td><td class="redcoins">Yes</td><td class="secretshine"></td><td class="hiddenshine">Yes</td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Noki Bay</td><td class="shineepisode">Any</td><td class="shinename">A Golden Bird</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine">Yes</td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Noki Bay</td><td class="shinename" colspan="2">100 Coins</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			
+			<tr><td class="shinelocation">Pianta Village</td><td class="shineepisode">Ep 1</td><td class="shinename">Chain Chomplets Unchained</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Pianta Village</td><td class="shineepisode">Ep 2</td><td class="shinename">Il Piantissimo's Crazy Climb</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Pianta Village</td><td class="shineepisode">Ep 3</td><td class="shinename">The Goopy Inferno</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Pianta Village</td><td class="shineepisode">Ep 4</td><td class="shinename">Chain Chomp's Bath</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Pianta Village</td><td class="shineepisode">Ep 5</td><td class="shinename">Secret of the Village Underside</td><td class="redcoins"></td><td class="secretshine">Yes</td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Pianta Village</td><td class="shineepisode">Ep 6</td><td class="shinename">Piantas in Need</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Pianta Village</td><td class="shineepisode">Ep 7</td><td class="shinename">Shadow Mario Runs Wild</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Pianta Village</td><td class="shineepisode">Ep 8</td><td class="shinename">Fluff Festival Coin Hunt</td><td class="redcoins">Yes</td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Pianta Village</td><td class="shineepisode">Ep 5</td><td class="shinename">Red Coin Chucksters</td><td class="redcoins">Yes</td><td class="secretshine"></td><td class="hiddenshine">Yes</td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Pianta Village</td><td class="shineepisode">Ep 8</td><td class="shinename">Soak the Sun</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine">Yes</td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Pianta Village</td><td class="shinename" colspan="2">100 Coins</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			
+			<tr><td class="shinelocation">Delfino Airstrip</td><td class="shinename" colspan="2">Polluted Piranha Plant</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Delfino Plaza</td><td class="shinename" colspan="2">Spray sand near Gelato Beach</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Delfino Plaza</td><td class="shinename" colspan="2">Slide near Gelato Beach (in pipe)</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Delfino Plaza</td><td class="shinename" colspan="2">Break rock on Gelato Beach entrance</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Delfino Plaza</td><td class="shinename" colspan="2">Box Breaking #1</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Delfino Plaza</td><td class="shinename" colspan="2">Box Breaking #2</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Delfino Plaza</td><td class="shinename" colspan="2">Chuckster on roof</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Delfino Plaza</td><td class="shinename" colspan="2">Clean Shine Gate</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Delfino Plaza</td><td class="shinename" colspan="2">Clean West Bell</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Delfino Plaza</td><td class="shinename" colspan="2">Clean East Bell</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Delfino Plaza</td><td class="shinename" colspan="2">Turbo through doors under West Bell</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Delfino Plaza</td><td class="shinename" colspan="2">Turbo through Police Station doors</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Delfino Plaza</td><td class="shinename" colspan="2">Golden Bird</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Delfino Plaza</td><td class="shinename" colspan="2">Lily pad</td><td class="redcoins">Yes</td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Delfino Plaza</td><td class="shinename" colspan="2">Pachinko machine</td><td class="redcoins">Yes</td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Delfino Plaza</td><td class="shinename" colspan="2">Tall grass red coins</td><td class="redcoins">Yes</td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Delfino Plaza</td><td class="shinename" colspan="2">100 Coins</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Delfino Airstrip</td><td class="shinename" colspan="2">Airstrip red coins</td><td class="redcoins">Yes</td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Delfino Plaza</td><td class="shinename" colspan="2">Blue Coins (24 shines)</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine"></td></tr>
+			<tr><td class="shinelocation">Corona Mountain</td><td class="shinename" colspan="2">Bowser</td><td class="redcoins"></td><td class="secretshine"></td><td class="hiddenshine"></td><td class="bossshine">Bowser</td></tr>
+		</tbody>
+	</table>
+	</div>
+	</body>
+</html>
