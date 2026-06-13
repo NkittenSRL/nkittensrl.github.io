@@ -1,0 +1,369 @@
+:root {
+	--search-bar-height: 46px;
+	--material-settings-height: var(--search-bar-height);
+	--armorcounts-height: 62px;
+}
+.hidden {
+	display: none;
+}
+.grid-span-all {
+	grid-column: 1 / -1;
+}
+.nowrap {
+    white-space: nowrap;
+}
+
+#modal-welcome {
+	max-width: 85ch;
+	text-align: center;
+	text-wrap: balance;
+	color: inherit;
+	background-color: inherit;
+}
+#modal-welcome::backdrop {
+	background-color: rgb(0 0 0 / 0.7);
+}
+.modal-head {
+	font-size: 2rem;
+	font-weight: bold;
+}
+
+#pageContainer {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: center;
+	padding: 0;
+	
+	&.hidearmorcounts #armorcounts {
+		display: none;
+	}
+}
+.page-col {
+	padding-inline: 1em;
+	overflow: auto;
+	max-height: calc(100dvh - var(--armorcounts-height, 0px));
+}
+
+.settings-wrapper {
+	position: sticky;
+	top: 0;
+	margin-bottom: 10px;
+	
+	background-color: var(--page-bg);
+	
+	display: grid;
+	row-gap: 0.5em;
+}
+#material-settings {
+	z-index: 1;
+}
+.toggle-row {
+	display: flex;
+	gap: 4px;
+	flex-wrap: wrap;
+}
+.togglebutton {
+	border: 0;
+	font: inherit;
+	color: inherit;
+	
+    padding: 0.5em 1em;
+    border-radius: 0.75em;
+    background-color: hsl(00, 100%, 40%);
+    text-align: center;
+    cursor: pointer;
+	
+	&:hover {
+		background-color: hsl(0, 100%, 60%);
+		color: black;
+	}
+	
+	&.selected {
+		background-color: hsl(120, 100%, 35%);
+		color: black;
+	}
+	&.selected:hover {
+		background-color: hsl(120, 100%, 45%);
+	}
+	
+	&:not(.selected) {
+		text-decoration: line-through;
+		text-decoration-thickness: 0.125em;
+		opacity: 0.7;
+	}
+}
+
+.settings-wrapper:has(.filters:not(.hidden)) .filters-icon,
+.settings-wrapper:has(.settings:not(.hidden)) .settings-icon {
+	background-color: hsl(212, 100%, 50%);
+	color: #ddd;
+	
+	&:hover {
+		background-color: hsl(212, 100%, 30%);
+	}
+}
+button:has( .icon) {
+	border: 0;
+	padding: 0;
+	font: inherit;
+	color: inherit;
+	background: transparent;
+}
+.search-row {
+	display: grid;
+	grid-template-columns: 1fr min-content;
+	
+	& .settings-icons {
+		margin-left: 0.5rem;
+		
+		display: flex;
+        flex-direction: column;
+		justify-content: space-between;
+	}
+	& .icon {
+		color: #bbb;
+		border-radius: 33%;
+		height: calc((var(--search-bar-height, 46px) / 2) - (var(--search-bar-height, 46px) / 23));
+		aspect-ratio: 1 / 1;
+	}
+	
+	& .icon:hover {
+		cursor: pointer;
+		background-color: #333;
+	}
+}
+
+
+#txt-armor-name, #txt-material-name {
+    box-sizing: border-box;
+    width: 100%;
+    height: var(--search-bar-height, 46px);
+
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+}
+
+#armor-list.noresults {
+	padding-block: 1em;
+	text-align: center;
+	
+	&::after {
+		content: "No such armor exists.";
+    	font-size: 1.8rem;
+    	font-weight: bold;
+	}
+}
+#material-list.noresults {
+	padding-block: 1em;
+	text-align: center;
+	
+	#material-table {
+		display: none;
+	}
+	
+	&::after {
+		content: "No such materials exist.";
+    	font-size: 1.8rem;
+    	font-weight: bold;
+	}
+}
+
+
+ul {
+	margin: 0;
+	padding-inline: 2em;
+}
+.armor {
+	margin: 0.5em auto 0;
+	max-width: max-content;
+	border: 2px solid black;
+}
+
+.armor_header {
+	display: grid;
+	grid-template-areas: "name def" "effect effect";
+	grid-template-columns: 1fr min-content;
+	column-gap: 0.5em;
+	padding: 0.5em;
+}
+.armor[data-maxlevel="0"] .armor_header {
+	min-height: 2.5rem;
+	align-items: center;
+}
+.armor_header:has(.armor_effect:empty) {
+	grid-template-areas: "name def";
+	
+	.armor_effect {
+		display: none;
+	}
+}
+.armor_name {
+	grid-area: name;
+	font-size: 1.5rem;
+	font-weight: bold;
+}
+.armor_def, .armor_upgrade-def {
+	width: 2ch;
+	padding: 0.2em 0.4em;
+	background-color: rgba(0, 0, 0, 0.4);
+	
+	grid-area: def;
+	justify-self: end;
+	
+	display: grid;
+	place-items: center;
+}
+.armor_effect {
+	grid-area: effect;
+	
+	display: flex;
+	align-items: center;
+	column-gap: 5px;
+	
+	font-weight: bold;
+}
+.effect-icon {
+	max-height: 2lh;
+}
+
+.armor_upgrade-row {
+	border-top: 2px dashed black;
+	padding: 0.5em 0.5em 1em;
+
+	display: grid;
+	grid-template-areas: "lvl def" "mats rupee";
+	grid-template-columns: 1fr min-content;
+	align-items: center;
+	gap: 0.5em;
+}
+.armor_header:hover,
+.armor_upgrade-row:hover {
+	cursor: pointer;
+	background-color: #333;
+}
+
+.armor_upgrade-row.hidematerials {
+	grid-template-areas: "lvl def";
+	padding: 0.5em;
+	
+	.armor_upgrade-materials,
+	.armor_upgrade-rupeecost  {
+		display: none;
+	}
+}
+
+.armor_upgrade-level {
+	grid-area: lvl;
+}
+.armor_upgrade-materials {
+	grid-area: mats;
+}
+.showmattotalremaining .armor_upgrade-materials li::after {
+	content: " (" attr(data-mattotalremaining) ")";
+}
+.armor_upgrade-rupeecost {
+	grid-area: rupee;
+	/* flex for the tiniest bit of vertical centering */
+	display: flex;
+    flex-wrap: nowrap;
+}
+img.rupee {
+	height: 1em;
+	margin-right: 4px;
+}
+
+
+.armor[data-currentlevel="1"] .armor_header,
+.armor[data-currentlevel="2"] :where(.armor_header, .armor_upgrade-row[data-level="1"]),
+.armor[data-currentlevel="3"] :where(.armor_header, .armor_upgrade-row[data-level="1"], .armor_upgrade-row[data-level="2"]),
+.armor[data-currentlevel="4"] :where(.armor_header, .armor_upgrade-row[data-level="1"], .armor_upgrade-row[data-level="2"], .armor_upgrade-row[data-level="3"]) {
+	background-color:hsl(120, 100%, 27%);
+}
+
+.armor[data-currentlevel="1"] .armor_header:hover,
+.armor[data-currentlevel="2"] :where(.armor_header, .armor_upgrade-row[data-level="1"]):hover,
+.armor[data-currentlevel="3"] :where(.armor_header, .armor_upgrade-row[data-level="1"], .armor_upgrade-row[data-level="2"]):hover,
+.armor[data-currentlevel="4"] :where(.armor_header, .armor_upgrade-row[data-level="1"], .armor_upgrade-row[data-level="2"], .armor_upgrade-row[data-level="3"]):hover {
+	background-color:hsl(120, 100%, 22%);
+} 
+
+.armor[data-currentlevel="0"] .armor_header,
+.armor[data-currentlevel="1"] .armor_upgrade-row[data-level="1"],
+.armor[data-currentlevel="2"] .armor_upgrade-row[data-level="2"],
+.armor[data-currentlevel="3"] .armor_upgrade-row[data-level="3"],
+.armor[data-currentlevel="4"] .armor_upgrade-row[data-level="4"] {
+	background-color: hsl(120, 100%, 17%);
+}
+
+.armor[data-currentlevel="0"] .armor_header:hover,
+.armor[data-currentlevel="1"] .armor_upgrade-row[data-level="1"]:hover,
+.armor[data-currentlevel="2"] .armor_upgrade-row[data-level="2"]:hover,
+.armor[data-currentlevel="3"] .armor_upgrade-row[data-level="3"]:hover,
+.armor[data-currentlevel="4"] .armor_upgrade-row[data-level="4"]:hover {
+	background-color: hsl(120, 100%, 12%);
+}
+
+
+
+tr {
+	background-color: var(--_bg-main-color);
+}
+tbody tr:nth-child(odd of :not(.hidden)) {
+	--_bg-main-color: #444;
+}
+tr[data-material] {
+	cursor: pointer;
+}
+
+tr.manualcompleted {
+	--_bg-main-color: hsl(60, 80%, 70%);
+	
+	color: black;
+}
+tr.manualcompleted:nth-child(odd of :not(.hidden)) {
+	--_bg-main-color: hsl(60, 80%, 50%);
+	color: black;
+}
+tr.complete {
+	--_bg-main-color: hsl(137, 56%, 38%);
+	color: black;
+}
+tr.complete:nth-child(odd of :not(.hidden)) {
+	--_bg-main-color: hsl(137, 43%, 33%);
+	color: white;
+}
+tr.complete.manualcompleted {
+	--_bg-alt-color: hsl(60, 80%, 70%, 0.2);
+	--_bg-main-size: 40px;
+	--_bg-alt-size: 40px;
+	
+	background-image: repeating-linear-gradient(45deg, var(--_bg-main-color), var(--_bg-main-color) var(--_bg-main-size), var(--_bg-alt-color) var(--_bg-main-size), var(--_bg-alt-color) calc(var(--_bg-main-size) + var(--_bg-alt-size)));
+}
+tr.complete.manualcompleted:nth-child(odd of :not(.hidden)) {
+	--_bg-alt-color: hsl(60, 80%, 50%, 0.2);
+}
+
+#material-table {
+	margin-inline: auto;
+}
+#material-table > thead {
+	position: sticky;
+	top: var(--material-settings-height);
+	background-color: var(--page-bg);
+}
+td, th {
+	padding-inline: 0.5em;
+}
+td[data-level], td[data-column="order"] {
+	text-align: center;
+}
+
+#material-table.hideorder [data-column="order"],
+#material-table.hidelvl1 [data-level="1"],
+#material-table.hidelvl2 [data-level="2"],
+#material-table.hidelvl3 [data-level="3"],
+#material-table.hidelvl4 [data-level="4"],
+#material-table.hidegroup [data-column="group"] {
+	display: none;
+}

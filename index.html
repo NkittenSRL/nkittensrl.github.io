@@ -12,6 +12,25 @@
 			font-size: 1.6rem;
 		}
 		
+		a:hover {
+			color: #ccc;
+		}
+		a[href="bingo"]:hover {
+			color: hsl(66, 100%, 80%);
+		}
+		a[href^="zelda"]:hover {
+			color: hsl(135, 100%, 80%);
+		}
+		a[href*="youtube.com"]:hover {
+			color: hsl(0, 100%, 80%);
+		}
+		a[href*="bsky.app"]:hover {
+			color: hsl(208.21deg 78.19% 71.12%)
+		}
+		a[href*="twitch.tv"]:hover {
+			color: hsl(273, 100%, 80%);
+		}
+		
 		a[href*="youtube.com"]::before,
 		a[href*="bsky.app"]::before,
 		a[href*="twitch.tv"]::before {
@@ -38,10 +57,13 @@
 </head>
 <body>
 	<div>
-		<a href="splatoon">Splatoon</a>
+		<a href="splatoon">Splatoon Tools</a>
 	</div>
 	<div>
 		<a href="bingo">Super Mario Sunshine Bingo</a>
+	</div>
+	<div>
+		<a href="zelda/totk">Zelda: Tears of the Kingdom armor tracker</a>
 	</div>
 	<div>
 		<a href="https://bsky.app/profile/nkittenreal.bsky.social">Bluesky</a><br>

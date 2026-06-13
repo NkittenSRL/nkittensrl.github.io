@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="description" content="Tears of the Kingdom (armor level tracker)">
+	
+	<title>Zelda: Tears of the Kingdom - nkitten.net</title>
+	<script src="totkarmorlists.js"></script>
+	<script src="totkarmor.js"></script>
+	
+	<link rel="stylesheet" type="text/css" href="../../includes/nkittennet.css"/>
+	<link rel="stylesheet" href="totkarmor.css">
+</head>
+<body>
+	<dialog id="modal-welcome">
+		<span class="modal-head">Welcome!</span>
+		
+		<p>This page can be used to track your progress in collecting and upgrading all armor pieces in <span class="nowrap">The Legend of Zelda: Tears of the Kingdom.</span><br>
+			Naturally, this means the page will contain spoilers!</p>
+		
+		<p>On the left is a list of all armor pieces in the game, click on an armor piece to mark it as collected.<br>
+			For upgradable armor pieces, click on a specific level to mark it as having been upgraded to that level.<br>
+			The number in parentheses behind a material's upgrade cost is the<br>remaining number of that material required to fully upgrade all armors.<br>
+			To mark a collected armor piece as uncollected, click on the level it's currently set to.</p>
+		
+		<p>On the right is a table with all the materials required for armor upgrades.<br>
+			It shows how many of each material are required to upgrade every piece of armor to a certain level.<br>
+			As you level up your armor, the remaining material costs will decrease accordingly.<br>
+			You can also click on a row to manually mark it as completed<br>(when have enough of a material in your inventory, for example).</p>
+		
+		<p>At the top of each section is a search bar that allows you to filter by name, with two buttons beside it for additional options and filters.</p>
+		
+		<p>These instructions will show up any time you visit this page,<br>
+			<label><input type="checkbox" id="chk-hidewelcomemodal" /> check this box to only show them when you haven't visited in a while.</label><br><br>
+			<button class="close-modal">Understood!</button></p>
+	</dialog>
+	<div id="pageContainer">
+		<div id="armor-col" class="page-col">
+			<section id="armor-settings" class="settings-wrapper">
+				<div class="settings hidden">
+					Sort armor: <select id="dd-sortarmor">
+						<option value="id,1">Inventory order</option>
+						<option value="id,-1">Inventory order (reversed)</option>
+						<option value="name,1">Alphabetically (A-Z)</option>
+						<option value="name,-1">Alphabetically (Z-A)</option>
+					</select><br>
+					<label><input type="checkbox" id="chk-hidecompletedlevelcosts" checked /> Hide upgrade costs for completed levels</label><br>
+					<label><input type="checkbox" id="chk-showmattotalremaining" checked /> Show total required amount behind material upgrade cost</label><br>
+					<label><input type="checkbox" id="chk-showarmorcounts" checked /> Show armor collection statistics at the bottom of the page</label>
+				</div>
+				<div class="filters hidden">
+					Filter by effect: <select id="dd-effectfilter">
+						<option value="all">Show all armors (no filter)</option>
+						<option value="any">*Any effect*</option>
+						<option value="no">*No effect*</option>
+						<option value="Attack Up">Attack Up</option>
+						<option value="Climb Speed Up">Climb Speed Up</option>
+						<option value="Cold Resistance">Cold Resistance</option>
+						<option value="Cold Weather Attack">Cold Weather Attack</option>
+						<option value="Energy Up">Energy Up</option>
+						<option value="Flame Guard">Flame Guard</option>
+						<option value="Gloom Resistance">Gloom Resistance</option>
+						<option value="Glow">Glow</option>
+						<option value="Heat Resistance">Heat Resistance</option>
+						<option value="Hot Weather Attack">Hot Weather Attack</option>
+						<option value="Lightning Proof">Lightning Proof</option>
+						<option value="Rupee Padding">Rupee Padding</option>
+						<option value="Sand Speed Up">Sand Speed Up</option>
+						<option value="Shock Resistance">Shock Resistance</option>
+						<option value="Skydive Mobility Up">Skydive Mobility Up</option>
+						<option value="Slip Resistance">Slip Resistance</option>
+						<option value="Snow Speed Up">Snow Speed Up</option>
+						<option value="Stealth Up">Stealth Up</option>
+						<option value="Stormy Weather Attack">Stormy Weather Attack</option>
+						<option value="Swim Speed Up">Swim Speed Up</option>
+						<option value="Unfreezable">Unfreezable</option>
+					</select><br>
+					
+					Body part:
+					<div class="toggle-row">
+						<button class="togglebutton selected" data-filtername="armorbodypart" data-filtervalue="Head">Head</button>
+						<button class="togglebutton selected" data-filtername="armorbodypart" data-filtervalue="Torso">Torso</button>
+						<button class="togglebutton selected" data-filtername="armorbodypart" data-filtervalue="Legs">Legs</button>
+						<button class="togglebutton selected" data-filtername="armorbodypart" data-filtervalue="Full Body">Full Body</button>
+					</div>
+					<hr>
+					Non-upgradable armors:
+					<div class="toggle-row">
+						<button class="togglebutton selected" data-filtername="armorlevel" data-filtervalue="-1of0">Not obtained</button>
+						<button class="togglebutton selected" data-filtername="armorlevel" data-filtervalue="0of0">Obtained</button>
+					</div>
+					Upgradable armors:
+					<div class="toggle-row">
+						<button class="togglebutton selected" data-filtername="armorlevel" data-filtervalue="-1of4">Not obtained</button>
+						<button class="togglebutton selected" data-filtername="armorlevel" data-filtervalue="0of4">Obtained</button>
+						<button class="togglebutton selected" data-filtername="armorlevel" data-filtervalue="1of4">Level 1</button>
+						<button class="togglebutton selected" data-filtername="armorlevel" data-filtervalue="2of4">Level 2</button>
+						<button class="togglebutton selected" data-filtername="armorlevel" data-filtervalue="3of4">Level 3</button>
+						<button class="togglebutton selected" data-filtername="armorlevel" data-filtervalue="4of4">Level 4</button>
+					</div>
+				</div>
+				<div class="search-row">
+					<input type="text" id="txt-armor-name" value="" placeholder="Armor Name" />
+					<div class="settings-icons">
+						<button class="icon settings-icon"><svg class="icon settings-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="m9.25 22l-.4-3.2q-.325-.125-.613-.3t-.562-.375L4.7 19.375l-2.75-4.75l2.575-1.95Q4.5 12.5 4.5 12.337v-.674q0-.163.025-.338L1.95 9.375l2.75-4.75l2.975 1.25q.275-.2.575-.375t.6-.3l.4-3.2h5.5l.4 3.2q.325.125.613.3t.562.375l2.975-1.25l2.75 4.75l-2.575 1.95q.025.175.025.338v.674q0 .163-.05.338l2.575 1.95l-2.75 4.75l-2.95-1.25q-.275.2-.575.375t-.6.3l-.4 3.2h-5.5Zm2.8-6.5q1.45 0 2.475-1.025T15.55 12q0-1.45-1.025-2.475T12.05 8.5q-1.475 0-2.488 1.025T8.55 12q0 1.45 1.012 2.475T12.05 15.5Z"/></svg></button>
+						<button class="icon filters-icon"><svg class="icon filters-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M11 20q-.425 0-.713-.288T10 19v-6L4.2 5.6q-.375-.5-.113-1.05T5 4h14q.65 0 .913.55T19.8 5.6L14 13v6q0 .425-.288.713T13 20h-2Z"/></svg></button>
+					</div>
+				</div>
+			</section>
+			<section id="armor-list">
+			
+			</section>
+		</div>
+		<div id="material-col" class="page-col">
+			<section id="material-settings" class="settings-wrapper">
+				<div class="settings hidden">
+					Sort materials: <select id="dd-sortmaterials">
+						<option value="order_inventory,1">Inventory order</option>
+						<option value="order_inventory,-1">Inventory order (reversed)</option>
+						<option value="name,1">Alphabetically (A-Z)</option>
+						<option value="name,-1">Alphabetically (Z-A)</option>
+					</select><br>
+					Show/hide columns:
+					<div class="toggle-row">
+						<button class="togglebutton" data-filtername="materialcolumn" data-filtervalue="order">Inventory Order</button>
+						<button class="togglebutton selected" data-filtername="materialcolumn" data-filtervalue="lvl1">Lvl 1</button>
+						<button class="togglebutton selected" data-filtername="materialcolumn" data-filtervalue="lvl2">Lvl 2</button>
+						<button class="togglebutton selected" data-filtername="materialcolumn" data-filtervalue="lvl3">Lvl 3</button>
+						<button class="togglebutton selected" data-filtername="materialcolumn" data-filtervalue="lvl4">Lvl 4</button>
+						<button class="togglebutton" data-filtername="materialcolumn" data-filtervalue="group">Group</button>
+					</div>
+				</div>
+				<div class="filters hidden">
+					Material group:
+					<div class="toggle-row">
+						<button class="togglebutton selected" data-filtername="materialgroup" data-filtervalue="Plant">Plant</button>
+						<button class="togglebutton selected" data-filtername="materialgroup" data-filtervalue="Creature">Creature</button>
+						<button class="togglebutton selected" data-filtername="materialgroup" data-filtervalue="Monster">Monster</button>
+						<button class="togglebutton selected" data-filtername="materialgroup" data-filtervalue="Dragon">Dragon</button>
+						<button class="togglebutton selected" data-filtername="materialgroup" data-filtervalue="Other">Other</button>
+					</div>
+					<label><input type="checkbox" id="chk-hidecompletedmaterials" /> Hide completed materials (left click row to manually mark as completed)</label>
+				</div>
+				<div class="search-row">
+					<input type="text" id="txt-material-name" value="" placeholder="Material Name" />
+					<div class="settings-icons">
+						<button class="icon settings-icon"><svg class="icon settings-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="m9.25 22l-.4-3.2q-.325-.125-.613-.3t-.562-.375L4.7 19.375l-2.75-4.75l2.575-1.95Q4.5 12.5 4.5 12.337v-.674q0-.163.025-.338L1.95 9.375l2.75-4.75l2.975 1.25q.275-.2.575-.375t.6-.3l.4-3.2h5.5l.4 3.2q.325.125.613.3t.562.375l2.975-1.25l2.75 4.75l-2.575 1.95q.025.175.025.338v.674q0 .163-.05.338l2.575 1.95l-2.75 4.75l-2.95-1.25q-.275.2-.575.375t-.6.3l-.4 3.2h-5.5Zm2.8-6.5q1.45 0 2.475-1.025T15.55 12q0-1.45-1.025-2.475T12.05 8.5q-1.475 0-2.488 1.025T8.55 12q0 1.45 1.012 2.475T12.05 15.5Z"/></svg></button>
+						<button class="icon filters-icon"><svg class="icon filters-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M11 20q-.425 0-.713-.288T10 19v-6L4.2 5.6q-.375-.5-.113-1.05T5 4h14q.65 0 .913.55T19.8 5.6L14 13v6q0 .425-.288.713T13 20h-2Z"/></svg></button>
+					</div>
+				</div>
+			</section>
+			<section id="material-list">
+				<table id="material-table" class="hideorder hidegroup">
+					<thead>
+						<tr>
+							<th data-column="order">#</th>
+							<th>Material</th>
+							<th data-level="1">Lvl 1</th>
+							<th data-level="2">Lvl 2</th>
+							<th data-level="3">Lvl 3</th>
+							<th data-level="4">Lvl 4</th>
+							<th data-column="group">Group</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+			</section>
+		</div>
+		<section id="armorcounts" class="grid-span-all">
+			<table id="armorcounts-table">
+				<thead>
+					<tr>
+						<th></th>
+						<th>Obtained</th>
+						<th>Level 1</th>
+						<th>Level 2</th>
+						<th>Level 3</th>
+						<th>Level 4</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Non-upgradable</td>
+						<td data-level="upgradeless">0</td>
+					</tr>
+					<tr>
+						<td>Upgradable</td>
+						<td data-level="0">0</td>
+						<td data-level="1">0</td>
+						<td data-level="2">0</td>
+						<td data-level="3">0</td>
+						<td data-level="4">0</td>
+					</tr>
+				</tbody>
+			</table>
+		</section>
+	</div>
+</body>
+</html>
