@@ -660,12 +660,12 @@ function saveLoadSettings(action) {
 				settings.input[key] = $("#" + key).prop("selectedIndex");
 			}
 		}
-		localStorage.nkSPLATOONRANDOMIZER = JSON.stringify(settings);
+		localStorage.setItem("splatoon_random", JSON.stringify(settings));
 	}
 	else if (action == "load") {
-		if (localStorage.nkSPLATOONRANDOMIZER) {
+		if (localStorage.getItem("splatoon_random")) {
 			var i = 0, k;
-			var tempsettings = JSON.parse(localStorage.nkSPLATOONRANDOMIZER);
+			var tempsettings = JSON.parse(localStorage.getItem("splatoon_random"));
 			if (tempsettings.version === undefined || settings.version !== tempsettings.version) { tempsettings.version = settings.version; }
 			for (key in settings.input) {
 				if (tempsettings.input[key] === undefined) { tempsettings.input[key] = settings.input[key]; }
@@ -694,7 +694,7 @@ function saveLoadSettings(action) {
 		}
 	}
 	else if (action == "delete") {
-		localStorage.removeItem("nkSPLATOONRANDOMIZER");
+		localStorage.removeItem("splatoon_random");
 	}
 }
 
@@ -702,17 +702,17 @@ function imgurSettings() {
 	var imgurparam = gup("imgur");
 	if (imgurparam.toLowerCase() === "disable") {
 		//console.log("delete saved imgur pass");
-		localStorage.removeItem("nkSPLATOONRANDOMIZER_IMGUR");
+		localStorage.removeItem("splatoon_random_imgur");
 	}
 	else if (imgurparam !== "") {
 		//console.log("change + save imgur pass to: " + imgurparam);
 		imgur.pass = imgurparam;
 		imgur.enabled = true;
-		localStorage.nkSPLATOONRANDOMIZER_IMGUR = JSON.stringify(imgur);
+		localStorage.setItem("splatoon_random_imgur", JSON.stringify(imgur));
 	}
-	else if (localStorage.nkSPLATOONRANDOMIZER_IMGUR) {
+	else if (localStorage.getItem("splatoon_random_imgur")) {
 		//console.log("load previously saved data");
-		imgur = JSON.parse(localStorage.nkSPLATOONRANDOMIZER_IMGUR);
+		imgur = JSON.parse(localStorage.getItem("splatoon_random_imgur"));
 	}
 	
 	$("#chk-imgur").prop("checked", imgur.enabled);
@@ -1079,7 +1079,7 @@ $(function()
 	
 	$(document.body).on("change", "#chk-imgur", function() {
 		imgur.enabled = $("#chk-imgur").is(':checked');
-		localStorage.nkSPLATOONRANDOMIZER_IMGUR = JSON.stringify(imgur);
+		localStorage.setItem("splatoon_random_imgur", JSON.stringify(imgur));
 	});
 	
 	

@@ -478,16 +478,16 @@ function saveSettings() {
 		settings[id] = val;
 	}
 	
-	localStorage.splatoon3_elim_settings = JSON.stringify(settings);
+	localStorage.setItem("splatoon3_elim_settings", JSON.stringify(settings));
 }
 
 function loadSettings() {
-	if (localStorage.splatoon3_elim_settings === undefined) return;
-	if (localStorage.splatoon3_elim_settings === "disabled") {
+	if (localStorage.getItem("splatoon3_elim_settings") === null) return;
+	if (localStorage.getItem("splatoon3_elim_settings") === "disabled") {
 		document.getElementById("chk-savesettings").checked = false;
 		return;
 	}
-	const savedSettings = JSON.parse(localStorage.splatoon3_elim_settings);
+	const savedSettings = JSON.parse(localStorage.getItem("splatoon3_elim_settings"));
 	
 	for (let id in savedSettings) {
 		if (settings[id] !== undefined) {
@@ -520,17 +520,17 @@ function saveWeapons() {
 	tempDraft.alpha = tempDraft.alpha.map(w => weapons[w]?.name);
 	tempDraft.bravo = tempDraft.bravo.map(w => weapons[w]?.name);
 	
-	localStorage.splatoon3_elim_weapons = JSON.stringify({"draft": tempDraft, "weapons": weaponstates});
+	localStorage.setItem("splatoon3_elim_weapons", JSON.stringify({"draft": tempDraft, "weapons": weaponstates}));
 }
 
 function loadWeapons() {
-	if (localStorage.splatoon3_elim_weapons === undefined) return true;
-	if (localStorage.splatoon3_elim_weapons === "disabled") {
+	if (localStorage.getItem("splatoon3_elim_weapons") === null) return true;
+	if (localStorage.getItem("splatoon3_elim_weapons") === "disabled") {
 		document.getElementById("chk-saveweapons").checked = false;
 		return true;
 	}
 	
-	const savedWeapons = JSON.parse(localStorage.splatoon3_elim_weapons);
+	const savedWeapons = JSON.parse(localStorage.getItem("splatoon3_elim_weapons"));
 	const newweapons = [];
 	
 	savedWeapons.draft.alpha = savedWeapons.draft.alpha.map(savedWpn => weapons.findIndex(wpn => wpn.name === savedWpn));
@@ -603,14 +603,14 @@ document.addEventListener("DOMContentLoaded", function() {
 	
 	document.getElementById("chk-savesettings").addEventListener("change", function() {
 		if (this.checked === false) {
-			localStorage.splatoon3_elim_settings = "disabled";
+			localStorage.setItem("splatoon3_elim_settings", "disabled");
 			return;
 		}
 		saveSettings();
 	});
 	document.getElementById("chk-saveweapons").addEventListener("change", function() {
 		if (this.checked === false) {
-			localStorage.splatoon3_elim_weapons = "disabled";
+			localStorage.setItem("splatoon3_elim_weapons", "disabled");
 			return;
 		}
 		saveWeapons();

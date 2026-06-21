@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	
+	<title>Manage localStorage - Nkitten's space</title>
+	
+	<script src="keyinfo.js"></script>
+	<script>
+		const localCopy = {};
+		const importedCopy = {};
+		const pages = {};
+		
+		function addKeysToPages(obj) {
+			for (const key of Object.keys(obj)) {
+				const PAGE = keyInfo[key]?.page;
+				if (!PAGE) {
+					if (pages["Unknown Keys"] === undefined) {
+						pages["Unknown Keys"] = {"keys": []};
+					}
+					if (pages["Unknown Keys"].keys.indexOf(key) === -1) pages["Unknown Keys"].keys.push(key);
+					else console.warn(`${key} already in Unknown Keys`);
+					continue;
+				}
+				
+				if (pages[PAGE] === undefined) {
+					pages[PAGE] = {"keys": []};
+				}
+				if (pages[PAGE].keys.indexOf(key) === -1) pages[PAGE].keys.push(key);
+				else console.warn(`${key} already in ${PAGE}`);
+			}
+		}
+		function makeLocalCopy() {
+			for (const [item, value] of Object.entries(localStorage)) { // create a local copy of each key and group the keys in the pages object
+				let key = item;
+				if (renameKeys[item]) {
+					localStorage.setItem(renameKeys[item], value);
+					key = renameKeys[item];
+					localStorage.removeItem(item);
+				}
+				localCopy[key] = value;
+			}
+			addKeysToPages(localCopy);
+		}
+		
+		function makeImportedCopy() {
+			try {
+				const parsedImport = JSON.parse(document.getElementById("txt-import").value);
+				
+				for (const [item, value] of Object.entries(parsedImport)) { // create a local copy of each key and group the keys in the pages object
+					const key = (renameKeys[item] === undefined ? item : renameKeys[item]);
+					importedCopy[key] = value;
+				}
+				addKeysToPages(importedCopy);
+			} catch (e) {
+				alert(e);
+				throw new Error(e);
+			}
+		}
+		
+		function pageBox(pageName, includeImported = false) {
+			let txt = `<div class='page'><div class='page-name'>${pageName}</div><div class='page-keys'>`;
+			for (const key of pages[pageName].keys) {
+				const inLocal = (localCopy[key] !== undefined);
+				const inImported = (importedCopy[key] !== undefined);
+				txt += `<div class='key'><div class='key-name'>${key}</div>`;
+				if (keyInfo[key]?.desc) txt += `<div class='key-desc'>&boxur; ${keyInfo[key].desc}</div>`;
+				txt += `<div class='key-controls'><span class='switcher'>`;
+				txt += `<button class='switcher-button${(inLocal ? " selected' data-action='keeplocal'" : "' disabled")}>Keep${(includeImported ? " local" : "")}</button>`;
+				if (includeImported === true) {
+					txt += `<button class='switcher-button${((inImported && !inLocal) ? " selected" : "")}'${inImported ? " data-action='keepimported'" : " disabled"}>Keep imported</button>`;
+				}
+				txt += `<button class='switcher-button' data-action='delete'>Delete</button>`;
+				txt += `</span></div></div>`;
+			}
+			return txt + "</div></div>";
+		}
+		
+		function writeDataToPage(includeImported = false) {
+			const dataDiv = document.getElementById("stored-data");
+			for (const page of pageOrder) { // output the keys on the page with the option to delete them
+				if (pages[page]) {
+					pages[page].keys.sort(function(a, b) {
+						const ax = (keyInfo[a]?.order ? keyInfo[a].order : 9999999);
+						const bx = (keyInfo[b]?.order > -1 ? keyInfo[b].order : 9999999);
+						
+						if (ax < bx) {return -1;}
+						else if (ax > bx) {return 1;}
+						else if (a < b) {return -1;}
+						else if (a > b) {return 1;}
+						else {return 0;}
+					});
+					dataDiv.insertAdjacentHTML("beforeend", pageBox(page, includeImported));
+				}
+			}
+		}
+		
+		function receiveMessage(event) {
+			if (event.origin !== "https://nkitten.net") return;
+			
+			document.getElementById("txt-import").value = event.data;
+			document.getElementById("btn-import").click();
+		}
+		
+		document.addEventListener("DOMContentLoaded", function() {
+			const dataDiv = document.getElementById("stored-data");
+			const choiceDiv = document.getElementById("action-choice");
+			
+			dataDiv.addEventListener("click", function(evt) {
+				const switcherButton = evt.target.closest(".switcher-button");
+				if (!switcherButton) return;
+
+				const action = switcherButton.getAttribute("data-action");
+				const key = switcherButton.closest(".key").querySelector(".key-name").innerText;
+				switcherButton.closest(".switcher").querySelectorAll(".switcher-button").forEach(btn => btn.classList.remove("selected"));
+				switcherButton.classList.add("selected");
+				
+				if (action === "keeplocal") {
+					localStorage.setItem(key, localCopy[key]);
+				} else if (action === "keepimported") {
+					localStorage.setItem(key, importedCopy[key]);
+				} else if (action === "delete") {
+					localStorage.removeItem(key);
+				}
+			});
+			
+			document.getElementById("btn-choose-manage").addEventListener("click", function() {
+				makeLocalCopy();
+				writeDataToPage(false);
+				
+				choiceDiv.classList.add("hidden");
+				document.getElementById("manage-data").classList.remove("hidden");
+			});
+			document.getElementById("btn-choose-export").addEventListener("click", function() {
+				const txtExport = document.getElementById("txt-export");
+				txtExport.value = JSON.stringify(localStorage);
+				
+				document.getElementById("btn-copy").addEventListener("click", function() {
+					txtExport.select();
+					navigator.clipboard.writeText(txtExport.value);
+				});
+				
+				choiceDiv.classList.add("hidden");
+				document.getElementById("export-data").classList.remove("hidden");
+			});
+			document.getElementById("btn-choose-import").addEventListener("click", function() {
+				choiceDiv.classList.add("hidden");
+				document.getElementById("import-data").classList.remove("hidden");
+			});
+			
+			
+			document.getElementById("btn-popup").addEventListener("click", function() {
+				window.removeEventListener("message", receiveMessage); // when adding the eventlistener with a named function, it seems to only add the listener once even if you try to add it multiple times, but just in case something goes wrong, remove the listener first before adding a new one
+				window.addEventListener("message", receiveMessage);
+				window.open("https://nkitten.net/datatransfer/popup.html","_blank","toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, copyhistory=no, width=400, height=200");
+			});
+			document.getElementById("btn-import").addEventListener("click", function() {
+				makeImportedCopy();
+				makeLocalCopy();
+				writeDataToPage(true);
+				//if the keepimported button is selected (no local data found for that key), click it to trigger the event that writes it to localStorage
+				dataDiv.querySelectorAll(".switcher-button[data-action='keepimported'].selected").forEach(btn => btn.click());
+				
+				document.getElementById("import-data").classList.add("hidden");
+				document.getElementById("manage-data").classList.remove("hidden");
+			});
+		});
+	</script>
+	
+	<link rel="stylesheet" type="text/css" href="../includes/nkittennet.css"/>
+	<style>
+		.hidden {
+			display: none;
+		}
+		.info {
+			font-size: 1.2rem;
+			padding: 0.5em;
+			color: black;
+			background: hsl(56, 100%, 65%);
+			border: 3px solid hsl(56, 100%, 45%);
+			border-radius: 10px;
+		}
+		.warning {
+			font-size: 1.6rem;
+			padding: 0.75em;
+			background: hsl(0, 100%, 65%);
+			border: 3px solid hsl(0, 100%, 45%);
+			border-radius: 10px;
+		}
+		
+		#stored-data:empty::after {
+			content: "(this site currently hasn't stored any data in your browser)";
+		}
+		
+		.page {
+			margin-block: 0.5em;
+			padding: 7px 10px;
+			border: 3px solid white;
+			border-radius: 10px;
+			background: hsl(0 0% 43%)
+		}
+		.page-name {
+			font-size: 2em;
+			font-weight: bold;;
+		}
+		.key-name {
+			font-size: 1.3em;
+			font-weight: bold;;
+		}
+		.key-desc {
+			margin-left: 5px;
+		}
+		.switcher-button.selected {
+			font-weight: bold;
+			text-decoration: underline;
+		}
+		.switcher-button.selected[data-action='keeplocal'] {
+			background: hsl(120, 40%, 50%);
+		}
+		.switcher-button.selected[data-action='keepimported'] {
+			background: hsl(56, 100%, 65%);
+		}
+		.switcher-button.selected[data-action='delete'] {
+			background: hsl(0, 100%, 65%);
+		}
+	</style>
+</head>
+<body>
+	<div id="pageContainer">
+		<main>
+			<div id="action-choice">
+				<p>This site uses localStorage to save your settings, all information is stored locally in your browser, no one else can access it.</p><br>
+				
+				Manage locally stored data for this site:<br>
+				<button id="btn-choose-manage">Manage saved data</button><br><br>
+				
+				Export locally stored data to import in a different browser:<br>
+				<button id="btn-choose-export">Export saved data</button><br><br>
+				
+				Import data to use in this browser:<br>
+				(previously exported data or data from <b>nkitten.net</b>)<br>
+				<button id="btn-choose-import">Import data</button>
+			</div>
+			<div id="export-data" class="hidden">
+				Saved data to import in a different browser or save somewhere to restore later:<br>
+				<textarea id="txt-export" cols="40" rows="8"></textarea><br>
+				<button id="btn-copy">Copy data</button>
+			</div>
+			<div id="import-data" class="hidden">
+				Attempt to automatically import data from nkitten.net (via a self-closing popup window):<br>
+				<button id="btn-popup">Import data from nkitten.net (via popup)</button><br>
+				If the popup method didn't work, or you'd rather do it manually, copy your data from:<br>
+				<a href="https://nkitten.net/datatransfer">https://nkitten.net/datatransfer</a><br><br>
+				
+				Paste exported data below, then press the button:<br>
+				<textarea id="txt-import" cols="40" rows="8"></textarea><br>
+				<button id="btn-import">Import data</button>
+			</div>
+			<div id="manage-data" class="hidden">
+				<p class="info">
+					If you save new data on a different page while this page is open,<br>
+					it may be overwritten by an old copy of the data when you click on a [Keep] button below.
+				</p>
+				<p class="warning">You will be unable to retrieve deleted data once you close or reload this page!</p>
+				
+				<div id="stored-data"></div>
+			</div>
+		</main>
+	</div>
+</body>
+</html>

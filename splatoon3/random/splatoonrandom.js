@@ -647,11 +647,11 @@ function saveLoadSettings(action) {
 				settings.input[key] = document.getElementById(key).selectedIndex;
 			}
 		}
-		localStorage.splatoon3_random = JSON.stringify(settings);
+		localStorage.setItem("splatoon3_random", JSON.stringify(settings));
 	}
 	else if (action == "load") {
-		if (localStorage.splatoon3_random) {
-			const savedSettings = JSON.parse(localStorage.splatoon3_random);
+		if (localStorage.getItem("splatoon3_random")) {
+			const savedSettings = JSON.parse(localStorage.getItem("splatoon3_random"));
 			if (savedSettings.version === undefined || settings.version !== savedSettings.version) { savedSettings.version = settings.version; }
 			for (let key in settings.input) {
 				if (savedSettings.input[key] === undefined) { savedSettings.input[key] = settings.input[key]; }

@@ -31,13 +31,13 @@
 		return filters;
 	}
 	function saveFilters() {
-		localStorage.splatoon3_freshness_filters = JSON.stringify(getFilters());
+		localStorage.setItem("splatoon3_freshness_filters", JSON.stringify(getFilters()));
 	}
 	function loadFilters() {
-		if (localStorage.splatoon3_freshness_filters === undefined) return;
+		if (localStorage.getItem("splatoon3_freshness_filters") === null) return;
 
 		const table = document.getElementById("weapontable");
-		const filters = JSON.parse(localStorage.splatoon3_freshness_filters);
+		const filters = JSON.parse(localStorage.getItem("splatoon3_freshness_filters"));
 		for (let star in filters) {
 			document.querySelector(`.starfilter[data-star='${star}']`).classList.toggle("selected", filters[star]);
 			table.classList.toggle(`hide${star}`, !filters[star]);
@@ -89,7 +89,7 @@
 
 		updateWeaponCounts(freshness, oldFreshness);
 		
-		localStorage.splatoon3_freshness_levels = JSON.stringify(freshnessLevels);
+		localStorage.setItem("splatoon3_freshness_levels", JSON.stringify(freshnessLevels));
 	}
 
 	function getUnfilteredWeaponIds() {
@@ -135,8 +135,8 @@
 	}
 	
 	document.addEventListener("DOMContentLoaded", function() {
-		if (localStorage.splatoon3_freshness_levels !== undefined) {
-			freshnessLevels = JSON.parse(localStorage.splatoon3_freshness_levels);
+		if (localStorage.getItem("splatoon3_freshness_levels") !== null) {
+			freshnessLevels = JSON.parse(localStorage.getItem("splatoon3_freshness_levels"));
 		}
 
 		makeWeaponTable(freshnessLevels);

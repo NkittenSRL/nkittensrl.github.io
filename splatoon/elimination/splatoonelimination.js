@@ -472,16 +472,16 @@ function saveSettings() {
 		settings[id] = val;
 	}
 	
-	localStorage.splatoon_elim_settings = JSON.stringify(settings);
+	localStorage.setItem("splatoon_elim_settings", JSON.stringify(settings));
 }
 
 function loadSettings() {
-	if (localStorage.splatoon_elim_settings === undefined) return;
-	if (localStorage.splatoon_elim_settings === "disabled") {
+	if (localStorage.getItem("splatoon_elim_settings") === null) return;
+	if (localStorage.getItem("splatoon_elim_settings") === "disabled") {
 		document.getElementById("chk-savesettings").checked = false;
 		return;
 	}
-	const savedSettings = JSON.parse(localStorage.splatoon_elim_settings);
+	const savedSettings = JSON.parse(localStorage.getItem("splatoon_elim_settings"));
 	
 	for (let id in savedSettings) {
 		if (settings[id] !== undefined) {
@@ -509,17 +509,17 @@ function saveWeapons() {
 	for (let wpn of weapons) {
 		weaponstates[wpn.name] = wpn.elimstatus;
 	}
-	localStorage.splatoon_elim_weapons = JSON.stringify({"draft": draftstatus, "weapons": weaponstates});
+	localStorage.setItem("splatoon_elim_weapons", JSON.stringify({"draft": draftstatus, "weapons": weaponstates}));
 }
 
 function loadWeapons() {
-	if (localStorage.splatoon_elim_weapons === undefined) return true;
-	if (localStorage.splatoon_elim_weapons === "disabled") {
+	if (localStorage.getItem("splatoon_elim_weapons") === null) return true;
+	if (localStorage.getItem("splatoon_elim_weapons") === "disabled") {
 		document.getElementById("chk-saveweapons").checked = false;
 		return true;
 	}
 	
-	const savedWeapons = JSON.parse(localStorage.splatoon_elim_weapons);
+	const savedWeapons = JSON.parse(localStorage.getItem("splatoon_elim_weapons"));
 	const newweapons = [];
 	
 	draftstatus.alpha = savedWeapons.draft.alpha;
@@ -589,14 +589,14 @@ document.addEventListener("DOMContentLoaded", function() {
 	
 	document.getElementById("chk-savesettings").addEventListener("change", function() {
 		if (this.checked === false) {
-			localStorage.splatoon_elim_settings = "disabled";
+			localStorage.setItem("splatoon_elim_settings", "disabled");
 			return;
 		}
 		saveSettings();
 	});
 	document.getElementById("chk-saveweapons").addEventListener("change", function() {
 		if (this.checked === false) {
-			localStorage.splatoon_elim_weapons = "disabled";
+			localStorage.setItem("splatoon_elim_weapons", "disabled");
 			return;
 		}
 		saveWeapons();

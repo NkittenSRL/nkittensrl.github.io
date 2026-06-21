@@ -22,7 +22,7 @@ function randMinMax(min,max,useSEED = true) {
 
 function saveBoardState() {
 	if (!document.getElementById("chk-saveboardstate").checked) return;
-	localStorage.bingo_squareflip_custom_boardState = JSON.stringify(goallists);
+	localStorage.setItem("bingo_squareflip_boardState", JSON.stringify(goallists));
 }
 
 function createEmptyBoard(cols = 5, rows = 5) {
@@ -146,8 +146,8 @@ function generateBoard(savedBoard) {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-	if (localStorage.bingo_squareflip_custom !== undefined) {
-        const saved = JSON.parse(localStorage.bingo_squareflip_custom);
+	if (localStorage.getItem("bingo_squareflip_settings") !== null) {
+        const saved = JSON.parse(localStorage.getItem("bingo_squareflip_settings"));
         for (let inp in saved) {
 			const isRADIO = inp.slice(0,6) === "radio-";
             let ele = document.querySelector("#" + inp);
@@ -207,16 +207,16 @@ document.addEventListener("DOMContentLoaded", function() {
 		
         if (saveinputs[IDorNAME] === undefined) return;
 		saveinputs[IDorNAME] = VALUE;
-        localStorage.bingo_squareflip_custom = JSON.stringify(saveinputs);
+        localStorage.setItem("bingo_squareflip_settings", JSON.stringify(saveinputs));
 		
 		if (this.id === "chk-saveboardstate") {
 			if (VALUE === true) saveBoardState();
-			else localStorage.removeItem("bingo_squareflip_custom_boardState");
+			else localStorage.removeItem("bingo_squareflip_boardState");
 		}
     }));
 	
-	if (localStorage.bingo_squareflip_custom_boardState !== undefined) {
-		generateBoard(JSON.parse(localStorage.bingo_squareflip_custom_boardState));
+	if (localStorage.getItem("bingo_squareflip_boardState") !== null) {
+		generateBoard(JSON.parse(localStorage.getItem("bingo_squareflip_boardState")));
 	}
 	else generateBoard();
 });

@@ -41,12 +41,12 @@ let filters = {
 };
 
 function saveLevels() {
-	localStorage.totk_armor_levels = JSON.stringify(levels);
+	localStorage.setItem("totk_armor_levels", JSON.stringify(levels));
 }
 function loadLevels() {
-	if (localStorage.totk_armor_levels === undefined) return;
+	if (localStorage.getItem("totk_armor_levels") === null) return;
 
-	const loadedLevels = JSON.parse(localStorage.totk_armor_levels);
+	const loadedLevels = JSON.parse(localStorage.getItem("totk_armor_levels"));
 	for (let armor of armorList) {
 		if (loadedLevels[armor.name] === undefined) {
 			console.warn(`loadLevels() - could not find loadedLevels[${armor.name}] - skipping to next armor`);
@@ -56,12 +56,12 @@ function loadLevels() {
 	}
 }
 function saveFilters() {
-	localStorage.totk_armor_filters = JSON.stringify(filters);
+	localStorage.setItem("totk_armor_filters", JSON.stringify(filters));
 }
 function loadFilters() {
-	if (localStorage.totk_armor_filters === undefined) return;
+	if (localStorage.getItem("totk_armor_filters") === null) return;
 
-	filters = JSON.parse(localStorage.totk_armor_filters);
+	filters = JSON.parse(localStorage.getItem("totk_armor_filters"));
 	
 	for (let chkId in filters.checkbox) {
 		document.getElementById(chkId).checked = filters.checkbox[chkId];
@@ -90,8 +90,8 @@ function loadFilters() {
 }
 
 function loadManualCompletedMaterials() {
-	if (localStorage.totk_armor_manualCompletedMaterials === undefined) return;
-	manualCompletedMaterials = new Set(JSON.parse(localStorage.totk_armor_manualCompletedMaterials));
+	if (localStorage.getItem("totk_armor_manualCompletedMaterials") === null) return;
+	manualCompletedMaterials = new Set(JSON.parse(localStorage.getItem("totk_armor_manualCompletedMaterials")));
 	
 	for (let mat of manualCompletedMaterials) {
 		document.querySelector(`#material-table tr[data-material="${mat}"]`).classList.add("manualcompleted");
@@ -400,12 +400,12 @@ function fillArmorList(action = "insert") {
 
 function showWelcomeModal() {
 	let showAfter = 0;
-	if (localStorage.totk_armor_showWelcomeAfter) showAfter = JSON.parse(localStorage.totk_armor_showWelcomeAfter);
+	if (localStorage.getItem("totk_armor_showWelcomeAfter")) showAfter = JSON.parse(localStorage.getItem("totk_armor_showWelcomeAfter"));
 	const now = Date.now();
 	const waitToShow = 7 * 1000*60*60*24; // 7 days
 	
 	if (now < showAfter) {
-		localStorage.totk_armor_showWelcomeAfter = (now + waitToShow);
+		localStorage.setItem("totk_armor_showWelcomeAfter", (now + waitToShow));
 		return;
 	}
 	
@@ -413,8 +413,8 @@ function showWelcomeModal() {
 	if (showAfter > 0) modal.querySelector(".modal-head").textContent = "Welcome back!";
 	
 	modal.addEventListener("close", function() {
-		if (document.getElementById("chk-hidewelcomemodal").checked) localStorage.totk_armor_showWelcomeAfter = (now + waitToShow);
-		else localStorage.totk_armor_showWelcomeAfter = 1;
+		if (document.getElementById("chk-hidewelcomemodal").checked) localStorage.setItem("totk_armor_showWelcomeAfter", (now + waitToShow));
+		else localStorage.setItem("totk_armor_showWelcomeAfter", 1);
 	});
 	modal.querySelector(".close-modal").addEventListener("click", function() {
 		modal.close();
@@ -459,7 +459,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		if (isManualCompleted) manualCompletedMaterials.add(mat);
 		else manualCompletedMaterials.delete(mat);
 		
-		localStorage.totk_armor_manualCompletedMaterials = JSON.stringify(Array.from(manualCompletedMaterials));
+		localStorage.setItem("totk_armor_manualCompletedMaterials", JSON.stringify(Array.from(manualCompletedMaterials)));
 		filterMaterialList(false);
 	});
 	loadManualCompletedMaterials();
