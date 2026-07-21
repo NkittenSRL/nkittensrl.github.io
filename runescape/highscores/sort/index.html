@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	
+	<title>OSRS Highscores sorter - Nkitten's space</title>
+	
+	<script src="rshighscores_sort.js"></script>
+	
+	<link rel="stylesheet" type="text/css" href="../../../includes/nkittennet.css"/>
+	<style>
+		.hidden {
+			display: none;
+		}
+		.big {
+			font-size: 1.8rem;
+			font-weight: bold;
+		}
+		#out {
+			font-size: 1.2rem;
+		}
+		
+		#pageContainer {
+			text-align: center;
+			width: auto;
+		}
+	</style>
+</head>
+<body>
+	<div id="pageContainer">
+		<input type="text" id="txt-playername" value="" placeholder="player name">
+		<select id='dd-gamemode'>
+			<option value="regular">Regular account</option>
+			<option value="ironman">Ironman</option>
+			<option value="ultimate">Ultimate Ironman</option>
+			<option value="hardcore">Hardcore Ironman</option>
+			<option value="seasonal">Seasonal (Leagues)</option>
+			<option value="deadman">Deadman Mode</option>
+			<option value="tournament">Tournament</option>
+			<option value="freshstart">Fresh Start Worlds</option>
+		</select>
+		<button id="btn-fetchHighscores">Sort highscores!</button>
+		
+		<div id="manual-input" class="hidden">
+			<p>
+				Jagex doesn't allow fetching highscores automatically from your browser,<br>
+				you'll need to manually go to this page (opens in a new tab) and paste its data below:<br><br>
+				
+				<a id="hs-url" target="_blank"></a>
+			</p>
+			<textarea id="txt-manual" cols="40" rows="8"></textarea><br>
+			<button id="btn-manualparse">Really sort highscores! (from pasted data)</button>
+		</div>
+		
+		<div id="out"></div>
+	</div>
+</body>
+</html>

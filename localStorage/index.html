@@ -64,7 +64,7 @@
 				const inLocal = (localCopy[key] !== undefined);
 				const inImported = (importedCopy[key] !== undefined);
 				txt += `<div class='key'><div class='key-name'>${key}</div>`;
-				if (keyInfo[key]?.desc) txt += `<div class='key-desc'>&boxur; ${keyInfo[key].desc}</div>`;
+				if (keyInfo[key]?.desc) txt += `<div class='key-desc'>${keyInfo[key].desc}</div>`;
 				txt += `<div class='key-controls'><span class='switcher'>`;
 				txt += `<button class='switcher-button${(inLocal ? " selected' data-action='keeplocal'" : "' disabled")}>Keep${(includeImported ? " local" : "")}</button>`;
 				if (includeImported === true) {
@@ -162,6 +162,8 @@
 				dataDiv.querySelectorAll(".switcher-button[data-action='keepimported'].selected").forEach(btn => btn.click());
 				
 				document.getElementById("import-data").classList.add("hidden");
+				
+				document.getElementById("import-note").classList.remove("hidden");
 				document.getElementById("manage-data").classList.remove("hidden");
 			});
 		});
@@ -208,7 +210,11 @@
 			font-weight: bold;;
 		}
 		.key-desc {
-			margin-left: 5px;
+			display: flex;
+		}
+		.key-desc::before {
+			content: "└";
+			margin-inline: 5px;
 		}
 		.switcher-button.selected {
 			font-weight: bold;
@@ -248,7 +254,8 @@
 			</div>
 			<div id="import-data" class="hidden">
 				Attempt to automatically import data from nkitten.net (via a self-closing popup window):<br>
-				<button id="btn-popup">Import data from nkitten.net (via popup)</button><br>
+				<button id="btn-popup">Import data from nkitten.net (via popup)</button><br><br>
+				
 				If the popup method didn't work, or you'd rather do it manually, copy your data from:<br>
 				<a href="https://nkitten.net/datatransfer">https://nkitten.net/datatransfer</a><br><br>
 				
@@ -257,12 +264,15 @@
 				<button id="btn-import">Import data</button>
 			</div>
 			<div id="manage-data" class="hidden">
+				<p class="warning">You will be unable to retrieve deleted data once you close or reload this page!</p>
 				<p class="info">
 					If you save new data on a different page while this page is open,<br>
 					it may be overwritten by an old copy of the data when you click on a [Keep] button below.
 				</p>
-				<p class="warning">You will be unable to retrieve deleted data once you close or reload this page!</p>
-				
+				<p id="import-note" class="info hidden">
+					When importing data, any data already saved for this domain will be kept, ignoring imported data with the same name.<br>
+					You can choose to overwrite any of the local data with the imported data below.
+				</p>
 				<div id="stored-data"></div>
 			</div>
 		</main>

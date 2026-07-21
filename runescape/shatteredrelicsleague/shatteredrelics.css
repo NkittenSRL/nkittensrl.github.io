@@ -1,0 +1,153 @@
+#filtersDiv {
+	display: grid;
+	grid-auto-flow: column;
+	column-gap: 50px;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 5px;
+}
+
+.levelfilter {
+	display: inline-block;
+	padding: 5px;
+	margin: 5px 0;
+	border-radius: 5px;
+	background-color: #F22;
+	cursor: pointer;
+	border: 2px solid #a10000;
+}
+.levelfilter.selected { background-color: #008000; border-color: #030; }
+
+#ms-seteffects option:checked {
+	background: #0a0;
+}
+
+#fragmentTableDiv.hidelevel-0 tr.level-0, #fragmentTableDiv.hidelevel-1 tr.level-1, #fragmentTableDiv.hidelevel-2 tr.level-2, #fragmentTableDiv.hidelevel-3 tr.level-3 {
+	display: none;
+}
+
+.filterbyset .fragment_row {
+	display: none;
+}
+.filterbyset.set-absoluteunit tr.absoluteunit, .filterbyset.set-thealchemist tr.thealchemist, .filterbyset.set-chainmagic tr.chainmagic, .filterbyset.set-thecraftsman tr.thecraftsman, .filterbyset.set-doubletap tr.doubletap, .filterbyset.set-drakanstouch tr.drakanstouch, .filterbyset.set-endlessknowledge tr.endlessknowledge, .filterbyset.set-fastmetabolism tr.fastmetabolism, .filterbyset.set-greedygatherer tr.greedygatherer, .filterbyset.set-knifesedge tr.knifesedge, .filterbyset.set-lastrecall tr.lastrecall, .filterbyset.set-personalbanker tr.personalbanker, .filterbyset.set-trailblazer tr.trailblazer, .filterbyset.set-twinstrikes tr.twinstrikes, .filterbyset.set-unchainedtalent tr.unchainedtalent {
+	display: table-row;
+}
+
+.sethover {
+	background: #f9ffa0; color: black; cursor: default;
+}
+
+table, td, th {
+	margin: 0 auto;
+	text-align: center;
+	border: 3px solid #777;
+	border-collapse: collapse;
+}
+td.fragment_pic_cell {
+	border-right: none;
+	padding-right: 8px;
+}
+td.fragment_name {
+	border-left: none;
+	text-align: left;
+}
+td.fragment_desc {
+	text-align: left;
+}
+
+.fragment_row.level-1 .leveleffect.level-1, .fragment_row.level-2 .leveleffect.level-2, .fragment_row.level-3 .leveleffect.level-3 {
+	color: cyan;
+}
+.leveleffect {
+	font-weight: bold;
+}
+
+.leveleffect.level-1 {
+	margin-right: 2px;
+}
+.leveleffect.level-2 {
+	margin-inline: 2px;
+}
+.leveleffect.level-3 {
+	margin-left: 2px;
+}
+
+td.fragment_level {
+	cursor: pointer;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+}
+
+.fragmentpic {
+	display: inline-block;
+	background: url('fragments.png') no-repeat;
+	background-position: 0px 0px;
+	overflow: hidden;
+	width: 32px;
+	height: 32px;
+}
+tr.level-0 .fragmentpic {
+	filter: brightness(0);
+}
+tr.level-1 .fragmentpic {
+	filter: brightness(0.4);
+}
+tr.level-2 .fragmentpic {
+	filter: brightness(0.6);
+}
+.fragmentpic.alchemaniac { background-position: -32px 0px; }
+.fragmentpic.arcaneconduit { background-position: -64px 0px; }
+.fragmentpic.armadyleandecree { background-position: -96px 0px; }
+.fragmentpic.bandosianmight { background-position: -128px 0px; }
+.fragmentpic.barbarianpestwars { background-position: -160px 0px; }
+.fragmentpic.bottomlessquiver { background-position: 0px -32px; }
+.fragmentpic.catchoftheday { background-position: -32px -32px; }
+.fragmentpic.certifiedfarmer { background-position: -64px -32px; }
+.fragmentpic.chefscatch { background-position: -96px -32px; }
+.fragmentpic.chinchonkers { background-position: -128px -32px; }
+.fragmentpic.cluedin { background-position: -160px -32px; }
+.fragmentpic.deeperpockets { background-position: 0px -64px; }
+.fragmentpic.dinedash { background-position: -32px -64px; }
+.fragmentpic.divinerestoration { background-position: -64px -64px; }
+.fragmentpic.dragononabit { background-position: -96px -64px; }
+.fragmentpic.enchantedjeweler { background-position: -128px -64px; }
+.fragmentpic.goldenbrickroad { background-position: -160px -64px; }
+.fragmentpic.graverobber { background-position: 0px -96px; }
+.fragmentpic.homewrecker { background-position: -32px -96px; }
+.fragmentpic.hotonthetrail { background-position: -64px -96px; }
+.fragmentpic.imcandosapprentice { background-position: -96px -96px; }
+.fragmentpic.justdruid { background-position: -128px -96px; }
+.fragmentpic.largerrecharger { background-position: -160px -96px; }
+.fragmentpic.livinonaprayer { background-position: 0px -128px; }
+.fragmentpic.messageinabottle { background-position: -32px -128px; }
+.fragmentpic.mixologist { background-position: -64px -128px; }
+.fragmentpic.moltenminer { background-position: -96px -128px; }
+.fragmentpic.mothersmagicfossils { background-position: -128px -128px; }
+.fragmentpic.plankstretcher { background-position: -160px -128px; }
+.fragmentpic.prayingrespects { background-position: 0px -160px; }
+.fragmentpic.protips { background-position: -32px -160px; }
+.fragmentpic.profletchional { background-position: -64px -160px; }
+.fragmentpic.rocksolid { background-position: -96px -160px; }
+.fragmentpic.rogueschompyfarm { background-position: -128px -160px; }
+.fragmentpic.rootytooty2xruneys { background-position: -160px -160px; }
+.fragmentpic.rumplebowstring { background-position: 0px -192px; }
+.fragmentpic.runeescape { background-position: -32px -192px; }
+.fragmentpic.saradoministdefence { background-position: -64px -192px; }
+.fragmentpic.seedybusiness { background-position: -96px -192px; }
+.fragmentpic.slashburn { background-position: -128px -192px; }
+.fragmentpic.slayallday { background-position: -160px -192px; }
+.fragmentpic.slaynpay { background-position: 0px -224px; }
+.fragmentpic.smithingdouble { background-position: -32px -224px; }
+.fragmentpic.smoothcriminal { background-position: -64px -224px; }
+.fragmentpic.specialdiscount { background-position: -96px -224px; }
+.fragmentpic.superiortracking { background-position: -128px -224px; }
+.fragmentpic.tacticalduelist { background-position: -160px -224px; }
+.fragmentpic.thralldamage { background-position: 0px -256px; }
+.fragmentpic.unholyranger { background-position: -32px -256px; }
+.fragmentpic.unholywarrior { background-position: -64px -256px; }
+.fragmentpic.unholywizard { background-position: -96px -256px; }
+.fragmentpic.venomaster { background-position: -128px -256px; }
+.fragmentpic.zamorakiansight { background-position: -160px -256px; }

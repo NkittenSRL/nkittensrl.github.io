@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="description" content="Track when Grid Master tasks were completed.">
+	
+	<title>Grid Master progress tracker (OSRS) - Nkitten's space</title>
+	
+	<script>
+		const settings = {
+			"dd-textover": "date",
+			"chk-confirmremoval": true,
+			"chk-floattaskinfo": true
+		};
+		
+		const boardInfo = {rowCount: 7, colCount: 7};
+		const pointsPerTier = {"auto": 100, "easy": 100, "medium": 350, "hard": 1000};
+		const lineRewards = {
+			"row1": {front: "Exposure", tasksCompleted: 0},
+			"row2": {front: "Amulet of the Monarchs", tasksCompleted: 0},
+			"row3": {front: "All Combat Masteries increase by 1 tier", pics: ["CombatMasteries-Line.png"], tasksCompleted: 0},
+			"row4": {front: "+200% XP for all skills", pics: ["XPMult-Line.png"], tasksCompleted: 0},
+			"row5": {front: "All Combat Masteries increase by 1 tier", pics: ["CombatMasteries-Line.png"], tasksCompleted: 0},
+			"row6": {front: "Gloves of the Damned", tasksCompleted: 0},
+			"row7": {front: "Rune Saviour", tasksCompleted: 0},
+			
+			"col1": {front: "The Dogsword", tasksCompleted: 0},
+			"col2": {front: "Emperor Ring", tasksCompleted: 0},
+			"col3": {front: "All Combat Masteries increase by 1 tier", pics: ["CombatMasteries-Line.png"], tasksCompleted: 0},
+			"col4": {front: "+200% XP for all skills", pics: ["XPMult-Line.png"], tasksCompleted: 0},
+			"col5": {front: "All Combat Masteries increase by 1 tier", pics: ["CombatMasteries-Line.png"], tasksCompleted: 0},
+			"col6": {front: "Sunlight Spear", back: "Sunlit Bracers", tasksCompleted: 0},
+			"col7": {front: "Thousand-Dragon Ward", tasksCompleted: 0}
+		}
+			// "row1": {front: "?", back: "?", pics: [".png"], tasksCompleted: 0},
+		const tasks = [
+			{tier: "hard", task: "Defeat the Doom of Mokhaiotl at depth 8 or deeper", reward: "Avernic Treads (Max)"},
+			{tier: "hard", task: "Defeat Sol Heredit", reward: "Specialist"},
+			{tier: "medium", task: "Fully decorate a magic totem in the Auburn Valley", reward: "Devil's element"},
+			{tier: "easy", task: "Kill an Ogress", reward: "Combatant"},
+			{tier: "medium", task: "Defeat Jal-Zek within the Inferno", reward: "Slayer Master"},
+			{tier: "hard", task: "Obtain a rare drop from Yama", reward: "Last Stand"},
+			{tier: "hard", task: "Obtain a rare drop from Chambers of Xeric", reward: "Mega Rare Scroll", pics: [null,"MegaRareScroll.png"]},
+			
+			{tier: "hard", task: "Reach 2,000 total level", reward: "All combat achievements completed"},
+			{tier: "medium", task: "Open the Lunar Chest", reward: "+200% XP for all skills", pics: [null,"XPMult-medium.png"]},
+			{tier: "medium", task: "Obtain a rare drop from The Hueycoatl", reward: "Auto-complete While Guthix Sleeps"},
+			{tier: "easy", task: "Reach 500 total level", reward: "XP Lamp (25,000 XP)"},
+			{tier: "medium", task: "Cook a shark while wearing a Chef's hat", reward: "Corrupted Shark"},
+			{tier: "medium", task: "Defeat Zulrah with a blowpipe", reward: "Auto-complete Monkey Madness II"},
+			{tier: "hard", task: "Complete the Inferno in 30 minutes or less", reward: "Guardian"},
+			
+			{tier: "medium", task: "Obtain some Valuables from a house in Varlamore", reward: "Golden God"},
+			{tier: "medium", task: "Obtain a rare unique from the Barrows chest while wearing some Barrows equipment", reward: "+200% XP for all skills", pics: [null,"XPMult-medium.png"]},
+			{tier: "easy", task: "Drink a Steamforge brew within the Stick Your Ore Inn", reward: "Bank Heist"},
+			{tier: "easy", task: "Chop Maple Logs", reward: "Power Miner / Lumberjack / Animal Wrangler (choose 1)", pics: [null,"T1Harvest.png"]},
+			{tier: "easy", task: "Defeat Scurrius", reward: "All Combat Masteries increase by 1 tier", pics: [null,"CombatMasteries-easy.png"]},
+			{tier: "medium", task: "Kill a Lizardman Shaman in the Lizardman Temple", reward: "Auto-complete Song of the Elves"},
+			{tier: "medium", task: "Complete the Corrupted Gauntlet", reward: "Banker's Note"},
+			
+			{tier: "easy", task: "Gain over 30,000 coins from one Alchemy spell", reward: "Production Prodigy"},
+			{tier: "easy", task: "Steal from a Fruit Stall", reward: "Dodgy Deals"},
+			{tier: "easy", task: "Throw a gnomeball", reward: "Corner Cutter"},
+			{tier: "auto", task: "Complete the Grid Master Tutorial", reward: "Power Miner / Lumberjack / Animal Wrangler (choose 1)"},
+			{tier: "easy", task: "Equip any boots from the Stronghold of Security", reward: "Fairy's Flight"},
+			{tier: "easy", task: "Complete the Vampyre Slayer quest", reward: "Auto-complete Sins of the Father"},
+			{tier: "easy", task: "Clean 3 grimy herbs", reward: "Friendly Forager"},
+			
+			{tier: "medium", task: "Obtain a rare drop from Vorkath", reward: "Grimoire"},
+			{tier: "medium", task: "Catch a Moth bare-handed", reward: "Auto-complete Dragon Slayer II"},
+			{tier: "easy", task: "Subdue Tempoross", reward: "Craftsman"},
+			{tier: "easy", task: "Mine Gold Ore", reward: "Power Miner / Lumberjack / Animal Wrangler (choose 1)", pics: [null,"T1Harvest.png"]},
+			{tier: "easy", task: "Witness the Gemstone Crab burrow away", reward: "Gatherer"},
+			{tier: "medium", task: "Make a Zamorak brew while wearing Zamorak monk robes in the Varrock Chaos Altar", reward: "Bottomless Brew"},
+			{tier: "medium", task: "Defeat TzTok-Jad", reward: "Auto-complete The Final Dawn"},
+			
+			{tier: "hard", task: "Defeat all 4 Awakened bosses", reward: "Battlehat"},
+			{tier: "medium", task: "Defeat Kalphite Queen", reward: "Drygore blowpipe"},
+			{tier: "medium", task: "Equip a unique item from God Wars Dungeon", reward: "Total Recall"},
+			{tier: "easy", task: "Open Bryophyta's Chest", reward: "All Combat Masteries increase by 1 tier", pics: [null,"CombatMasteries-easy.png"]},
+			{tier: "medium", task: "Check a grown fruit tree", reward: "Farmer's Fortune"},
+			{tier: "medium", task: "Equip an Amulet of Fury", reward: "Auto-complete Desert Treasure II"},
+			{tier: "hard", task: "Complete floor 5 of the Hallowed Sepulchre", reward: "Auto-complete all achievement diaries"},
+			
+			{tier: "hard", task: "Obtain a rare unique from Tombs of Amascut", reward: "Mega Rare Scroll", pics: [null,"MegaRareScroll.png"]},
+			{tier: "hard", task: "Build a Demonic Throne in your Player Owned House", reward: "Thunder Kopesh"},
+			{tier: "medium", task: "Deposit a Skillcape into your Player Owned House", reward: "Spikey Aura"},
+			{tier: "easy", task: "Defeat the Lesser Demon in the Wizards Tower", reward: "Minimum Potential"},
+			{tier: "medium", task: "Reach 1,500 total level", reward: "XP Lamp (100,000 XP)"},
+			{tier: "hard", task: "Obtain a rare drop from Araxxor", reward: "+200% XP for all skills"},
+			{tier: "hard", task: "Obtain a rare drop from Theatre of Blood", reward: "Mega Rare Scroll", pics: [null,"MegaRareScroll.png"]}
+		];
+			// {tier: "", task: "?", reward: "?", pics: ["RT-T.png","RT-R.png"]},
+		
+		const taskInfo = {startTime: 1760526000000, tasksCompleted: 0, pointsEarned: 0};
+		let task_history = [];
+		
+		function makeBoard() {
+			let txt = "";
+			let taskNr = 0;
+			for (let r = 1; r <= boardInfo.rowCount; r++) {
+				txt += `<tr data-row="${r}"><td class="line-reward" data-line="row${r}"><img class="front-image" src="img/tasks/${(lineRewards[`row${r}`]?.pics?.[0] ? lineRewards[`row${r}`].pics[0] : (lineRewards[`row${r}`].front === "?" ? "GM-Line-Reward.png" : `GM-Line-row${r}.png`))}">${(lineRewards[`row${r}`].back ? `<img class="back-image" src="img/rewards/${(lineRewards[`row${r}`]?.pics?.[1] ? lineRewards[`row${r}`].pics[1] : (lineRewards[`row${r}`].back === "?" ? "GM-Line-Reward.png" : `GM-Line-row${r}.png`))}">` : "")}<span class="textover"><span class="task-count-current">0</span> / <span class="task-count-total">${boardInfo.colCount}</span></span></td>`;
+				for (let c = 1; c <= boardInfo.colCount; c++) {
+					txt += `<td class="grid-tile" data-tier="${tasks[taskNr].tier}" data-taskNr="${taskNr}" data-row="${r}" data-col="${c}"><img class="front-image" src="img/tasks/${(tasks[taskNr]?.pics?.[0] ? tasks[taskNr].pics[0] : (tasks[taskNr].task === "?" ? `GM-Tile-${tasks[taskNr].tier}.png` : `R${r}T${c}-T.png`))}"><img class="back-image" src="img/rewards/${(tasks[taskNr]?.pics?.[1] ? tasks[taskNr].pics[1] : (tasks[taskNr].task === "?" ? `GM-Tile-${tasks[taskNr].tier}.png` : `R${r}T${c}-R.png`))}"><span class="textover"></span></td>`;
+					taskNr++;
+				}
+				txt += "</tr>";
+			}
+			txt += `<tr data-row="${boardInfo.colCount + 1}"><td id="board-totals"><span class="textover"><span class="task-count"><span class="task-count-current">0</span> / <span class="task-count-total">${boardInfo.rowCount * boardInfo.colCount}</span></span><span class="grid-points">0 points</span></span></td>`;
+			for (let c = 1; c <= boardInfo.colCount; c++) {
+				txt += `<td class="line-reward" data-line="col${c}"><img class="front-image" src="img/tasks/${(lineRewards[`col${c}`]?.pics?.[0] ? lineRewards[`col${c}`].pics[0] : (lineRewards[`col${c}`].front === "?" ? "GM-Line-Reward.png" : `GM-Line-col${c}.png`))}">${(lineRewards[`col${c}`].back ? `<img class="back-image" src="img/rewards/${(lineRewards[`col${c}`]?.pics?.[1] ? lineRewards[`col${c}`].pics[1] : (lineRewards[`col${c}`].back === "?" ? "GM-Line-Reward.png" : `GM-Line-col${c}.png`))}">` : "")}<span class="textover"><span class="task-count-current">0</span> / <span class="task-count-total">${boardInfo.rowCount}</span></span></td>`;
+			}
+			txt += "</tr>";
+			return txt;
+		}
+		
+		function getTime() {
+			return new Date().getTime();
+		}
+		function displayDate(t) {
+			const d = new Date(t);
+			const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+			return months[d.getMonth()] + " " + d.getDate() + "<br>" + d.getHours() + ":" + ((d.getMinutes() < 10) ? "0" + d.getMinutes() : d.getMinutes()) + ":" + ((d.getSeconds() < 10) ? "0" + d.getSeconds() : d.getSeconds());
+		}
+		function displayTimeToComplete(t) {
+			const seconds = Math.floor(t / 1000);
+			let days = Math.floor(seconds / 86400);
+			let hours = Math.floor(seconds / 3600) % 24;
+			let minutes = Math.floor(seconds / 60) % 60;
+			return `${(days > 0 ? days + ` day${days === 1 ? "" : "s"}<br>` : "")}${(hours > 0 ? hours + "h " : "")}${minutes + "m"}`;
+		}
+		
+		function setTaskState(nr, completion, loadedData, allowPush = true) {
+			const time = getTime();
+			const tile = document.querySelector(`#grid-table .grid-tile[data-tasknr='${nr}']`);
+			
+			taskInfo.tasksCompleted += (completion ? 1 : -1);
+			taskInfo.pointsEarned += pointsPerTier[tasks[nr].tier] * (completion ? 1 : -1);
+			
+			const taskData = loadedData ?? {completedOrder: taskInfo.tasksCompleted, completedAt: time, timeToComplete: (time - taskInfo.startTime)};
+			if (allowPush === true) task_history.push([nr, taskData]);
+			
+			tile.classList.toggle("completed", completion);
+			tile.querySelector(".textover").innerHTML = (completion ? `<span class="order">${taskData.completedOrder}</span><span class="date">${displayDate(taskData.completedAt)}</span><span class="timetocomplete">${displayTimeToComplete(taskData.timeToComplete)}</span><span class="points">${pointsPerTier[tasks[nr].tier]} points</span>` : "");
+			
+			const row = "row" + tile.getAttribute("data-row");
+			const col = "col" + tile.getAttribute("data-col");
+			lineRewards[row].tasksCompleted += (completion ? 1 : -1);
+			lineRewards[col].tasksCompleted += (completion ? 1 : -1);
+			document.querySelector(`#grid-table .line-reward[data-line='${row}'] .task-count-current`).innerHTML = lineRewards[row].tasksCompleted;
+			document.querySelector(`#grid-table .line-reward[data-line='${col}'] .task-count-current`).innerHTML = lineRewards[col].tasksCompleted;
+			document.querySelector("#grid-table #board-totals .task-count-current").innerHTML = taskInfo.tasksCompleted;
+			document.querySelector("#grid-table #board-totals .grid-points").innerHTML = taskInfo.pointsEarned + " points";
+			document.querySelector(`#grid-table .line-reward[data-line='${row}']`).classList.toggle("completed", lineRewards[row].tasksCompleted === boardInfo.rowCount);
+			document.querySelector(`#grid-table .line-reward[data-line='${col}']`).classList.toggle("completed", lineRewards[col].tasksCompleted === boardInfo.rowCount);
+		}
+		function recalculateFromHistory() {
+			taskInfo.tasksCompleted = 0;
+			taskInfo.pointsEarned = 0;
+			document.querySelector("#grid-table #board-totals .task-count-current").innerHTML = "0";
+			document.querySelector("#grid-table #board-totals .grid-points").innerHTML = "0 points";
+			for (let line in lineRewards) {
+				lineRewards[line].tasksCompleted = 0;
+				const cellOver = document.querySelector(`#grid-table .line-reward[data-line='${line}'] .task-count-current`);
+				if (cellOver) cellOver.innerHTML = "0";
+			}
+			document.querySelectorAll("#grid-table .grid-tile").forEach(ele => {
+				ele.classList.remove("completed");
+				ele.querySelector(".textover").innerHTML = "";
+			});
+			
+			for (let t in task_history) {
+				const task = task_history[t];
+				task[1].completedOrder = Number(t)+1;
+				task[1].timeToComplete = task[1].completedAt - taskInfo.startTime;
+				setTaskState(task[0], true, task[1], false);
+			}
+			saveTasks();
+		}
+		
+		function removeTaskCompletion(nr) {
+			task_history.splice(task_history.findIndex(task => task[0] === nr), 1);
+			recalculateFromHistory();
+		}
+		function confirmRemoval(tile) {
+			if (document.getElementById("chk-confirmremoval").checked === true) {
+				const modal = document.getElementById("modal-confirmremoval");
+				document.getElementById("removal-task-info").innerHTML = displayTaskInfo(tile);
+				document.getElementById("btn-confirmremoval").setAttribute("data-tasknr", tile.getAttribute("data-tasknr"));
+				modal.showModal();
+				modal.scrollTop = 0;
+				return;
+			}
+			removeTaskCompletion(tile.getAttribute("data-tasknr"));
+		}
+		
+		function displayTaskInfo(tile) {
+			const front = tile.querySelector(".front-image").getAttribute("src");
+			const back = tile.querySelector(".back-image")?.getAttribute("src") ?? front;
+			if (tile.classList.contains("grid-tile")) {
+				const nr = tile.getAttribute("data-tasknr");
+				return `<span class="board-position" data-tier="${tile.getAttribute("data-tier")}">Row ${tile.getAttribute("data-row")}, Column ${tile.getAttribute("data-col")}</span><img class="front-image" src="${front}"><span class="mid-text">${tasks[nr].task}<br>&darr;<br>${tasks[nr].reward}</span><img class="back-image" src="${back}">`;
+			}
+			if (tile.classList.contains("line-reward")) {
+				const line = tile.getAttribute("data-line");
+				const lineName = (line.slice(0,3) === "row" ? "Row " + line.slice(3) : "Column " + line.slice(3));
+				return `<span class="board-position" data-tier="line">Complete ${lineName}</span><img class="front-image" src="${front}"><span class="mid-text">${lineRewards[line].front}${(lineRewards[line].back ? "<br>+<br>" + lineRewards[line].back : "")}</span><img class="back-image" src="${back}">`;
+			}
+		}
+		
+		function saveTasks() {
+			localStorage.setItem("osrs_gridmaster_tasks", JSON.stringify({startTime: taskInfo.startTime, task_history: task_history}));
+		}
+		function loadTasks() {
+			if (localStorage.getItem("osrs_gridmaster_tasks") !== null) {
+				const saved = JSON.parse(localStorage.getItem("osrs_gridmaster_tasks"));
+				taskInfo.startTime = saved.startTime;
+				task_history = structuredClone(saved.task_history);
+				recalculateFromHistory();
+			}
+		}
+		
+		function saveSettings() {
+			for (let id in settings) {
+				const ele = document.getElementById(id);
+				const kind = id.split("-")[0];
+				if (kind === "chk") {
+					settings[id] = ele.checked;
+				} else if (kind === "nr") {
+					settings[id] = Number(ele.value);
+				} else {
+					settings[id] = ele.value;
+				}
+			}
+			localStorage.setItem("osrs_gridmaster_settings", JSON.stringify(settings));
+		}
+		function loadSettings() {
+			if (localStorage.getItem("osrs_gridmaster_settings") === null) return;
+			const savedSettings = JSON.parse(localStorage.getItem("osrs_gridmaster_settings"));
+			
+			for (let id in savedSettings) {
+				if (settings[id] !== undefined) {
+					const ele = document.getElementById(id);
+					const kind = id.split("-")[0];
+					if (kind === "chk") {
+						ele.checked = savedSettings[id];
+					} else {
+						ele.value = savedSettings[id];
+					}
+					settings[id] = savedSettings[id];
+				}
+			}
+		}
+		
+		document.addEventListener("DOMContentLoaded", function() {
+			document.querySelector("#grid-table tbody").innerHTML = makeBoard();
+			loadSettings();
+			loadTasks();
+			
+			const gridTable = document.getElementById("grid-table");
+			document.getElementById("toggle-btn").addEventListener("click", function(evt) {
+				gridTable.setAttribute("data-showside", (gridTable.getAttribute("data-showside") === "front" ? "back" : "front"));
+			});
+			
+			gridTable.addEventListener("click", function(evt) {
+				const tile = evt.target.closest(".grid-tile");
+
+				if (tile) {
+					if (!tile.classList.contains("completed")) {
+						setTaskState(tile.getAttribute("data-tasknr"), true);
+						saveTasks();
+						return;
+					}
+					confirmRemoval(tile);
+				}
+			});
+			
+			gridTable.addEventListener("mouseenter", function(evt) {
+				if (["grid-tile", "line-reward"].some(className => evt.target.classList.contains(className))) {
+					const taskInfoHTML = displayTaskInfo(evt.target);
+					document.getElementById("hover-task-info").innerHTML = taskInfoHTML;
+					document.getElementById("float-task-info").innerHTML = taskInfoHTML;
+				}
+			}, {capture: true});
+			
+			document.getElementById("dd-textover").addEventListener("change", function() {
+				gridTable.setAttribute("data-textover", this.value);
+				saveSettings();
+			});
+			document.getElementById("chk-confirmremoval").addEventListener("change", function() {
+				saveSettings();
+			});
+			document.getElementById("chk-floattaskinfo").addEventListener("change", function() {
+				if (this.checked) document.body.setAttribute("data-floattaskinfo", "true");
+				else document.body.removeAttribute("data-floattaskinfo");
+				saveSettings();
+			});
+			
+			const modal = document.getElementById("modal-confirmremoval");
+			modal.addEventListener("click", function(evt) {
+				const btn = evt.target.closest("button");
+				
+				if (btn) {
+					if (btn.id === "btn-confirmremoval") {
+						removeTaskCompletion(btn.getAttribute("data-tasknr"));
+					}
+					modal.close();
+				}
+			});
+			
+			document.querySelectorAll("#dd-textover, #chk-floattaskinfo").forEach(ele => ele.dispatchEvent(new Event("change")));
+		});
+	</script>
+	
+	<link rel="stylesheet" type="text/css" href="../../includes/nkittennet.css"/>
+	<style>
+		.rs-box {
+			background: #534A3E;
+			color: #f5f5f5;
+			text-shadow: 1px 1px #121212;
+			border: 6px solid transparent;
+			border-image: url("img/Border-3.png") 6 / 6px round;
+			box-sizing: border-box;
+			margin: 0 auto;
+			text-align: center;
+		}
+		#toggle-btn {
+			display: block;
+			padding: 6px 50px;
+			font-size: 16px;
+			font-weight: bold;
+			color: #FF981F;
+			cursor: pointer;
+		}
+		#toggle-btn:hover {
+			background: #72695c;
+		}
+		
+		:root {
+			--cyan: hsla(209, 100%, 60%);
+			--green: hsla(123, 100%, 60%);
+			--orange: hsla(39, 100%, 60%);
+			--red: hsla(0, 100%, 60%);
+		}
+		#pageContainer {
+			padding: 0;
+			display: grid;
+			grid-template-columns: min-content 1fr;
+			grid-template-areas: "grid side";
+		}
+		#grid-container {
+			grid-area: grid;
+		}
+		#side-content {
+			grid-area: side;
+			padding-inline: 8px;
+		}
+		.sticky-wrapper {
+			position: sticky;
+			top: 0;
+		}
+		
+		#grid-table {
+			width: 650px;
+		}
+		td {
+			position: relative;
+		}
+		.grid-tile {
+			cursor: pointer;
+		}
+		:where(#grid-table) img {
+			width: 100%;
+			height: auto;
+			display: block;
+		}
+		
+		td[data-tier='auto'], .line-reward.completed { --bg: hsl(from var(--cyan) h s l / 0.2); }
+		td[data-tier='easy'] { --bg: hsl(from var(--green) h s l / 0.2); }
+		td[data-tier='medium'] { --bg: hsl(from var(--orange) h s l / 0.2); }
+		td[data-tier='hard'] { --bg: hsl(from var(--red) h s l / 0.2); }
+		
+		.textover {
+			position: absolute;
+			inset: 0;
+			background: var(--bg, hsla(0, 0%, 0%, 0.4));
+			
+    		place-content: center;
+			font-weight: bold;
+			font-size: 18px;
+			text-shadow: 2px 1px #121212;
+		}
+		
+		#board-totals .textover {
+			display: grid;
+			align-content: space-evenly;
+			padding: 3px;
+		}
+		#board-totals .grid-points {
+			font-size: 1rem;
+		}
+		
+		.line-reward .textover {
+			font-size: 24px;
+		}
+		.textover .order {
+			font-size: 32px;
+		}
+		.grid-tile .textover > * {
+			display: none;
+		}
+		[data-textover='order'] .textover .order,
+		[data-textover='date'] .textover .date,
+		[data-textover='timetocomplete'] .textover .timetocomplete,
+		[data-textover='points'] .textover .points {
+			display: block;
+		}
+		
+		[data-showside='front'] .back-image,
+		[data-showside='back'] td:has(.back-image) .front-image {
+			display: none;
+		}
+		
+		.grid-tile.completed img {
+			opacity: 0.5;
+		}
+		.grid-tile:not(.completed) .textover {
+			display: none;
+		}
+		.line-reward.completed img {
+			opacity: 0.8;
+		}
+		
+		/* .task-count-current {
+			display: inline-block;
+			translate: 0.25em -0.75em;
+		}
+		.task-count-total {
+			display: inline-block;
+			translate: -0.25em 0.75em;
+		} */
+		 
+		#settings {
+			margin-block: 1em;
+			text-align: center;
+		}
+		.task-info:has([data-tier='line']) { --border: hsl(from var(--cyan) h 50% 50%); }
+		.task-info:has([data-tier='auto']) { --border: hsl(from var(--cyan) h s l); }
+		.task-info:has([data-tier='easy']) { --border: hsl(from var(--green) h 50% 40%); }
+		.task-info:has([data-tier='medium']) { --border: hsl(from var(--orange) h 60% 50%); }
+		.task-info:has([data-tier='hard']) { --border: hsl(from var(--red) h 70% 55%); }
+		
+		.task-info {
+			max-width: fit-content;
+			margin: 5px auto;
+			padding: 8px;
+			border: 1px solid var(--border, transparent);
+			
+			display: grid;
+			grid-template-areas: "pos pos pos" "front mid back";
+			justify-content: center;
+			align-items: center;
+			justify-items: center;
+			gap: 6px;
+			text-align: center;
+			
+			.board-position {
+				grid-area: pos;
+				font-size: 1.5em;
+				font-weight: bold;
+			}
+			
+			img { width: 75px; }
+			.front-image { grid-area: front; }
+			.back-image { grid-area: back; }
+			
+			.mid-text {
+				grid-area: mid;
+				min-width: 100px;
+			}
+		}
+		.task-info:empty {
+			display: none;
+		}
+		#float-task-info {
+			display: none;
+		}
+		
+		@media (max-width: 1236px) {
+			#pageContainer {
+				width: min-content;
+				grid-template-columns: min-content;
+				grid-template-areas: "grid" "side";
+			}
+			
+			@supports(position-try-fallbacks: top) {
+				/* @position-try --custom-top {
+					position-area: top;
+					margin-bottom: 10px;
+				} */
+				@position-try --custom-right-bottom {
+					left: calc(anchor(right) + 10px);
+					bottom: anchor(bottom);
+					margin: 0;
+				}
+				@position-try --custom-right-top {
+					left: calc(anchor(right) + 10px);
+					top: anchor(top);
+					margin: 0;
+				}
+				@position-try --custom-left-bottom {
+					right: calc(anchor(left) + 10px);
+					bottom: anchor(bottom);
+					margin: 0;
+				}
+				@position-try --custom-left-top {
+					right: calc(anchor(left) + 10px);
+					top: anchor(top);
+					margin: 0;
+				}
+				
+				.grid-tile:hover,
+				.line-reward:hover {
+					anchor-name: --my-anchor;
+				}
+				body[data-floattaskinfo='true'] :has(.grid-tile:hover, .line-reward:hover) #float-task-info {
+					display: grid;
+					position: fixed;
+					z-index: 9;
+					margin: 10px;
+					background-color: var(--page-bg, #555);
+					
+					position-anchor: --my-anchor;
+					position-try-fallbacks: top, bottom, --custom-right-top, --custom-right-bottom, --custom-left-top, --custom-left-bottom;
+					/* position-visibility: no-overflow; */
+				}
+			}
+		}
+		
+		#removal-task-info {
+			background-color: hsl(0, 40%, 20%);
+		}
+		
+		#modal-confirmremoval {
+			text-align: center;
+			color: var(--fc-primary, #fff);
+			background-color: var(--page-bg, #555);
+		}
+		#modal-confirmremoval::backdrop {
+			background-color: rgb(0 0 0 / 0.7);
+		}
+		.removal-header {
+			font-size: 2em;
+			font-weight: bold;
+		}
+		.removal-footer {
+			font-size: 1.3em;
+			font-weight: bold;
+		}
+		#btn-confirmremoval {
+			background: hsl(0, 100%, 35%);
+			color: #fff;
+			margin-block: 10px;
+			padding: 5px 10px;
+		}
+	</style>
+</head>
+<body>
+	<dialog id="modal-confirmremoval">
+		<div>
+			<div class="removal-header">Undo completion?</div>
+			<div id="removal-task-info" class="task-info"></div>
+			<div class="removal-footer">This cannot be reversed!</div>
+		</div>
+		<button id="btn-confirmremoval">I really want to undo the task completion</button><br>
+		<button>Nevermind, keep task completed</button>
+	</dialog>
+	
+	<div id="pageContainer">
+		<main id="grid-container">
+			<table id="grid-table" class="rs-box" data-showside="front" data-textover="date">
+				<tbody></tbody>
+			</table>
+			<div id="float-task-info" class="task-info"></div>
+		</main>
+		<aside id="side-content">
+			<div class="sticky-wrapper">
+				<button id="toggle-btn" class="rs-box">Flip Tiles</button>
+				<div id="settings">
+					<label for="dd-textover">Label completed tasks: </label><select id="dd-textover">
+						<option value="none">No label</option>
+						<option value="order">Order completed</option>
+						<option value="date" selected>Date completed</option>
+						<option value="timetocomplete">Time to complete</option>
+						<option value="points">Points earned</option>
+					</select><br>
+					<input type="checkbox" id="chk-confirmremoval" checked><label for="chk-confirmremoval">Require confirmation to undo task completion</label><br>
+					<input type="checkbox" id="chk-floattaskinfo" checked><label for="chk-floattaskinfo">Try floating task details near hovered tile on small screens</label>
+				</div>
+				<div id="hover-task-info" class="task-info"><span class="board-position" data-tier="line">(hover task for info)</span><img class="front-image" src="img/tasks/GM-Line-Reward.png"><span class="mid-text">?</span><img class="back-image" src="img/tasks/GM-Line-Reward.png"></div>
+			</div>
+		</aside>
+	</div>
+</body>
+</html>
