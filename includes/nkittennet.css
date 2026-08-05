@@ -19,6 +19,12 @@ body {
 a {
 	color: var(--fc-primary);
 }
+a:hover {
+	color: hsl(0, 0%, 80%);
+}
+a:active {
+	color: hsl(0, 100%, 80%);
+}
 
 /* ----- Header ----- */
 

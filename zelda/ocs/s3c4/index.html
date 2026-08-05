@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>OCS S3C4 tracker - Nkitten's space</title>
+<script>
+	let chests = {"big": 0, "small": 0};
+	
+	document.addEventListener("DOMContentLoaded", function() {
+		document.querySelectorAll(".chestButton").forEach(ele => ele.addEventListener("click", function() {
+			const chestSize = this.getAttribute("data-size");
+			const changeAmt = Number(this.getAttribute("data-change"));
+			
+			chests[chestSize] += changeAmt;
+			if (chests[chestSize] < 0) chests[chestSize] = 0;
+			
+			document.getElementById(chestSize + "ChestCount").innerHTML = chests[chestSize];
+			if (chestSize === "big") document.getElementById("smallChestGoal").innerHTML = 45 + (chests.big * 10);
+		}));
+	});
+</script>
+
+<style>
+	body {
+		background: black;
+		color: white;
+		font-family: calibri, sans-serif;
+	}
+	
+	#goalContainer {
+		max-width: 240px;
+		padding: 5px;
+		border: 2px solid grey;
+	}
+	
+	.chestButton {
+		margin: 0;
+		padding: 0 5px;
+		border: none;
+		background: none;
+		font: inherit;
+		color: inherit;
+		
+		cursor: pointer;
+	}
+	
+	#bigChestCount, #smallChestCount, #smallChestGoal {
+		display: inline-block;
+		min-width: 50px;
+	} #bigChestCount {
+		text-align: center;
+	} #smallChestCount {
+		text-align: right;
+	}
+	
+	.big {
+		font-size: 2em;
+	}
+	.med {
+		font-size: 1.5em;
+	}
+	
+	.txtGreen { color: rgb(70,255,57); }
+	.txtYellow { color: rgb(225,255,49); }
+	.txtBlue { color: rgb(100,180,247); }
+	.txtRed { color: rgb(255,60,60); }
+</style>
+</head>
+<body>
+	<div id="goalContainer">
+		<span class="goalName big">Chest Size Matters</span><br /><br />
+		
+		<div id="tracker">
+		<span class="bigChestTop med">Big Chests opened:</span><br />
+		<span class="bigChestBot big"><button class="chestButton" data-size="big" data-change="-1">-</button> <span id="bigChestCount">0</span> <button class="chestButton" data-size="big" data-change="1">+</button></span><br /><br />
+		<span class="med">Goal:</span><br/>
+		<span class="goal med">Open <span class="txtGreen">45 small chests</span></span><br />
+		<span class="smallChestBot big"><button class="chestButton" data-size="small" data-change="-1">-</button> <span id="smallChestCount">0</span>/<span id="smallChestGoal">45</span> <button class="chestButton" data-size="small" data-change="1">+</button></span>
+		</div><br />
+		
+		Rules & restrictions
+		<ul>
+		<li>For every <span class="txtYellow">big chest</span> that you open, you must open an additional <span class="txtGreen">10 small chests</span></li>
+		<li><span class="txtBlue">Kokiri Sword</span> is free<br />(obtaining it does not<br />require you to open any<br />additional small chests)</li>
+		<li>No <span class="txtRed">RBA</span></li>
+		<li>No <span class="txtRed">wrong warps</span> as child</li>
+	</div>
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Lost Cities points calculator</title>
+
+<script>
+	const colors = ["yellow", "blue", "white", "green", "red"];
+	
+	function makeCardsColumn(color) {
+		const numCards = [2,3,4,5,6,7,8,9,10];
+		
+		let txt = "<div class='cardscolumn' data-color='" + color + "'><span class='columnscore'>0</span><button class='cardcell' data-card='m'>$</button><button class='cardcell' data-card='m'>$</button><button class='cardcell' data-card='m'>$</button>";
+		for (const num of numCards) {
+			txt += `<button class='cardcell' data-card='${num}'>${num}</button>`;
+		}
+		txt += "</div>";
+		return txt;
+	}
+	
+	function getColorScore(color) {
+		let multi = 1;
+		let points = 0;
+		
+		const selectedCards = document.querySelectorAll(".cardscolumn[data-color='" + color + "'] .cardcell.selected");
+		selectedCards.forEach(card => {
+			const cardVal = card.getAttribute("data-card");
+			if (cardVal === "m") { multi++; }
+			else { points += Number(cardVal); }
+		});
+		
+		if (selectedCards.length > 0) {
+			points = (points - 20) * multi;
+			if (selectedCards.length >= 8) {
+				points += 20; //20 (non-multiplied) bonus points if at least 8 cards
+			}
+		}
+		return points;
+	}
+	
+	function clearCardSelection() {
+		document.querySelectorAll(".cardcell.selected").forEach(ele => ele.classList.remove("selected"));
+		document.querySelectorAll(".columnscore").forEach(ele => ele.textContent = "0");
+	}
+	
+	function addScoresToPlayer(p) {
+		const scorebox = document.getElementById("P" + p + "Score");
+		let score = Number(scorebox.textContent);
+		for (const color of colors) {
+			score += getColorScore(color);
+		}
+		scorebox.textContent = score;
+		clearCardSelection();
+	}
+	
+	document.addEventListener("DOMContentLoaded", function() {
+		document.getElementById("btnP1Score").addEventListener("click", function() {
+			addScoresToPlayer(1);
+		});
+		document.getElementById("btnP2Score").addEventListener("click", function() {
+			addScoresToPlayer(2);
+		});
+		
+		const cardsDiv = document.getElementById("cards");
+		
+		cardsDiv.addEventListener("click", function(evt) {
+			const cardCell = evt.target.closest(".cardcell");
+			if (!cardCell) return;
+			
+			cardCell.classList.toggle("selected");
+			const column = cardCell.parentElement;
+			column.querySelector(".columnscore").textContent = getColorScore(column.getAttribute("data-color"));
+		});
+		
+		for (const color of colors) {
+			cardsDiv.insertAdjacentHTML("beforeend", makeCardsColumn(color));
+		}
+	});
+</script>
+
+<link rel="stylesheet" type="text/css" href="../../includes/nkittennet.css"/>
+<style>
+	body {
+		color: black;
+		background: #aaa;
+	}
+	
+	#scores {
+		display: grid;
+		grid-template-columns: repeat(2, 140px);
+	}
+	#scores div {
+		text-align: center;
+		color: #fff;
+		background-color: #444;
+	}
+	#P1Name, #P2Name {
+		font-size: 1.4em;
+		font-weight: bold;
+	}
+	#P1Score, #P2Score {
+		font-size: 1.8em;
+		font-weight: bold;
+	}
+	#btnP1Score, #btnP2Score {
+		width: 100%;
+		font-size: 1.2em;
+		font-weight: bold;
+	}
+	
+	#cards {
+		display: flex;
+	}
+	.cardscolumn {
+		display: flex;
+		flex-direction: column;
+		gap: 3px;
+		padding: 3px 10px;
+	}
+	.cardcell {
+		box-sizing: content-box;
+		color: inherit;
+		font: inherit;
+		
+		cursor: pointer;
+		text-align: center;
+		border: solid 3px;
+		padding: 5px;
+		height: 18px;
+		width: 20px;
+		background-color: white;
+	}
+	
+	.columnscore {
+		text-align: center;
+		font-size: 1.5em;
+		font-weight: bold;
+	}
+	
+	.cardscolumn[data-color="yellow"] {
+		background-color: #fdffb5;
+	}
+	.cardscolumn[data-color="blue"] {
+		background-color: #c2d7ff;
+	}
+	.cardscolumn[data-color="white"] {
+		background-color: #dedede;
+	}
+	.cardscolumn[data-color="green"] {
+		background-color: #c5ffc2;
+	}
+	.cardscolumn[data-color="red"] {
+		background-color: #fccfcf;
+	}
+	
+	[data-color="yellow"] .cardcell {
+		border-color: #eded21;
+	}
+	[data-color="yellow"] .cardcell.selected {
+		border-color: #bfbf00;
+		background-color: #dbdb5c;
+	}
+	
+	[data-color="blue"] .cardcell {
+		border-color: #1f68f0;
+	}
+	[data-color="blue"] .cardcell.selected {
+		border-color: #043691;
+		background-color: #7397d9;
+	}
+	
+	[data-color="white"] .cardcell {
+		border-color: #ababab;
+	}
+	[data-color="white"] .cardcell.selected {
+		border-color: #3b3b3b;
+		background-color: #a1a1a1;
+	}
+	
+	[data-color="green"] .cardcell {
+		border-color: #4bfc30;
+	}
+	[data-color="green"] .cardcell.selected {
+		border-color: #118000;
+		background-color: #6bdb73;
+	}
+	
+	[data-color="red"] .cardcell {
+		border-color: #f02222;
+	}
+	[data-color="red"] .cardcell.selected {
+		border-color: #a60000;
+		background-color: #de6f6f;
+	}
+</style>
+</head>
+<body>
+	<div id="scores">
+		<div>
+			<span id="P1Name">Player 1</span><br />
+			<span id="P1Score">0</span><br />
+			<button id="btnP1Score">Add Score (P1)</button>
+		</div>
+		<div>
+			<span id="P2Name">Player 2</span><br />
+			<span id="P2Score">0</span><br />
+			<button id="btnP2Score">Add Score (P2)</button>
+		</div>
+	</div>
+	<div id="cards"></div>
+</body>
+</html>

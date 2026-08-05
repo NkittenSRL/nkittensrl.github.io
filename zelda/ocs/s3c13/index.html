@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>OCS Bingo</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      @font-face {
+        font-family: FOT-Chiaro Std;
+        src: url("../FOT-ChiaroStd-B_0.otf") format("opentype");
+      }
+
+      @font-face {
+        font-family: Hylia Serif;
+        src: url("HyliaSerifBeta-Regular.otf") format("opentype");
+      }
+
+      html,
+      body {
+        font-family: FOT-Chiaro Std;
+        background: #111111;
+        font-weight: normal;
+        font-size: 0.92rem;
+        line-height: 1.5;
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        color: white;
+      }
+
+      h1 {
+        font-family: Hylia Serif;
+        font-weight: normal;
+        font-size: 32px;
+      }
+
+      p {
+        font-size: 16px;
+      }
+
+      .goal {
+        font-size: 20px;
+      }
+
+      table {
+        width: 100%;
+        border-spacing: 0px;
+        border-collapse: collapse;
+        padding: 0;
+      }
+
+      h2 {
+        font-size: 24px;
+      }
+
+      a {
+        color: lightskyblue;
+      }
+
+      td {
+        border: 0;
+        padding: 0;
+      }
+
+      #bingoPage {
+        display: flex;
+      }
+      @media only screen and (max-width: 1000px) {
+        #bingoPage {
+          flex-direction: column;
+        }
+      }
+
+      #bingoPage #results {
+        width: 594px;
+        margin-right: 32px;
+        text-align: right;
+        font-family: Roboto;
+        text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.3);
+        color: #bec7d2;
+      }
+
+      #bingoPage #results .flag {
+        margin-left: 8px;
+      }
+
+      #bingoPage #bingo {
+        margin-top: 16px;
+        user-select: none;
+      }
+
+      #bingoPage #bingo .rowcol {
+        background: #000811;
+        font-size: 75%;
+        color: #3c70df;
+        font-weight: 700;
+        border: 1px #0a245a solid;
+      }
+
+      #bingoPage #bingo .rowcol:hover {
+        color: #ffffff;
+        background: #1448b3;
+      }
+
+      #bingoPage #bingo tr:first-child td,
+      #bingoPage #bingo tr:last-child td {
+        height: 30px;
+        background: #000811;
+        font-size: 75%;
+        color: #3c70df;
+        font-weight: 700;
+        border: 1px #0a245a solid;
+      }
+
+      #bingoPage #bingo tr:first-child td:hover,
+      #bingoPage #bingo tr:last-child td:hover {
+        color: #ffffff;
+        background: #1448b3;
+      }
+
+      #bingoPage #bingo tr td {
+        box-shadow: inset 0px 0px 50px rgba(0, 0, 0, 0.6);
+        padding: 0 5px;
+        cursor: pointer;
+        width: 95px;
+        height: 90px;
+        text-align: center;
+        border: 1px #424242 solid;
+        background: #000;
+      }
+
+      #bingoPage.modern #bingo tr td {
+        box-shadow: none;
+      }
+
+      #bingoPage #bingo tr td:first-child {
+        width: 35px;
+        background: #000811;
+        font-size: 75%;
+        color: #3c70df;
+        font-weight: 700;
+        border: 1px #0a245a solid;
+      }
+
+      #bingoPage #bingo tr td:first-child:hover {
+        color: #ffffff;
+        background: #1448b3;
+      }
+
+      #bingoPage #bingo tr td:hover,
+      #bingoPage #bingo tr td.hover {
+        background: #001a36;
+        color: #fff;
+      }
+
+      #bingoPage #bingo tr td.greensquare {
+        background: #005511;
+      }
+
+      #bingoPage #bingo tr td.greensquare:hover,
+      #bingoPage #bingo tr td.greensquare.hover {
+        background: #007722;
+      }
+
+      #bingoPage #bingo tr td.redsquare {
+        background: #550011;
+      }
+
+      #bingoPage #bingo tr td.redsquare:hover,
+      #bingoPage #bingo tr td.redsquare.hover {
+        background: #770022;
+      }
+
+      #bingoPage #about_bingo {
+        width: 350px;
+        margin-right: 16px;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="wrap">
+      <main>
+        <div class="container" id="pageContent">
+          <h1>OCS Recap Bingo</h1>
+          <div id="bingoPage">
+            <div id="results">
+              <table id="bingo" aria-describedby="Bingo Board">
+                <tr>
+                  <td class="popout" id="tlbr">TL-BR</td>
+                  <td class="popout" id="col1">COL1</td>
+                  <td class="popout" id="col2">COL2</td>
+                  <td class="popout" id="col3">COL3</td>
+                  <td class="popout" id="col4">COL4</td>
+                  <td class="popout" id="col5">COL5</td>
+                </tr>
+                <tr>
+                  <td class="popout" id="row1">ROW1</td>
+                  <td class="row1 col1 tlbr" id="slot1">
+                    Win all 3 Market minigames (no Sun's Song)
+                  </td>
+                  <td class="row1 col2" id="slot2">
+                    Destroy 13 unique beehives
+                  </td>
+                  <td class="row1 col3" id="slot3">
+                    Open a small chest from every adult dungeon
+                  </td>
+                  <td class="row1 col4" id="slot4">
+                    Cast a fairy spell in the top windmill window
+                  </td>
+                  <td class="row1 col5 bltr" id="slot5">Epona's Song</td>
+                </tr>
+                <tr>
+                  <td class="popout" id="row2">ROW2</td>
+                  <td class="row2 col1" id="slot6">
+                    Catch a winning fish as child and adult
+                  </td>
+                  <td class="row2 col2 tlbr" id="slot7">Giant's Wallet</td>
+                  <td class="row2 col3" id="slot8">
+                    Middle tower Skulltula in Water Temple
+                  </td>
+                  <td class="row2 col4 bltr" id="slot9">
+                    18 blue-warp dungeon skulls
+                  </td>
+                  <td class="row2 col5" id="slot10">2 elemental arrows</td>
+                </tr>
+                <tr>
+                  <td class="popout" id="row3">ROW3</td>
+                  <td class="row3 col1" id="slot11">
+                    Launch 13 Gossip Stones with Bombs
+                  </td>
+                  <td class="row3 col2" id="slot12">
+                    3 Shields + 3 filled bottle slots
+                  </td>
+                  <td class="row3 col3 tlbr bltr" id="slot13">Child 2</td>
+                  <td class="row3 col4" id="slot14">
+                    Open 20 small chests in the overworld
+                  </td>
+                  <td class="row3 col5" id="slot15">
+                    Enter 3 adult dungeons as child Link
+                  </td>
+                </tr>
+                <tr>
+                  <td class="popout" id="row4">ROW4</td>
+                  <td class="row4 col1" id="slot16">
+                    Look at Mario's portrait
+                  </td>
+                  <td class="row4 col2 bltr" id="slot17">
+                    Megaton Hammer (no damage in Fire)
+                  </td>
+                  <td class="row4 col3" id="slot18">
+                    Sink with the boat in Shadow Temple
+                  </td>
+                  <td class="row4 col4 tlbr" id="slot19">
+                    Talk to Ruto in 2 different dungeons
+                  </td>
+                  <td class="row4 col5" id="slot20">4 Heart Containers</td>
+                </tr>
+                <tr>
+                  <td class="popout" id="row5">ROW5</td>
+                  <td class="row5 col1 bltr" id="slot21">
+                    Turn in 3 Big Poes (no duping)
+                  </td>
+                  <td class="row5 col2" id="slot22">
+                    5 small keys in GTG (no duping, no damage)
+                  </td>
+                  <td class="row5 col3" id="slot23">JOTWAL</td>
+                  <td class="row5 col4" id="slot24">3 fairy spells</td>
+                  <td class="row5 col5 tlbr" id="slot25">12 Heart Pieces</td>
+                </tr>
+                <tr>
+                  <td class="popout" id="bltr">BL-TR</td>
+                </tr>
+              </table>
+            </div>
+            <div id="about_bingo">
+              <div id="newcards"></div>
+              <div style="clear: both"></div>
+              <div style="margin-top: 16px"></div>
+              <div style="clear: both"></div>
+              <h2>Goal:</h2>
+              <p class="goal">
+                Complete five of the tasks in a row horizontally, vertically, or
+                diagonally.
+              </p>
+              <p class="disclaimer">Standard bingo rules apply</p>
+              <ul>
+                <li>Win all 3 Market minigames (no Sun's Song)</li>
+                <ul>
+                  <li>
+                    Clear the Shooting Gallery, Treasure Box Shop, and Bombchu
+                    Bowling (any prize)
+                  </li>
+                  <li>Using Sun's Song in Treasure Box Shop is not allowed</li>
+                </ul>
+                <li>Launch 13 Gossip Stones with Bombs</li>
+                <ul>
+                  <li>Using Bombchu does not count</li>
+                </ul>
+                <li>3 Shields + 3 filled bottle slots</li>
+                <ul>
+                  <li>Bottle slots = bottom left part of Select Item screen</li>
+                </ul>
+                <li>Look at Mario's portrait</li>
+                <ul>
+                  <li>Find the portrait of Mario in Hyrule Castle</li>
+                </ul>
+                <li>Megaton Hammer (no damage in Fire)</li>
+                <ul>
+                  <li>
+                    Reset immediately if you take any damage in Fire Temple
+                  </li>
+                </ul>
+                <li>Sink with the boat in Shadow Temple</li>
+                <ul>
+                  <li>Void out while standing on the deck of the ferry</li>
+                </ul>
+                <li>5 small keys in GTG (no duping, no damage)</li>
+                <ul>
+                  <li>Keys may not be duped</li>
+                  <li>Reset if you take any damage while in GTG</li>
+                </ul>
+                <li>JOTWAL</li>
+                <ul>
+                  <li>
+                    Jump off the watchtower and live (get revived by a fairy)
+                  </li>
+                </ul>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script>
+      document.querySelectorAll(".popout").forEach((el) =>
+        el.addEventListener("click", () => {
+          const line = el.id;
+          const name = el.textContent;
+          const cells = document.querySelectorAll(`#bingo .${line}`);
+          const items = Array.from(cells).map((cell) => cell.textContent);
+          window.open(
+            `bingo-popout.html#${encodeURIComponent(
+              `${name}=${items.join(";;;")}`
+            )}`,
+            "_blank",
+            `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=220, height=460`
+          );
+        })
+      );
+
+      document
+        .querySelectorAll("#bingo tr td:not(.popout), #selected td")
+        .forEach((el) =>
+          el.addEventListener("click", () => {
+            if (el.classList.contains("greensquare")) {
+              el.classList.add("redsquare");
+              el.classList.remove("greensquare");
+            } else if (el.classList.contains("redsquare")) {
+              el.classList.remove("redsquare");
+            } else {
+              el.classList.add("greensquare");
+            }
+          })
+        );
+
+      const addLineHoverListener = (line) => {
+        document.querySelector(`#${line}`).addEventListener("mouseover", () => {
+          document
+            .querySelectorAll(`.${line}`)
+            .forEach((el) => el.classList.add("hover"));
+        });
+        document.querySelector(`#${line}`).addEventListener("mouseout", () => {
+          document
+            .querySelectorAll(`.${line}`)
+            .forEach((el) => el.classList.remove("hover"));
+        });
+      };
+
+      [
+        ...[1, 2, 3, 4, 5].map((n) => `row${n}`),
+        ...[1, 2, 3, 4, 5].map((n) => `col${n}`),
+        "tlbr",
+        "bltr",
+      ].forEach((line) => addLineHoverListener(line));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Timestamps - Nkitten's space</title>
+<script type="text/javascript">
+	function displayTime(d) {
+		const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+		return months[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear() + " - " + d.getHours() + ":" + ((d.getMinutes() < 10) ? "0" + d.getMinutes() : d.getMinutes()) + ":" + ((d.getSeconds() < 10) ? "0" + d.getSeconds() : d.getSeconds()) + "." + d.getMilliseconds();
+	}
+	document.addEventListener("DOMContentLoaded", function() {
+		if (localStorage.getItem("timestamps_autocopy")) document.getElementById("chk-autocopy").checked = JSON.parse(localStorage.getItem("timestamps_autocopy"));
+		
+		document.getElementById("btn-copytimestamp").addEventListener("click", function() {
+			navigator.clipboard.writeText(document.getElementById("txt-timestamp").value);
+		});
+		document.getElementById("btn-copydatestring").addEventListener("click", function() {
+			navigator.clipboard.writeText(document.getElementById("datespan").textContent);
+		});
+		document.getElementById("chk-autocopy").addEventListener("change", function() {
+			localStorage.setItem("timestamps_autocopy", this.checked);
+		});
+		
+		document.getElementById("btn-timestamp").addEventListener("click", function(evt) {
+			const d = new Date();
+			const t = d.getTime();
+			
+			document.getElementById("datespan").textContent = displayTime(d);
+			document.getElementById("txt-timestamp").value = t;
+			
+			if (document.getElementById("chk-autocopy").checked) {
+				document.getElementById("btn-copytimestamp").dispatchEvent(new Event("click"));
+			}
+		});
+	});
+</script>
+
+<link rel="stylesheet" type="text/css" href="../../includes/nkittennet.css"/>
+<style>
+	#pageContainer {
+		width: max-content;
+		
+		display: grid;
+		grid-template-columns: repeat(2, 200px);
+    	justify-items: start;
+		column-gap: 1em;
+		& > :nth-child(odd) {
+			justify-self: center;
+			text-align: center;
+		}
+	}
+	#txt-timestamp, #btn-timestamp {
+		box-sizing: border-box;
+		width: 100%;
+	}
+	#btn-timestamp {
+		font-weight: bold;
+		text-decoration: underline;
+	}
+</style>
+</head>
+<body>
+	<div id="pageContainer">
+		<span id="datespan"></span>
+		<button id="btn-copydatestring">Copy date string</button>
+		
+		<input type="text" id="txt-timestamp" value="" />
+		<button id="btn-copytimestamp">Copy timestamp</button>
+		
+		<button id="btn-timestamp">Generate current timestamp</button>
+		<label><input type="checkbox" id="chk-autocopy" />Automatically copy when generating a new timestamp</label>
+	</div>
+</body>
+</html>

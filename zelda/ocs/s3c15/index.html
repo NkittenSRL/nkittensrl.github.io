@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>OCS S3C15 tracker - Nkitten's space</title>
+<script>
+	const progress = {"order":["forest","fire","water","shadow","spirit","ganon"],"dungeons":{"forest":{"smallDoors":0,"bossDoor":false},"fire":{"smallDoors":0,"bossDoor":false},"water":{"smallDoors":0,"bossDoor":false},"shadow":{"smallDoors":0,"bossDoor":false},"spirit":{"smallDoors":0,"bossDoor":false},"ganon":{"smallDoors":0,"bossDoor":false}}};
+	
+	function updateSmallDoors(dung) {
+		const doors = progress.dungeons[dung].smallDoors;
+		const order = progress.order.indexOf(dung)+1;
+		const txt = `${Math.min(doors, order)} / ${order}`;
+		
+		document.querySelector(`.dungeon[data-dungeon=${dung}] .dungeonDoorCount`).textContent = txt;
+		document.querySelector(`.vertdungeon[data-dungeon=${dung}] .dungeonDoorCount`).textContent = txt;
+	}
+	
+	function updateBossDoor(dung) {
+		document.querySelector(`.dungeon[data-dungeon=${dung}] .chk-BossDoor`).classList.toggle("checked");
+		document.querySelector(`.vertdungeon[data-dungeon=${dung}] .chk-BossDoor`).classList.toggle("checked");
+	}
+	
+	function updateDungeonOrder() {
+		for (let i = 0; i < progress.order.length; i++) {
+			const dung = progress.order[i];
+			document.querySelector(`.dungeon[data-dungeon=${dung}]`).setAttribute("data-order", i+1);
+			document.querySelector(`.vertdungeon[data-dungeon=${dung}]`).setAttribute("data-order", i+1);
+			updateSmallDoors(dung);
+		}
+	}
+	
+	document.addEventListener("DOMContentLoaded", function() {
+		document.querySelectorAll(".btn-smallkeys").forEach(ele => ele.addEventListener("click", function() {
+			const dung = this.closest(".dungeon").getAttribute("data-dungeon");
+			const change = (this.textContent === "+" ? 1 : -1);
+			const order = progress.order.indexOf(dung)+1;
+			let doors = progress.dungeons[dung].smallDoors;
+			if (doors > order) { doors = order; } //reordering keeps previous key count, if it was previously more than 1 and now the max is 1, minus would set it to 1 instead of 0
+			
+			doors += change;
+			if (doors < 0) {doors = 0;}
+			else if (doors > order) {doors = order;}
+			progress.dungeons[dung].smallDoors = doors;
+			
+			updateSmallDoors(dung);
+		}));
+		
+		document.querySelectorAll(".chk-BossDoor").forEach(ele => ele.addEventListener("click", function() {
+			let dung = this.closest(".dungeon, .vertdungeon").getAttribute("data-dungeon");
+			progress.dungeons[dung].bossDoor = !progress.dungeons[dung].bossDoor;
+
+			updateBossDoor(dung);
+		}));
+		
+		document.querySelectorAll(".btn-order").forEach(ele => ele.addEventListener("click", function() {
+			let dung = this.closest(".dungeon").getAttribute("data-dungeon");
+			let direction = (this.getAttribute("data-direction") === "left" ? -1 : 1);
+			let order = progress.order.indexOf(dung);
+			
+			if (order === -1 || order+direction < 0 || order+direction >= progress.order.length) { return; }
+			progress.order.splice(order,1);
+			progress.order.splice(order+direction,0,dung);
+			
+			updateDungeonOrder();
+		}));
+		
+		document.getElementById("chk-verttracker").addEventListener("change", function() {
+			document.getElementById("verttracker").classList.toggle("hidden", !this.checked);
+		});
+		
+		document.body.addEventListener("keyup", function(e) {
+			if (e.key === " ") {
+				e.preventDefault();
+				
+				for (let d = 0; d < progress.order.length; d++) {
+					const dung = progress.order[d];
+					const doors = progress.dungeons[dung].smallDoors;
+					const order = d+1;
+					
+					if (doors < order) {
+						progress.dungeons[dung].smallDoors += 1;
+						updateSmallDoors(dung);
+						break;
+					}
+					if (progress.dungeons[dung].bossDoor === false) {
+						progress.dungeons[dung].bossDoor = true;
+						updateBossDoor(dung);
+						break;
+					}
+				}
+			}
+		});
+		
+		updateDungeonOrder();
+	});
+</script>
+
+<style>
+	@font-face {
+		font-family: FOT Chiaro Std;
+		src: url("../FOT-ChiaroStd-B_0.otf") format("opentype");
+	}
+	
+	body {
+		margin: 0px;
+		padding: 0px;
+		background: rgb(17, 17, 17);
+		color: white;
+		font-family: FOT Chiaro Std;
+		line-height: 1.5;
+	}
+	
+	.arial {
+		text-transform: uppercase;
+		font-family: Arial;
+		letter-spacing: 2px;
+		font-weight: 700;
+		font-size: 10px;
+		color: rgb(204, 204, 204);
+	}
+	
+	.hidden { display: none; }
+	
+	#maintracker {
+		margin: 0 auto;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+	
+	#instructions {
+		margin-block: 32px;
+	}
+	#extra {
+		margin-top: 32px;
+		text-align: center;
+	}
+	
+	#dungeons {
+		width: 768px;
+		height: 384px;
+	}
+	
+	.dungeon[data-order="1"] { transform: translate(0px, 0px); }
+	.dungeon[data-order="2"] { transform: translate(256px, 0px); }
+	.dungeon[data-order="3"] { transform: translate(512px, 0px); }
+	.dungeon[data-order="4"] { transform: translate(0px, 192px); }
+	.dungeon[data-order="5"] { transform: translate(256px, 192px); }
+	.dungeon[data-order="6"] { transform: translate(512px, 192px); }
+	
+	.dungeon {
+		position: absolute;
+		margin: 8px;
+		display: flex;
+		overflow: hidden;
+		transition: all 200ms ease 0s;
+	}
+	.dungeon, .dungeon .inner {
+		width: 240px;
+		height: 176px;
+		border-radius: 4px;
+	}
+	
+	.dungeon, .vertdungeon {
+		background-size: cover;
+		background-position: center;
+	}
+	.dungeon[data-dungeon="forest"] { background-image: url("img/forest.png"); }
+	.dungeon[data-dungeon="fire"] { background-image: url("img/fire.png"); }
+	.dungeon[data-dungeon="water"] { background-image: url("img/water.png"); }
+	.dungeon[data-dungeon="shadow"] { background-image: url("img/shadow.png"); }
+	.dungeon[data-dungeon="spirit"] { background-image: url("img/spirit.png"); }
+	.dungeon[data-dungeon="ganon"] { background-image: url("img/ganon.png"); }
+	
+	.dungeon .inner {
+		background-color: rgba(0, 0, 0, 0.6);
+		flex: 1 1 0%;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+	}
+	
+	.dungeon .mid {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+	
+	.dungeonName, .dungeonSmallDoors, .dungeonBossDoor {
+		text-align: center;
+	}
+	
+	.dungeonName {
+		font-size: 24px;
+	}
+	
+	.btn-smallkeys, .chk-BossDoor {
+		display: inline-block;
+		width: 24px;
+		height: 24px;
+		background: rgb(51, 51, 51);
+		cursor: pointer;
+		text-align: center;
+		user-select: none;
+	}
+	.btn-smallkeys:hover, .chk-BossDoor:hover, .btn-order:hover {
+		background: rgb(34, 34, 34);
+	}
+	.chk-BossDoor.checked {
+		background-image: url("img/check.png");
+	}
+	.btn-smallkeys {
+		border-radius: 50%;
+		margin: 0 5px;
+	}
+	.btn-order {
+		background: rgb(51, 51, 51);
+		height: 100%;
+		cursor: pointer;
+		text-align: center;
+		user-select: none;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		transition: transform 200ms ease 0s;
+	}
+	.dungeon:not(:hover) .btn-order:first-child {
+		transform: translateX(-100%);
+	}
+	.dungeon:not(:hover) .btn-order:last-child {
+		transform: translateX(100%);
+	}
+	.dungeon[data-order="1"] .btn-order:first-child { visibility: hidden; }
+	.dungeon[data-order="6"] .btn-order:last-child { visibility: hidden; }
+	
+	
+	#trackers {
+		display: flex;
+		flex-direction: row;
+		align-items: start;
+	}
+	#vertdungeons {
+		width: 324px;
+		height: 600px; /* originally 660px (110 per dungeon) (height is useless because its children all have position:absolute?) */
+	}
+	
+	.vertdungeon[data-order="1"] { transform: translateY(0%); }
+	.vertdungeon[data-order="2"] { transform: translateY(100%); }
+	.vertdungeon[data-order="3"] { transform: translateY(200%); }
+	.vertdungeon[data-order="4"] { transform: translateY(300%); }
+	.vertdungeon[data-order="5"] { transform: translateY(400%); }
+	.vertdungeon[data-order="6"] { transform: translateY(500%); }
+	
+	.vertdungeon {		
+		position: absolute;
+		display: flex;
+		overflow: hidden;
+		width: 324px;
+		height: 100px;
+		transition: all 200ms ease 0s;
+	}
+	
+	.vertdungeon[data-dungeon="forest"] { background-image: url("img/wideforest.png"); }
+	.vertdungeon[data-dungeon="fire"] { background-image: url("img/widefire.png"); }
+	.vertdungeon[data-dungeon="water"] { background-image: url("img/widewater.png"); }
+	.vertdungeon[data-dungeon="shadow"] { background-image: url("img/wideshadow.png"); }
+	.vertdungeon[data-dungeon="spirit"] { background-image: url("img/widespirit.png"); }
+	.vertdungeon[data-dungeon="ganon"] { background-image: url("img/wideganon.png"); }
+	
+	.vertdungeon .inner {
+		background-color: rgba(0, 0, 0, 0.6);
+		flex: 1 1 0%;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+	}
+	.vertdungeon .mid {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+	.vertdungeon .controls {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+	}
+	
+	.vertdungeon .controls div {
+		margin: 0 16px;
+	}
+</style>
+</head>
+<body>
+<div id="trackers">
+<div id="verttracker">
+	<div id="vertdungeons">
+		<div class="vertdungeon" data-order="1" data-dungeon="forest"><div class="inner">
+			<div class="mid">
+				<div class="dungeonName">Forest Temple</div>
+				<div class="controls">
+					<div class="dungeonSmallDoors"><span class="arial">Small Doors</span><br />
+						<span class="dungeonDoorCount">x / y</span>
+					</div>
+					<div class="dungeonBossDoor"><span class="arial">Boss Door</span><br />
+						<span class="chk-BossDoor"></span>
+					</div>
+				</div>
+			</div>
+		</div></div>
+		
+		<div class="vertdungeon" data-order="2" data-dungeon="fire"><div class="inner">
+			<div class="mid">
+				<div class="dungeonName">Fire Temple</div>
+				<div class="controls">
+					<div class="dungeonSmallDoors"><span class="arial">Small Doors</span><br />
+						<span class="dungeonDoorCount">x / y</span>
+					</div>
+					<div class="dungeonBossDoor"><span class="arial">Boss Door</span><br />
+						<span class="chk-BossDoor"></span>
+					</div>
+				</div>
+			</div>
+		</div></div>
+		
+		<div class="vertdungeon" data-order="3" data-dungeon="water"><div class="inner">
+			<div class="mid">
+				<div class="dungeonName">Water Temple</div>
+				<div class="controls">
+					<div class="dungeonSmallDoors"><span class="arial">Small Doors</span><br />
+						<span class="dungeonDoorCount">x / y</span>
+					</div>
+					<div class="dungeonBossDoor"><span class="arial">Boss Door</span><br />
+						<span class="chk-BossDoor"></span>
+					</div>
+				</div>
+			</div>
+		</div></div>
+		
+		<div class="vertdungeon" data-order="4" data-dungeon="shadow"><div class="inner">
+			<div class="mid">
+				<div class="dungeonName">Shadow Temple</div>
+				<div class="controls">
+					<div class="dungeonSmallDoors"><span class="arial">Small Doors</span><br />
+						<span class="dungeonDoorCount">x / y</span>
+					</div>
+					<div class="dungeonBossDoor"><span class="arial">Boss Door</span><br />
+						<span class="chk-BossDoor"></span>
+					</div>
+				</div>
+			</div>
+		</div></div>
+		
+		<div class="vertdungeon" data-order="5" data-dungeon="spirit"><div class="inner">
+			<div class="mid">
+				<div class="dungeonName">Spirit Temple</div>
+				<div class="controls">
+					<div class="dungeonSmallDoors"><span class="arial">Small Doors</span><br />
+						<span class="dungeonDoorCount">x / y</span>
+					</div>
+					<div class="dungeonBossDoor"><span class="arial">Boss Door</span><br />
+						<span class="chk-BossDoor"></span>
+					</div>
+				</div>
+			</div>
+		</div></div>
+		
+		<div class="vertdungeon" data-order="6" data-dungeon="ganon"><div class="inner">
+			<div class="mid">
+				<div class="dungeonName">Ganon's Castle</div>
+				<div class="controls">
+					<div class="dungeonSmallDoors"><span class="arial">Small Doors</span><br />
+						<span class="dungeonDoorCount">x / y</span>
+					</div>
+					<div class="dungeonBossDoor"><span class="arial">Boss Door</span><br />
+						<span class="chk-BossDoor"></span>
+					</div>
+				</div>
+			</div>
+		</div></div>
+	</div>
+</div>
+<div id="maintracker">
+	<div id="instructions">Change the order with the side buttons, then fill in the counters as you open doors</div>
+	<div id="dungeons">
+		<div class="dungeon" data-order="1" data-dungeon="forest"><div class="inner">
+			<div class="btn-order" data-direction="left"><span>&#9668;</span></div>
+			
+			<div class="mid">
+				<div class="dungeonName">Forest Temple</div>
+				<div class="dungeonSmallDoors"><span class="arial">Small Doors</span><br />
+					<span class="btn-smallkeys">-</span><span class="dungeonDoorCount">x / y</span><span class="btn-smallkeys">+</span>
+				</div>
+				<div class="dungeonBossDoor"><span class="arial">Boss Door</span><br />
+					<span class="chk-BossDoor"></span>
+				</div>
+			</div>
+			
+			<div class="btn-order" data-direction="right"><span>&#9658;</span></div>
+		</div></div>
+		
+		<div class="dungeon" data-order="2" data-dungeon="fire"><div class="inner">
+			<div class="btn-order" data-direction="left"><span>&#9668;</span></div>
+			
+			<div class="mid">
+				<div class="dungeonName">Fire Temple</div>
+				<div class="dungeonSmallDoors"><span class="arial">Small Doors</span><br />
+					<span class="btn-smallkeys">-</span><span class="dungeonDoorCount">x / y</span><span class="btn-smallkeys">+</span>
+				</div>
+				<div class="dungeonBossDoor"><span class="arial">Boss Door</span><br />
+					<span class="chk-BossDoor"></span>
+				</div>
+			</div>
+			
+			<div class="btn-order" data-direction="right"><span>&#9658;</span></div>
+		</div></div>
+		
+		<div class="dungeon" data-order="3" data-dungeon="water"><div class="inner">
+			<div class="btn-order" data-direction="left"><span>&#9668;</span></div>
+			
+			<div class="mid">
+				<div class="dungeonName">Water Temple</div>
+				<div class="dungeonSmallDoors"><span class="arial">Small Doors</span><br />
+					<span class="btn-smallkeys">-</span><span class="dungeonDoorCount">x / y</span><span class="btn-smallkeys">+</span>
+				</div>
+				<div class="dungeonBossDoor"><span class="arial">Boss Door</span><br />
+					<span class="chk-BossDoor"></span>
+				</div>
+			</div>
+			
+			<div class="btn-order" data-direction="right"><span>&#9658;</span></div>
+		</div></div>
+		
+		<div class="dungeon" data-order="4" data-dungeon="shadow"><div class="inner">
+			<div class="btn-order" data-direction="left"><span>&#9668;</span></div>
+			
+			<div class="mid">
+				<div class="dungeonName">Shadow Temple</div>
+				<div class="dungeonSmallDoors"><span class="arial">Small Doors</span><br />
+					<span class="btn-smallkeys">-</span><span class="dungeonDoorCount">x / y</span><span class="btn-smallkeys">+</span>
+				</div>
+				<div class="dungeonBossDoor"><span class="arial">Boss Door</span><br />
+					<span class="chk-BossDoor"></span>
+				</div>
+			</div>
+			
+			<div class="btn-order" data-direction="right"><span>&#9658;</span></div>
+		</div></div>
+		
+		<div class="dungeon" data-order="5" data-dungeon="spirit"><div class="inner">
+			<div class="btn-order" data-direction="left"><span>&#9668;</span></div>
+			
+			<div class="mid">
+				<div class="dungeonName">Spirit Temple</div>
+				<div class="dungeonSmallDoors"><span class="arial">Small Doors</span><br />
+					<span class="btn-smallkeys">-</span><span class="dungeonDoorCount">x / y</span><span class="btn-smallkeys">+</span>
+				</div>
+				<div class="dungeonBossDoor"><span class="arial">Boss Door</span><br />
+					<span class="chk-BossDoor"></span>
+				</div>
+			</div>
+			
+			<div class="btn-order" data-direction="right"><span>&#9658;</span></div>
+		</div></div>
+		
+		<div class="dungeon" data-order="6" data-dungeon="ganon"><div class="inner">
+			<div class="btn-order" data-direction="left"><span>&#9668;</span></div>
+			
+			<div class="mid">
+				<div class="dungeonName">Ganon's Castle</div>
+				<div class="dungeonSmallDoors"><span class="arial">Small Doors</span><br />
+					<span class="btn-smallkeys">-</span><span class="dungeonDoorCount">x / y</span><span class="btn-smallkeys">+</span>
+				</div>
+				<div class="dungeonBossDoor"><span class="arial">Boss Door</span><br />
+					<span class="chk-BossDoor"></span>
+				</div>
+			</div>
+			
+			<div class="btn-order" data-direction="right"><span>&#9658;</span></div>
+		</div></div>
+	</div>
+	<div id="extra">
+		Protip: just press space when you open a door or a boss door<br /><br />
+		
+		<input type="checkbox" id="chk-verttracker" checked /><label for="chk-verttracker">Show vertical tracker</label>
+	</div>
+</div>
+</div>
+</body>
+</html>

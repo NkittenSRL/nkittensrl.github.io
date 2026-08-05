@@ -7,13 +7,84 @@
 	
 	<link rel="stylesheet" type="text/css" href="includes/nkittennet.css"/>
 	<style>
-		div {
-			margin-block: 1em;
-			font-size: 1.6rem;
+		header {
+			padding-block-end: 2.5em;
+			border-block-end: 2px solid #ccc;
+			margin-block: 1em 2.5em;
+		}
+		section {
+			margin: 0 20px 3em;
+		}
+		h1, h2 {
+			margin: 0;
+			font-weight: bold;
+		}
+		h1 {
+			font-size: 2em;
+		}
+		h2 {
+			font-size: 1.6em;
+			margin-inline-start: -20px;
+		}
+		ul {
+			margin-block: 0;
+		    padding-inline-start: 20px;
 		}
 		
-		a:hover {
-			color: #ccc;
+		
+		.info {
+			display: inline-block;
+			font-size: 1.2rem;
+			padding: 0.5em;
+			color: black;
+			background: hsl(27, 100%, 65%);
+			border: 3px solid hsl(27, 100%, 45%);
+			border-radius: 10px;
+		}
+		.info a {
+			color: black;
+		}
+		.info a:hover {
+			color: #333;
+		}
+		
+		
+		.big-link {
+			font-size: 1.6em;
+		}
+		
+		@keyframes fade-in-color {
+			0% { -webkit-text-fill-color: hsl(0, 0%, 80%); }
+			100% { -webkit-text-fill-color: transparent; }
+		}
+		@keyframes scrolling-background {
+			0% { background-position: 0px; }
+			100% { background-position: calc(var(--bg-size) * -1); }
+		}
+		a[href="splatoon"]:hover {
+			color: hsl(346, 100%, 75%);
+			
+			@supports ((-webkit-background-clip: text) or (background-clip: text)) and (-webkit-text-fill-color: transparent) {
+				--bg-size: 160.97px;
+				--bravo1: hsl(233, 75%, 60%);
+				--alpha1: hsl(31, 100%, 55%);
+				--alpha2: hsl(346, 100%, 68%);
+				--bravo2: hsl(146, 100%, 45%);
+				--alpha3: hsl(68, 100%, 58%);
+			
+				background: linear-gradient(to right, var(--bravo1), var(--alpha1), var(--alpha2), var(--bravo2), var(--alpha3), var(--bravo1));
+				background-size: var(--bg-size);
+				-webkit-background-clip: text;
+				background-clip: text;
+				-webkit-text-fill-color: transparent;
+				
+				@media (prefers-reduced-motion: no-preference) {
+					animation-name: fade-in-color, scrolling-background;
+					animation-duration: 1s, 5s;
+					animation-timing-function: ease, linear;
+					animation-iteration-count: 1, infinite;
+				}
+			}
 		}
 		a[href="bingo"]:hover {
 			color: hsl(66, 100%, 80%);
@@ -21,11 +92,14 @@
 		a[href^="zelda"]:hover {
 			color: hsl(135, 100%, 80%);
 		}
+		a[href^="runescape"]:hover {
+			color: hsl(24, 50%, 60%);
+		}
 		a[href*="youtube.com"]:hover {
 			color: hsl(0, 100%, 80%);
 		}
 		a[href*="bsky.app"]:hover {
-			color: hsl(208.21deg 78.19% 71.12%)
+			color: hsl(208, 80%, 70%);
 		}
 		a[href*="twitch.tv"]:hover {
 			color: hsl(273, 100%, 80%);
@@ -54,21 +128,99 @@
 			background-image: url("includes/socialmedia/twitch.png");
 		}
 	</style>
+	
+	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+			document.querySelectorAll("a[href='splatoon']").forEach(ele => {
+				ele.style.setProperty(`--bg-size`, ele.getBoundingClientRect().width + "px");
+			});
+		});
+	</script>
 </head>
 <body>
-	<div>
-		<a href="splatoon">Splatoon Tools</a>
-	</div>
-	<div>
-		<a href="bingo">Super Mario Sunshine Bingo</a>
-	</div>
-	<div>
-		<a href="zelda/totk">Zelda: Tears of the Kingdom armor tracker</a>
-	</div>
-	<div>
-		<a href="https://bsky.app/profile/nkittenreal.bsky.social">Bluesky</a><br>
-		<a href="https://youtube.com/c/nkitten/">YouTube</a><br>
-		<a href="https://twitch.tv/nkitten">Twitch</a>
+	<div id="pageContainer">
+	<header>
+		<h1>Welcome to Nkitten's space!</h1>
+		This is where I host all the things I make.<br><br>
+		
+		Some pages save data for your convenience, you can manage this data here:<br>
+		<a href="https://nkittensrl.github.io/localStorage/">https://nkittensrl.github.io/localStorage/</a><br><br>
+		
+		<div class="info">I used to host my creations on nkitten.net, if you'd like to transfer your saved data from there over to here,<br>please use the import option on the <a href="https://nkittensrl.github.io/localStorage/">localStorage management page</a> before nkitten.net goes offline!</div>
+	</header>
+	
+	<main>
+		<section>
+			<h2><a href="splatoon">Splatoon Tools</a></h2>
+			Randomizer and Elimination Mode tools for use in Private Battles in Splatoon 1, 2, and 3,<br>as well as pages listing all weapons for each game, and a Freshness tracker for Splatoon 3.
+		</section>
+		<section>
+			<h2><a href="bingo">Super Mario Sunshine Bingo</a></h2>
+			An archive of all versions of SMS bingo I had any involvement with.<br>
+			I created the first version of SMS bingo, and hosted the second and third versions, created by icedwindowsil, on my site as well.
+			
+			<br><br>I also made a proof of concept page for an idea I had: <a href="bingo/ideas/squareflip/">Square flip bingo</a>, where each goal reveals a second goal behind it when completed.
+		</section>
+		<section>
+			<h2><a href="zelda/totk">Zelda: Tears of the Kingdom armor tracker</a></h2>
+			A tool to track your progress in collecting and upgrading all armor pieces in The Legend of Zelda: Tears of the Kingdom.<br>
+			Also lists the upgrade costs and calculates the remaining materials you need to upgrade everything.
+		</section>
+		<section>
+			<h2>Old School RuneScape</h2>
+			<ul>
+				<li>
+					<a class="big-link" href="runescape/highscores/sort/">Highscores sorter</a>
+					<ul>
+						<li>I use this to see where my Tears of Guthix XP will go. :)</li>
+					</ul>
+				</li>
+			</ul><br>
+			
+			Tools for temporary game modes:<br>
+			<ul>
+				<li>
+					<a class="big-link" href="runescape/gridmaster/">Grid Master</a>
+					<ul>
+						<li>Tracks when Grid Master tasks were completed. I also have a page showcasing <a href="runescape/gridmaster/nkitten/">my final grid</a>, with my completion times for each goal.</li>
+					</ul>
+				</li>
+				<li>
+					<a class="big-link" href="runescape/shatteredrelicsleague/">Leagues III: Shattered Relics</a>
+					<ul>
+						<li>Tracks relic fragment levels.</li>
+					</ul>
+				</li>
+			</ul>
+		</section>
+		<section>
+			<h2><a href="zelda/ocs">Ocarina of Time Championship Series</a></h2>
+			I made a few trackers (or recreated the originally provided trackers) for a friend who missed some OCS races.
+		</section>
+		<section>
+			<h2>Miscellaneous tools</h2>
+			<ul>
+				<li>
+					<a class="big-link" href="tools/timestamps/">Timestamps</a>
+					<ul>
+						<li>Simple tool I use when I need timestamps for anything.</li>
+					</ul>
+				</li>
+				<li>
+					<a class="big-link" href="tools/lostcities">Lost Cities calculator</a>
+					<ul>
+						<li>Simple points calculator for the card game Lost Cities.</li>
+					</ul>
+				</li>
+			</ul>
+		</section>
+		<section>
+			<h2>Find me on other sites</h2>
+			<a class="big-link" href="https://bsky.app/profile/nkittenreal.bsky.social">Bluesky</a><br>
+			<a class="big-link" href="https://youtube.com/c/nkitten/">YouTube</a><br>
+			<a class="big-link" href="https://twitch.tv/nkitten">Twitch</a>
+		</section>
+	</main>
 	</div>
 </body>
 </html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	
+	<title>OCS - Nkitten's space</title>
+	
+	<link rel="stylesheet" type="text/css" href="../../includes/nkittennet.css"/>
+	<style>
+		header {
+			margin-block: 1em 2.5em;
+		}
+		h1, h2, h3 {
+			margin: 0;
+			font-weight: bold;
+		}
+		h1 {
+			font-size: 2em;
+		}
+		h2 {
+			font-size: 1.6em;
+		}
+		h3 {
+			font-size: 1.3em;
+		}
+		ul {
+			margin-block: 0 1em;
+		}
+		
+		.spoiler {
+			background: black;
+			color: white;
+			cursor: pointer;
+		}
+		.spoiler.hidespoiler {
+			color: black;
+			user-select: none;
+		}
+	</style>
+	
+	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+			document.querySelectorAll(".spoiler").forEach(ele => ele.addEventListener("click", function() {
+				this.classList.toggle("hidespoiler");
+			}));
+		});
+	</script>
+</head>
+<body>
+	<div id="pageContainer">
+	<header>
+		<h1>Ocarina of Time Championship Series</h1>
+		A collection of trackers I made (or recreated) for a friend who missed some OCS races.<br>
+		Learn more about OCS on the <a href="https://www.ootchampionship.com/about">OCS website</a>!
+	</header>
+	
+	<main>
+		<h2>Season 3</h2>
+		<ul>
+			<li>
+				<h3>Challenge 3: <span class="spoiler hidespoiler">Most Valuable Skulltula (M.V.S.)</span></h3>
+				<ul>
+					<li><a href="https://imgur.com/FD5mrAf">Goal image (full rules)</a></li>
+					<li><a href="https://imgur.com/a/lXB71GA">Location images</a></li>
+					<li><a href="s3c3">Tracker</a></li>
+				</ul>
+			</li>
+			<li>
+				<h3>Challenge 4: <span class="spoiler hidespoiler">Chest Size Matters</span></h3>
+				<ul>
+					<li><a href="https://imgur.com/FlapPMa">Goal image (full rules)</a></li>
+					<li><a href="s3c4">Tracker</a></li>
+				</ul>
+			</li>
+			<li>
+				<h3>Challenge 13: <span class="spoiler hidespoiler">OCS Recap Bingo</span></h3>
+				<ul>
+					<li><a href="s3c13">Bingo page</a></li>
+				</ul>
+			</li>
+			<li>
+				<h3>Challenge 15: <span class="spoiler hidespoiler">6 Keys, 6 Locks, 6 Doors</span></h3>
+				<ul>
+					<li><a href="https://i.imgur.com/kOY17B9.png">Goal image (full rules)</a></li>
+					<li><a href="s3c15">Tracker</a></li>
+				</ul>
+			</li>
+		</ul>
+	</main>
+	</div>
+</body>
+</html>

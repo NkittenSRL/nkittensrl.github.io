@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>OCS S3C3 tracker - Nkitten's space</title>
+<script>
+	let skullCount = 0;
+	document.addEventListener("DOMContentLoaded", function() {
+		document.getElementById("skullList").addEventListener("click", function(evt) {
+			const skull = evt.target.closest(".skull");
+			if (!skull) return;
+			
+			skullCount += (skull.classList.toggle("struck") ? 1 : -1);
+			document.getElementById("counterCurrent").innerHTML = skullCount;
+			
+			document.getElementById("counter").classList.toggle("txtGreen", (skullCount === 10));
+		});
+	});
+</script>
+
+<style>
+	body {
+		background: black;
+		color: white;
+		font-family: calibri, sans-serif;
+	}
+	
+	#goalContainer {
+		max-width: 240px;
+		padding: 5px;
+		border: 2px solid grey;
+		text-align: center;
+	}
+	.goalName {
+		font-size: 2em;
+	}
+	#top {
+		font-size: 1.5em;
+	}
+	#bot {
+		font-size: 1.3em;
+	}
+	
+	#skullList {
+		text-align: left;
+		margin-block: 10px;
+		font-size: 1.1em;
+		
+		padding-inline-start: 0;
+		list-style-type: none;
+	}
+	button.skull {
+		margin: 0;
+		padding: 0;
+		border: none;
+		background: none;
+		font: inherit;
+		color: inherit;
+		text-align: inherit;
+		
+		cursor: pointer;
+	}
+	.skull > span {
+		font-weight: bold;
+	}
+	.struck {
+		text-decoration: line-through;
+		opacity: 40%;
+	}
+	
+	.txtGreen { color: rgb(70,255,80); }
+	.txtRed { color: rgb(255,60,60); }
+	.txtBlue { color: rgb(80,90,255); }
+	.txtPink { color: rgb(255,150,180); }
+	.txtYellow { color: rgb(225,255,50); }
+	.txtLightBlue { color: rgb(100,180,255); }
+</style>
+</head>
+<body>
+	<div id="goalContainer">
+		<div class="goalName">Most Valuable Skulltula (M.V.S.)</div>
+		<br />
+		<div id="tracker">
+			<span id="top">1. Collect all ten <span class="txtLightBlue">tokens</span>:<br />
+			<span id="counter"><span id="counterCurrent">0</span> / 10</span></span><br />
+			<ul id="skullList">
+				<li><button class="skull">&#9702; <span class="txtGreen">Deku</span>: Behind bombable wall</button></li>
+				<li><button class="skull">&#9702; <span class="txtRed">DC</span>: Alcove above stairs</button></li>
+				<li><button class="skull">&#9702; <span class="txtBlue">Jabu</span>: Room before Barinade</button></li>
+				<li><button class="skull">&#9702; <span class="txtPink">BotW</span>: Room with Deku Baba</button></li>
+				<li><button class="skull">&#9702; <span class="txtBlue">Ice</span>: Block puzzle room</button></li>
+				<li><button class="skull">&#9702; <span class="txtGreen">Forest</span>: West courtyard vines</button></li>
+				<li><button class="skull">&#9702; <span class="txtRed">Fire</span>: Elevator iron fence</button></li>
+				<li><button class="skull">&#9702; <span class="txtBlue">Water</span>: Behind iron gate</button></li>
+				<li><button class="skull">&#9702; <span class="txtPink">Shadow</span>: Next to the boat</button></li>
+				<li><button class="skull">&#9702; <span class="txtYellow">Spirit</span>: Child side iron fence</button></li>
+			</ul>
+			<span id="bot">2. Get the <span class="txtYellow">10 skulltula prize</span> from the <span class="txtPink">House of Skulltula</span></span>
+		</div>
+	</div>
+</body>
+</html>
