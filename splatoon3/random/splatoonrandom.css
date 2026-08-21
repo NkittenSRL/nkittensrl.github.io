@@ -220,17 +220,18 @@
 }
 
 #weaponTable tbody tr, #shiftyTable tbody tr {
-	background-color: #F22;
+	background-color: #e30d0d;
 	cursor: pointer;
 }
 #weaponTable tbody tr.selected, #shiftyTable tbody tr.selected {
 	background-color: #008000;
 }
 #weaponTable tbody tr.selected.locked {
+	color: black;
 	background-color: #FF9822;
 }
 #weaponTable tbody tr:hover, #shiftyTable tbody tr:hover {
-	background-color: #F44;
+	background-color: #f22626;
 }
 #weaponTable tbody tr.selected:hover, #shiftyTable tbody tr.selected:hover {
 	background-color: #00A000;
@@ -248,6 +249,9 @@
 }
 #weaponTable tr.locked td.checkcross {
 	background-position: -42px 0px;
+}
+#weaponTable tr.selected.locked td.checkcross {
+	filter: brightness(0);
 }
 
 .playername {

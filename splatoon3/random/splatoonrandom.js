@@ -331,6 +331,7 @@ function makeWeaponTable(list) {
 		let note = "";
 		if (weapons[w].amiibo === true) { note = "(amiibo Challenge)"; }
 		else if (weapons[w].name === "Hero Shot Replica") { note = "(Story Mode)"; } //hardcoded quick hack to have the other story=true weapons note they're from Side Order, without needing to touch the terrible code below
+		else if (weapons[w].name === "Plastic-Bottle Shot Replica") { note = "(Splatoon Raiders)"; } //another quick hack
 		else if (weapons[w].story === true) { note = "(Side Order)"; }
 		else if (weapons[w].released === false) { note = "(Unreleased)"; }
 		
