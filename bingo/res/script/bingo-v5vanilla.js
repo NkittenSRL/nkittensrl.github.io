@@ -1,4 +1,5 @@
 var srl = {}; // javascript holder
+srl.popoutURL = "/bingo/bingo-popout.html";
 
 srl.bingo = function (bingoList, size) {
 	function gup( name ) {
@@ -107,7 +108,7 @@ srl.bingo = function (bingoList, size) {
 		const name = this.innerHTML;
 		const items = [];
 		document.querySelectorAll("#bingo ."+line).forEach(cell => items.push(cell.innerHTML));
-		window.open("/bingo/bingo-popout.html#"+ name +"="+ encodeURIComponent(items.join(";;;")),"_blank","toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=220, height=460");
+		window.open(srl.popoutURL +"#"+ name +"="+ encodeURIComponent(items.join(";;;")),"_blank","toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=220, height=460");
 	}));
 	
 	document.querySelectorAll(".popout").forEach(ele => ele.addEventListener("mouseenter", function() {
